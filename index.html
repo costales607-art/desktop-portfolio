@@ -325,6 +325,15 @@
       box-shadow: 0 24px 60px rgba(2, 6, 23, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
+    .hero-network-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.48;
+    }
+
     .workflow-tab {
       color: #94a3b8;
       transition: color 0.2s ease, background-color 0.2s ease;
@@ -338,6 +347,13 @@
     .workflow-step {
       border: 1px solid rgba(148, 163, 184, 0.16);
       background: rgba(15, 23, 42, 0.62);
+      transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .workflow-step.is-active {
+      border-color: rgba(52, 211, 153, 0.58);
+      background: rgba(6, 78, 59, 0.48);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
     }
 
     .workflow-icon {
@@ -376,6 +392,32 @@
 
     .workflow-log {
       border-top: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .workflow-video {
+      position: relative;
+      aspect-ratio: 16 / 5;
+      min-height: 5.5rem;
+      isolation: isolate;
+      background:
+        radial-gradient(ellipse at 50% 0, rgba(16, 185, 129, 0.12), transparent 72%),
+        rgba(2, 6, 23, 0.62);
+    }
+
+    .workflow-video-placeholder {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: #94a3b8;
+      pointer-events: none;
+    }
+
+    .workflow-video-placeholder[hidden] {
+      display: none;
     }
 
     .hero-layout {
@@ -599,6 +641,7 @@
         <div class="absolute -right-12 -top-10 h-48 w-48 rounded-full bg-white/5 blur-3xl"></div>
         <div class="absolute left-0 bottom-0 h-56 w-56 rounded-full bg-emerald-400/10 blur-3xl"></div>
         <div class="hero-atmosphere absolute inset-0"></div>
+        <canvas id="hero-network" class="hero-network-canvas" aria-hidden="true"></canvas>
         <div class="hero-layout relative z-10 grid gap-10 lg:gap-12 lg:items-center">
         <div class="hero-content min-w-0 max-w-3xl space-y-6 lg:max-w-none">
           <p class="text-emerald-300 text-xs font-bold uppercase">Virtual Assistant / CRM Automation</p>
@@ -645,12 +688,15 @@
             </span>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-slate-950/60 p-1" role="group" aria-label="Choose a sample workflow">
-            <button type="button" class="workflow-tab rounded-lg px-2 py-2 text-xs font-semibold" data-workflow="receipt" aria-pressed="true">Receipt OCR</button>
-            <button type="button" class="workflow-tab rounded-lg px-2 py-2 text-xs font-semibold" data-workflow="webhook" aria-pressed="false">Lead routing</button>
+          <div class="mt-4 grid grid-cols-3 gap-1 rounded-xl bg-slate-950/60 p-1" role="group" aria-label="Choose a sample workflow">
+            <button type="button" class="workflow-tab rounded-lg px-1 py-2 text-[0.65rem] font-semibold whitespace-nowrap" data-workflow="receipt" aria-pressed="true">Receipt OCR</button>
+            <button type="button" class="workflow-tab rounded-lg px-1 py-2 text-[0.65rem] font-semibold whitespace-nowrap" data-workflow="webhook" aria-pressed="false">Lead routing</button>
+            <button type="button" class="workflow-tab rounded-lg px-1 py-2 text-[0.65rem] font-semibold whitespace-nowrap" data-workflow="ghl-slack" aria-pressed="false">GHL → Slack</button>
           </div>
 
-          <ol id="workflow-steps" class="mt-5" aria-label="Workflow steps">
+          <p id="workflow-cycle-status" class="mt-4 text-[0.65rem] font-medium text-emerald-200/80" aria-live="off">Sample cycle · Step 1 of 3</p>
+
+          <ol id="workflow-steps" class="mt-2" aria-label="Workflow steps">
             <li class="workflow-step flex items-center gap-3 rounded-xl p-3">
               <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 text-xs font-extrabold text-sky-200">IN</span>
               <span class="min-w-0 flex-1">
@@ -690,6 +736,17 @@
               <li><span class="text-emerald-300">[SYNC]</span> CRM fields updated</li>
             </ul>
           </div>
+
+          <div class="workflow-video mt-4 overflow-hidden rounded-xl border border-slate-500/20">
+            <video class="h-full w-full object-cover" autoplay loop muted playsinline preload="none" aria-label="Optional workflow screen recording">
+              <!-- Add <source src="automation-demo.mp4" type="video/mp4"> when the recording is ready. -->
+            </video>
+            <div class="workflow-video-placeholder text-xs" aria-hidden="true">
+              <svg class="h-4 w-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m8 5 12 7-12 7V5Z"/></svg>
+              <span>Drop in a workflow recording</span>
+            </div>
+          </div>
+          <p class="mt-2 text-[0.65rem] text-slate-500">Optional 5–10 second workflow recording</p>
         </aside>
 
         <div class="hero-proof mt-2 pt-6 grid grid-cols-1 gap-5 lg:gap-8">
@@ -1039,6 +1096,126 @@
 
     document.getElementById('copy-email').addEventListener('click', copyContactEmail);
 
+    const networkCanvas = document.getElementById('hero-network');
+    const networkContext = networkCanvas.getContext('2d');
+    const networkMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const heroCard = networkCanvas.parentElement;
+    let networkNodes = [];
+    let networkWidth = 0;
+    let networkHeight = 0;
+    let networkScale = 1;
+    let networkFrame = null;
+    let networkVisible = false;
+    let previousFrameTime = 0;
+
+    function resizeNetworkCanvas() {
+      const bounds = heroCard.getBoundingClientRect();
+      networkWidth = bounds.width;
+      networkHeight = bounds.height;
+      networkScale = Math.min(window.devicePixelRatio || 1, 1.5);
+      networkCanvas.width = Math.round(networkWidth * networkScale);
+      networkCanvas.height = Math.round(networkHeight * networkScale);
+      networkContext.setTransform(networkScale, 0, 0, networkScale, 0, 0);
+      networkNodes = Array.from(
+        { length: Math.min(34, Math.max(14, Math.round(networkWidth / 34))) },
+        () => ({
+          x: Math.random() * networkWidth,
+          y: Math.random() * networkHeight,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22
+        })
+      );
+      renderNetwork();
+      scheduleNetworkFrame();
+    }
+
+    function renderNetwork(delta = 0) {
+      networkContext.clearRect(0, 0, networkWidth, networkHeight);
+      const linkDistance = 150;
+
+      networkNodes.forEach((node, index) => {
+        node.x = (node.x + node.vx * delta + networkWidth) % networkWidth;
+        node.y = (node.y + node.vy * delta + networkHeight) % networkHeight;
+
+        for (let nextIndex = index + 1; nextIndex < networkNodes.length; nextIndex += 1) {
+          const nextNode = networkNodes[nextIndex];
+          const dx = node.x - nextNode.x;
+          const dy = node.y - nextNode.y;
+          const distance = Math.hypot(dx, dy);
+          if (distance >= linkDistance) continue;
+
+          networkContext.beginPath();
+          networkContext.moveTo(node.x, node.y);
+          networkContext.lineTo(nextNode.x, nextNode.y);
+          networkContext.strokeStyle = `rgba(110, 231, 183, ${(1 - distance / linkDistance) * 0.14})`;
+          networkContext.lineWidth = 1;
+          networkContext.stroke();
+        }
+
+        networkContext.beginPath();
+        networkContext.arc(node.x, node.y, 1.5, 0, Math.PI * 2);
+        networkContext.fillStyle = 'rgba(167, 243, 208, 0.5)';
+        networkContext.fill();
+      });
+    }
+
+    function animateNetwork(timestamp) {
+      networkFrame = null;
+      if (!networkVisible || document.hidden || networkMotion.matches) return;
+
+      const delta = previousFrameTime
+        ? Math.min((timestamp - previousFrameTime) / (1000 / 60), 2)
+        : 1;
+      previousFrameTime = timestamp;
+      renderNetwork(delta);
+      networkFrame = window.requestAnimationFrame(animateNetwork);
+    }
+
+    function scheduleNetworkFrame() {
+      if (networkVisible && !document.hidden && !networkMotion.matches && networkFrame === null) {
+        previousFrameTime = 0;
+        networkFrame = window.requestAnimationFrame(animateNetwork);
+      }
+    }
+
+    function pauseNetworkFrame() {
+      if (networkFrame !== null) {
+        window.cancelAnimationFrame(networkFrame);
+        networkFrame = null;
+      }
+      previousFrameTime = 0;
+    }
+
+    if (networkContext) {
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(resizeNetworkCanvas).observe(heroCard);
+      } else {
+        window.addEventListener('resize', resizeNetworkCanvas);
+      }
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([entry]) => {
+          networkVisible = entry.isIntersecting;
+          if (networkVisible) scheduleNetworkFrame();
+          else pauseNetworkFrame();
+        }).observe(heroCard);
+      } else {
+        networkVisible = true;
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) pauseNetworkFrame();
+        else scheduleNetworkFrame();
+      });
+      networkMotion.addEventListener('change', () => {
+        if (networkMotion.matches) pauseNetworkFrame();
+        else scheduleNetworkFrame();
+      });
+      resizeNetworkCanvas();
+    } else {
+      console.error('Hero network canvas is unavailable in this browser.');
+    }
+
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
       link.addEventListener('click', (e) => {
         const targetId = link.getAttribute('href').slice(1);
@@ -1083,13 +1260,71 @@
           ['[ROUTE]', 'Assigned channel selected'],
           ['[SLACK]', 'Team alert prepared']
         ]
+      },
+      'ghl-slack': {
+        title: 'GHL to Slack automation',
+        steps: [
+          { icon: 'GHL', title: 'Contact created', description: 'GoHighLevel trigger received', status: 'READY', tone: 'emerald' },
+          { icon: 'JS', title: 'Process with Apps Script', description: 'Validate fields and workflow data', status: 'PROCESS', tone: 'amber' },
+          { icon: 'SLK', title: 'Route to Slack #alerts', description: 'Notify the assigned team channel', status: 'DONE', tone: 'sky' }
+        ],
+        events: [
+          ['[TRIGGER]', 'GHL contact created'],
+          ['[PROCESS]', 'Apps Script validated contact'],
+          ['[ACTION]', 'Route to Slack #alerts']
+        ]
       }
     };
+
+    let activeWorkflowId = 'receipt';
+    let activeWorkflowStep = 0;
+    let workflowCycleTimer = null;
+    let workflowPreviewVisible = false;
+
+    function updateWorkflowStep(stepIndex) {
+      const steps = Array.from(document.querySelectorAll('#workflow-steps .workflow-step'));
+      if (!steps.length) return;
+
+      activeWorkflowStep = stepIndex % steps.length;
+      steps.forEach((step, index) => {
+        const isActive = index === activeWorkflowStep;
+        step.classList.toggle('is-active', isActive);
+        if (isActive) step.setAttribute('aria-current', 'step');
+        else step.removeAttribute('aria-current');
+
+        const status = step.querySelector('[data-step-status]');
+        status.textContent = index < activeWorkflowStep ? 'DONE' : isActive ? 'ACTIVE' : 'WAITING';
+      });
+
+      const stage = workflowExamples[activeWorkflowId].steps[activeWorkflowStep];
+      document.getElementById('workflow-cycle-status').textContent =
+        `Sample cycle · Step ${activeWorkflowStep + 1} of ${steps.length} · ${stage.title}`;
+    }
+
+    function stopWorkflowCycle() {
+      window.clearInterval(workflowCycleTimer);
+      workflowCycleTimer = null;
+    }
+
+    function syncWorkflowCycle() {
+      stopWorkflowCycle();
+      if (!workflowPreviewVisible || document.hidden || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      workflowCycleTimer = window.setInterval(() => {
+        const stepCount = document.querySelectorAll('#workflow-steps .workflow-step').length;
+        updateWorkflowStep((activeWorkflowStep + 1) % stepCount);
+      }, 5000);
+    }
+
+    document.querySelector('.workflow-video video').addEventListener('loadeddata', () => {
+      document.querySelector('.workflow-video-placeholder').hidden = true;
+    });
 
     function renderWorkflowExample(workflowId) {
       const example = workflowExamples[workflowId];
       if (!example) return;
 
+      activeWorkflowId = workflowId;
       document.getElementById('workflow-title').textContent = example.title;
       document.querySelectorAll('[data-workflow]').forEach((button) => {
         button.setAttribute('aria-pressed', String(button.dataset.workflow === workflowId));
@@ -1119,6 +1354,7 @@
         const status = document.createElement('span');
         status.className = 'text-[0.65rem] font-semibold text-emerald-300';
         status.textContent = step.status;
+        status.dataset.stepStatus = '';
         item.append(icon, content, status);
         steps.append(item);
 
@@ -1140,13 +1376,30 @@
         item.append(label, document.createTextNode(` ${message}`));
         events.append(item);
       });
+      updateWorkflowStep(0);
+      syncWorkflowCycle();
     }
+
+    renderWorkflowExample(activeWorkflowId);
 
     document.querySelectorAll('[data-workflow]').forEach((button) => {
       button.addEventListener('click', () => {
         renderWorkflowExample(button.dataset.workflow);
       });
     });
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        workflowPreviewVisible = entry.isIntersecting;
+        syncWorkflowCycle();
+      }).observe(document.querySelector('.workflow-preview'));
+    } else {
+      workflowPreviewVisible = true;
+      syncWorkflowCycle();
+    }
+
+    document.addEventListener('visibilitychange', syncWorkflowCycle);
+    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', syncWorkflowCycle);
 
     const projects = [
       {
