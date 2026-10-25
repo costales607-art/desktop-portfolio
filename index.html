@@ -320,9 +320,34 @@
     }
 
     .workflow-preview {
+      display: flex;
+      flex-direction: column;
       border: 1px solid rgba(148, 163, 184, 0.2);
       background: linear-gradient(155deg, rgba(15, 23, 42, 0.96), rgba(2, 44, 34, 0.94));
       box-shadow: 0 24px 60px rgba(2, 6, 23, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .automation-progress {
+      height: 3px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    .automation-progress-fill {
+      width: 100%;
+      height: 100%;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: linear-gradient(90deg, #34d399, #a7f3d0);
+    }
+
+    .workflow-preview.is-running .automation-progress-fill {
+      animation: automation-progress 4.5s linear infinite;
+    }
+
+    @keyframes automation-progress {
+      to { transform: scaleX(1); }
     }
 
     .hero-network-canvas {
@@ -389,6 +414,7 @@
       .hero-layout {
         grid-template-columns: minmax(0, 1.1fr) minmax(19rem, 0.9fr);
         row-gap: 1.5rem;
+        align-items: stretch;
       }
 
       .hero-layout > .hero-proof {
@@ -603,8 +629,8 @@
         <div class="absolute left-0 bottom-0 h-56 w-56 rounded-full bg-emerald-400/10 blur-3xl"></div>
         <div class="hero-atmosphere absolute inset-0"></div>
         <canvas id="hero-network" class="hero-network-canvas" aria-hidden="true"></canvas>
-        <div class="hero-layout relative z-10 grid gap-10 lg:gap-12 lg:items-center">
-        <div class="hero-content min-w-0 max-w-3xl space-y-6 lg:max-w-none">
+        <div class="hero-layout relative z-10 grid gap-10 lg:gap-12">
+        <div class="hero-content flex min-w-0 max-w-3xl flex-col gap-6 lg:max-w-none">
           <p class="text-emerald-300 text-xs font-bold uppercase">Virtual Assistant / CRM Automation</p>
           <div class="flex flex-wrap items-center gap-2">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-300/20 text-emerald-200 text-xs font-bold">
@@ -625,7 +651,7 @@
             As a Virtual Assistant and CRM Automation Specialist, I build GoHighLevel architecture, multi-tenant Apps Script workflows, API integrations, and data operations that reduce repetitive handoffs and keep customer information moving reliably.
           </p>
 
-          <div class="flex flex-wrap items-center gap-4 pt-4">
+          <div class="hero-ctas mt-auto flex flex-wrap items-center gap-4 pt-4">
             <a href="#projects" class="cta-button focus-ring inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-400 hover:bg-emerald-300 text-slate-950 text-sm font-bold shadow-lg shadow-emerald-500/25">
               View Work
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg>
@@ -688,6 +714,11 @@
           </div>
 
           <p id="automation-terminal-status" class="mt-3 font-mono text-[0.65rem] text-slate-500" aria-live="off">Demo mode · No external services connected</p>
+          <div class="mt-auto pt-4" aria-hidden="true">
+            <div class="automation-progress">
+              <div class="automation-progress-fill"></div>
+            </div>
+          </div>
         </aside>
 
         <div class="hero-proof mt-2 pt-6 grid grid-cols-1 gap-5 lg:gap-8">
@@ -708,11 +739,11 @@
 
           <div class="hero-tech-stack min-w-0 pt-4 lg:pl-8 lg:pt-0">
             <p class="mb-3 text-center text-[0.65rem] font-bold uppercase tracking-wider text-emerald-200/80 lg:text-left">Core tech stack</p>
-            <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
-              <span class="hero-tech-badge rounded-xl px-2 py-2 text-center text-xs font-semibold">GoHighLevel</span>
-              <span class="hero-tech-badge rounded-xl px-2 py-2 text-center text-xs font-semibold">Apps Script</span>
-              <span class="hero-tech-badge rounded-xl px-2 py-2 text-center text-xs font-semibold">Slack Webhooks</span>
-              <span class="hero-tech-badge rounded-xl px-2 py-2 text-center text-xs font-semibold">REST APIs</span>
+            <div class="grid grid-cols-2 items-center gap-2 sm:grid-cols-4">
+              <span class="hero-tech-badge flex min-h-10 items-center justify-center rounded-xl px-2 py-2 text-center text-xs font-semibold">GoHighLevel</span>
+              <span class="hero-tech-badge flex min-h-10 items-center justify-center rounded-xl px-2 py-2 text-center text-xs font-semibold">Apps Script</span>
+              <span class="hero-tech-badge flex min-h-10 items-center justify-center whitespace-nowrap rounded-xl px-2 py-2 text-center text-xs font-semibold">Slack Webhooks</span>
+              <span class="hero-tech-badge flex min-h-10 items-center justify-center rounded-xl px-2 py-2 text-center text-xs font-semibold">REST APIs</span>
             </div>
           </div>
         </div>
@@ -1224,6 +1255,7 @@
       window.clearTimeout(automationTimers.success);
       automationTimers.cycle = null;
       automationTimers.success = null;
+      document.querySelector('.workflow-preview').classList.remove('is-running');
     }
 
     function advanceAutomation() {
@@ -1247,6 +1279,9 @@
     function syncAutomationLoop() {
       stopAutomationLoop();
       if (!automationVisible || document.hidden || automationMotion.matches) return;
+      const preview = document.querySelector('.workflow-preview');
+      void preview.offsetWidth;
+      preview.classList.add('is-running');
       if (automationPhase === 2 && automationSteps.action.dataset.state === 'active') {
         scheduleAutomationSuccess();
       }
