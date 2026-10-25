@@ -404,161 +404,53 @@
       display: none;
     }
 
-    .journey-modal-overlay:not([hidden]) {
-      animation: journey-modal-enter 0.24s ease-out both;
-    }
-
-    @keyframes journey-modal-enter {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
     .journey-modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 60;
-      padding: 0;
-      background: rgba(2, 6, 23, 0.82);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
-    .journey-modal-panel {
-      width: 100%;
-      height: 100%;
+    .journey-modal-card {
+      max-height: min(92dvh, 52rem);
       overflow-y: auto;
+      background: radial-gradient(ellipse at 50% 0, rgba(16, 185, 129, 0.12), transparent 32rem), #0f172a;
+      box-shadow: 0 30px 90px rgba(2, 6, 23, 0.55);
+    }
+
+    .journey-highway {
       background:
-        radial-gradient(ellipse at 80% 0, rgba(16, 185, 129, 0.18), transparent 34rem),
-        linear-gradient(145deg, #0f172a, #022c22);
-      color: #f8fafc;
+        radial-gradient(ellipse at 80% 0, rgba(16, 185, 129, 0.12), transparent 50%),
+        linear-gradient(180deg, #020617, #0f172a 55%, rgba(2, 44, 34, 0.82));
     }
 
-    .journey-modal-caption {
-      border: 1px solid rgba(167, 243, 208, 0.18);
-      background: rgba(15, 23, 42, 0.68);
-      box-shadow: 0 12px 35px rgba(2, 6, 23, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(14px);
+    .journey-road {
+      background: linear-gradient(180deg, #1e293b 0 42%, #334155 42% 58%, #1e293b 58% 100%);
+      box-shadow: 0 0 22px rgba(16, 185, 129, 0.12);
     }
 
-    .journey-modal-scenes {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 1rem;
+    .journey-road-centerline {
+      background-image: repeating-linear-gradient(90deg, rgba(167, 243, 208, 0.8) 0 1.15rem, transparent 1.15rem 2.15rem);
     }
 
-    .journey-modal-scene {
-      min-width: 0;
-      overflow: hidden;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: 1rem;
-      background: rgba(15, 23, 42, 0.58);
-      opacity: 0.72;
-      transform: perspective(900px) rotateX(1deg) translateY(0);
-      transition: border-color 0.3s ease, opacity 0.3s ease, transform 0.3s var(--ease-out), box-shadow 0.3s ease;
-    }
-
-    .journey-modal-scene.is-selected {
-      border-color: rgba(52, 211, 153, 0.62);
-      opacity: 1;
-      transform: perspective(900px) rotateX(0) translateY(-4px);
-      box-shadow: 0 18px 40px rgba(2, 6, 23, 0.28), 0 0 24px rgba(16, 185, 129, 0.12);
-    }
-
-    .journey-scene-art {
-      position: relative;
+    .journey-avatar {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
       display: flex;
-      height: 9rem;
-      align-items: flex-end;
-      justify-content: center;
-      overflow: hidden;
-      padding: 0.75rem;
-      background: linear-gradient(180deg, rgba(56, 189, 248, 0.16), rgba(15, 23, 42, 0.1) 70%), #172554;
-      isolation: isolate;
+      flex-direction: column;
+      align-items: center;
+      transform: translate(-50%, -50%);
+      transition: left 0.6s var(--ease-out);
     }
 
-    .journey-scene-art::before {
-      position: absolute;
-      right: -15%;
-      bottom: -42%;
-      left: -15%;
-      height: 75%;
-      border-radius: 50% 50% 0 0;
-      background: rgba(16, 185, 129, 0.12);
-      content: "";
-      z-index: -1;
+    .journey-step-btn[aria-pressed="true"] {
+      border-color: rgba(52, 211, 153, 0.5);
+      background: rgba(16, 185, 129, 0.2);
+      color: #a7f3d0;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.08);
     }
 
-    .journey-scene-building {
-      position: relative;
-      display: grid;
-      width: min(72%, 10rem);
-      height: 65%;
-      place-items: center;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 0.5rem 0.5rem 0 0;
-      background: linear-gradient(145deg, rgba(226, 232, 240, 0.25), rgba(15, 23, 42, 0.8));
-      box-shadow: 0 10px 24px rgba(2, 6, 23, 0.24);
-    }
-
-    .journey-scene-building::before,
-    .journey-scene-building::after {
-      position: absolute;
-      top: 22%;
-      width: 0.45rem;
-      height: 0.65rem;
-      border-radius: 0.1rem;
-      background: rgba(167, 243, 208, 0.8);
-      box-shadow: 0 1.4rem rgba(167, 243, 208, 0.42), 0 2.8rem rgba(167, 243, 208, 0.3);
-      content: "";
-    }
-
-    .journey-scene-building::before { left: 20%; }
-    .journey-scene-building::after { right: 20%; }
-
-    .journey-scene-sign {
-      position: relative;
-      z-index: 1;
-      padding: 0.25rem 0.45rem;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 0.375rem;
-      background: rgba(15, 23, 42, 0.82);
-      color: #f8fafc;
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-align: center;
-      box-shadow: 0 3px 12px rgba(2, 6, 23, 0.25);
-    }
-
-    .journey-scene-art[data-scene="mcdonalds"] {
-      background: linear-gradient(180deg, #fbbf24, #f97316 76%, #78350f);
-    }
-
-    .journey-scene-art[data-scene="mcdonalds"] .journey-scene-building {
-      background: linear-gradient(145deg, #dc2626, #7f1d1d);
-    }
-
-    .journey-scene-art[data-scene="call-center"] {
-      background: linear-gradient(180deg, #7dd3fc, #0f766e 78%, #134e4a);
-    }
-
-    .journey-scene-art[data-scene="enterprise"] {
-      background: linear-gradient(180deg, #93c5fd, #1e3a8a 76%, #0f172a);
-    }
-
-    .journey-scene-art[data-scene="automation"] {
-      background: radial-gradient(circle at 50% 35%, rgba(52, 211, 153, 0.3), transparent 45%), linear-gradient(180deg, #0f766e, #022c22 82%);
-    }
-
-    .journey-scene-city {
-      position: absolute;
-      right: -0.5rem;
-      bottom: 0.8rem;
-      width: 1.75rem;
-      height: 4.25rem;
-      border-radius: 0.25rem 0.25rem 0 0;
-      background: rgba(15, 23, 42, 0.68);
-      box-shadow: -2rem 1rem 0 -0.25rem rgba(15, 23, 42, 0.58), -4rem 1.5rem 0 -0.35rem rgba(15, 23, 42, 0.45);
+    .journey-step-btn:focus-visible {
+      outline: 3px solid rgba(110, 231, 183, 0.8);
+      outline-offset: 3px;
     }
 
     .journey-modal-route {
@@ -584,34 +476,6 @@
       background: repeating-linear-gradient(90deg, #334155 0 1.5rem, #1e293b 1.5rem 3rem);
       content: "";
       z-index: -1;
-    }
-
-    .journey-modal-stop {
-      display: flex;
-      min-width: 0;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.65rem;
-      color: #cbd5e1;
-      text-align: center;
-    }
-
-    .journey-modal-stop-dot {
-      display: grid;
-      width: 2rem;
-      height: 2rem;
-      place-items: center;
-      border: 2px solid rgba(148, 163, 184, 0.55);
-      border-radius: 9999px;
-      background: #0f172a;
-      color: #94a3b8;
-      transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .journey-modal-stop[aria-pressed="true"] .journey-modal-stop-dot {
-      border-color: #6ee7b7;
-      color: #a7f3d0;
-      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.14), 0 0 20px rgba(16, 185, 129, 0.32);
     }
 
     .journey-modal-avatar {
@@ -806,67 +670,8 @@
         scroll-margin-top: 6rem;
       }
 
-      .journey-modal-panel {
-        padding: 1rem;
-      }
-
-      .journey-modal-scenes {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .journey-modal-scene {
-        display: grid;
-        grid-template-columns: minmax(7rem, 0.75fr) minmax(0, 1.25fr);
-        align-items: stretch;
-      }
-
-      .journey-scene-art {
-        height: 100%;
-        min-height: 7rem;
-        padding: 0.5rem;
-      }
-
-      .journey-scene-building {
-        width: 75%;
-        height: 62%;
-      }
-
-      .journey-modal-route {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 0.5rem;
-        margin-top: 1.25rem;
-        padding: 0.5rem 0 0.5rem 0.5rem;
-      }
-
-      .journey-modal-route::before {
-        top: 1rem;
-        bottom: 1rem;
-        left: 1.5rem;
-        width: 0.85rem;
-        height: auto;
-        border: 1px solid rgba(148, 163, 184, 0.24);
-        border-top: 0;
-        border-bottom: 0;
-        background: repeating-linear-gradient(180deg, #334155 0 1.5rem, #1e293b 1.5rem 3rem);
-      }
-
-      .journey-modal-stop {
-        min-height: 3rem;
-        flex-direction: row;
-        justify-content: flex-start;
-        gap: 0.85rem;
+      .journey-step-btn {
         text-align: left;
-      }
-
-      .journey-modal-stop-dot {
-        position: relative;
-        z-index: 1;
-        flex: 0 0 auto;
-      }
-
-      .journey-modal-avatar {
-        top: 2.5rem;
-        left: 1.25rem;
       }
 
       .journey-track {
@@ -1176,8 +981,9 @@
         <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">About & Background</h2>
         <p class="text-slate-600 text-base font-medium">Career evolution, technical capabilities, and principles</p>
         </div>
-        <button id="open-journey-modal" type="button" class="focus-ring inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-sm font-bold text-emerald-800 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md">
-          My Journey
+        <button id="openJourneyBtn" type="button" class="focus-ring inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-2.5 text-xs font-bold text-emerald-800 shadow-md transition hover:-translate-y-0.5 hover:bg-emerald-500/20 hover:shadow-lg">
+          <span aria-hidden="true">🚗</span>
+          <span>My Journey</span>
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg>
         </button>
       </div>
@@ -1488,101 +1294,36 @@
     <p>© 2026 Jake B. Dasmariñas. Built with purpose & clarity.</p>
   </footer>
 
-  <!-- Full-screen Career Journey Modal -->
-  <div id="journey-modal" class="journey-modal-overlay" hidden aria-hidden="true">
-    <section id="journey-modal-panel" class="journey-modal-panel p-5 sm:p-8" role="dialog" aria-modal="true" aria-labelledby="journey-modal-heading" aria-describedby="journey-modal-description" tabindex="-1" inert>
-      <div class="mx-auto flex min-h-full w-full max-w-7xl flex-col">
-        <header class="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
-          <div>
-            <p class="text-xs font-bold uppercase tracking-[0.18em] text-emerald-300">The road so far</p>
-            <h2 id="journey-modal-heading" class="mt-1 text-2xl font-extrabold text-white sm:text-3xl">My Journey</h2>
-          </div>
-          <button id="close-journey-modal" type="button" class="focus-ring grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/15 bg-white/5 text-slate-200 transition hover:bg-white/10 hover:text-white" aria-label="Close My Journey">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
-          </button>
-        </header>
+  <!-- My Journey modal overlay -->
+  <div id="journeyModal" class="journey-modal-overlay fixed inset-0 z-[70] hidden items-center justify-center bg-slate-950/80 p-4 opacity-0 backdrop-blur-md" aria-hidden="true">
+    <section class="journey-modal-card relative w-full max-w-4xl rounded-3xl border border-emerald-400/20 p-5 text-white sm:p-8" role="dialog" aria-modal="true" aria-labelledby="journeyModalHeading" aria-describedby="modalStoryCaption" tabindex="-1" inert>
+      <button id="closeJourneyModal" type="button" class="focus-ring absolute right-4 top-4 z-10 rounded-full bg-slate-800 p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white sm:right-5 sm:top-5" aria-label="Close modal">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
+      </button>
 
-        <div class="journey-modal-caption mx-auto mt-5 w-full max-w-4xl rounded-2xl p-4 text-center sm:mt-7 sm:p-5" aria-live="polite" aria-atomic="true">
-          <p id="journey-modal-period" class="text-xs font-bold uppercase tracking-[0.16em] text-emerald-300">2026 · Hyundai Stargazer X</p>
-          <h3 id="journey-modal-title" class="mt-1 text-xl font-extrabold text-white sm:text-2xl">Virtual Assistant &amp; CRM Specialist</h3>
-          <p id="journey-modal-description" class="mt-2 text-sm leading-relaxed text-slate-300">GoHighLevel architecture, Apps Script OCR, and enterprise automation.</p>
+      <div class="mb-6 space-y-2 pr-8 text-center sm:px-8 sm:pr-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Interactive Career Timeline</span>
+        <h2 id="journeyModalHeading" class="text-2xl font-extrabold text-white sm:text-3xl">My Journey Across Wheels</h2>
+        <p id="modalStoryCaption" class="mx-auto min-h-12 max-w-xl text-sm leading-relaxed text-slate-300" aria-live="polite" aria-atomic="true">Select a milestone to explore the journey.</p>
+      </div>
+
+      <div class="journey-highway relative mx-auto flex min-h-44 w-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-800 p-4 sm:h-44">
+        <div id="modalBackdrop" class="text-right font-mono text-[0.62rem] tracking-widest text-emerald-400/60 sm:text-xs" aria-hidden="true">[ PRESENT ERA · CRM &amp; AUTOMATION VA ]</div>
+
+        <div class="relative mx-2 flex h-16 items-center sm:mx-4" aria-hidden="true">
+          <div class="journey-road absolute inset-x-0 h-5 rounded-full"></div>
+          <div class="journey-road-centerline absolute inset-x-0 h-0.5"></div>
+          <div id="vehicleAvatar" class="journey-avatar" style="left: 88%;">
+            <span id="avatarIcon" class="text-3xl drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">🚘</span>
+            <span id="avatarLabel" class="whitespace-nowrap rounded-full border border-emerald-500/30 bg-slate-900/90 px-2 py-0.5 text-[0.65rem] font-bold text-emerald-300">Hyundai Stargazer X</span>
+          </div>
         </div>
 
-        <div class="mt-5 flex flex-1 flex-col justify-center sm:mt-7">
-          <div class="journey-modal-scenes" aria-label="Career locations">
-            <article class="journey-modal-scene" data-journey-scene="0">
-              <div class="journey-scene-art" data-scene="mcdonalds" aria-hidden="true">
-                <div class="journey-scene-city"></div>
-                <div class="journey-scene-building"><span class="journey-scene-sign">McDonald's</span></div>
-              </div>
-              <div class="p-3 sm:p-4">
-                <p class="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-300">Early foundation</p>
-                <h4 class="mt-1 text-sm font-bold text-white">Crew Trainer</h4>
-                <p class="mt-1 text-xs leading-relaxed text-slate-400">Learning the value of teamwork, responsibility, and showing up while studying.</p>
-              </div>
-            </article>
-
-            <article class="journey-modal-scene" data-journey-scene="1">
-              <div class="journey-scene-art" data-scene="call-center" aria-hidden="true">
-                <div class="journey-scene-city"></div>
-                <div class="journey-scene-building"><span class="journey-scene-sign">Care support</span></div>
-              </div>
-              <div class="p-3 sm:p-4">
-                <p class="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-300">Healthcare</p>
-                <h4 class="mt-1 text-sm font-bold text-white">Healthcare CSR</h4>
-                <p class="mt-1 text-xs leading-relaxed text-slate-400">Handling member authorizations and claims with accuracy under pressure.</p>
-              </div>
-            </article>
-
-            <article class="journey-modal-scene" data-journey-scene="2">
-              <div class="journey-scene-art" data-scene="enterprise" aria-hidden="true">
-                <div class="journey-scene-city"></div>
-                <div class="journey-scene-building"><span class="journey-scene-sign">WFM operations</span></div>
-              </div>
-              <div class="p-3 sm:p-4">
-                <p class="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-300">Analytics &amp; operations</p>
-                <h4 class="mt-1 text-sm font-bold text-white">Accenture Real-Time Analyst</h4>
-                <p class="mt-1 text-xs leading-relaxed text-slate-400">WFM analytics, BCP crisis tracking tools, and Salesforce connectors.</p>
-              </div>
-            </article>
-
-            <article class="journey-modal-scene is-selected" data-journey-scene="3">
-              <div class="journey-scene-art" data-scene="automation" aria-hidden="true">
-                <div class="journey-scene-city"></div>
-                <div class="journey-scene-building"><span class="journey-scene-sign">CRM automation hub</span></div>
-              </div>
-              <div class="p-3 sm:p-4">
-                <p class="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-300">Building what’s next</p>
-                <h4 class="mt-1 text-sm font-bold text-white">Virtual Assistant &amp; CRM Specialist</h4>
-                <p class="mt-1 text-xs leading-relaxed text-slate-400">GoHighLevel architecture, Apps Script OCR, and enterprise automation.</p>
-              </div>
-            </article>
-          </div>
-
-          <div id="journey-modal-route" class="journey-modal-route" role="group" aria-label="Choose a career milestone">
-            <span id="journey-modal-avatar" class="journey-modal-avatar" aria-hidden="true">
-              <svg data-modal-vehicle="walk" class="hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="2" fill="currentColor" stroke="none"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m11.5 8-2 4 3 2 1 5m-4-7-3 4-3 1m8-5 4 2 2 4m-5-10 3 1"/></svg>
-              <svg data-modal-vehicle="bicycle" class="hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="17" r="3.25" stroke-width="1.5"/><circle cx="19" cy="17" r="3.25" stroke-width="1.5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 17 4-7 4 7H5Zm4-7h4m0 0 2 7m-2-7 3-2m-3 2 3 7h3"/></svg>
-              <svg data-modal-vehicle="motorcycle" class="hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="17" r="2.75" stroke-width="1.5"/><circle cx="19" cy="17" r="2.75" stroke-width="1.5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m5 17 4-6h4l3 6h3m-7-6-2-3h4l2 3m-6 0-2 2m7-2 2-2h2"/></svg>
-              <svg data-modal-vehicle="car" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m4 15 1.5-5a2 2 0 0 1 1.9-1.4h9.2a2 2 0 0 1 1.9 1.4L20 15v4h-2v-2H6v2H4v-4Zm1 0h14M8 12h.01M16 12h.01"/><circle cx="7.5" cy="15" r="1" fill="currentColor" stroke="none"/><circle cx="16.5" cy="15" r="1" fill="currentColor" stroke="none"/></svg>
-            </span>
-            <button type="button" class="journey-modal-stop" data-modal-milestone="0" aria-pressed="false">
-              <span class="journey-modal-stop-dot" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
-              <span><span class="block text-sm font-extrabold text-white">2017</span><span class="block text-xs text-slate-400">On Foot</span></span>
-            </button>
-            <button type="button" class="journey-modal-stop" data-modal-milestone="1" aria-pressed="false">
-              <span class="journey-modal-stop-dot" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
-              <span><span class="block text-sm font-extrabold text-white">2019</span><span class="block text-xs text-slate-400">Bicycle</span></span>
-            </button>
-            <button type="button" class="journey-modal-stop" data-modal-milestone="2" aria-pressed="false">
-              <span class="journey-modal-stop-dot" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
-              <span><span class="block text-sm font-extrabold text-white">2020</span><span class="block text-xs text-slate-400">Motorcycle</span></span>
-            </button>
-            <button type="button" class="journey-modal-stop" data-modal-milestone="3" aria-pressed="true">
-              <span class="journey-modal-stop-dot" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
-              <span><span class="block text-sm font-extrabold text-white">2026</span><span class="block text-xs text-slate-400">Hyundai Stargazer X</span></span>
-            </button>
-          </div>
+        <div class="grid grid-cols-1 gap-2 border-t border-slate-800/80 pt-3 sm:grid-cols-4">
+          <button type="button" class="journey-step-btn rounded-xl border px-2 py-2 text-xs font-bold transition-all" data-index="0" aria-pressed="false">2017 · McDonald's</button>
+          <button type="button" class="journey-step-btn rounded-xl border px-2 py-2 text-xs font-bold transition-all" data-index="1" aria-pressed="false">2019 · Healthcare CSR</button>
+          <button type="button" class="journey-step-btn rounded-xl border px-2 py-2 text-xs font-bold transition-all" data-index="2" aria-pressed="false">2020 · Accenture WFM</button>
+          <button type="button" class="journey-step-btn rounded-xl border px-2 py-2 text-xs font-bold transition-all" data-index="3" aria-pressed="true">2026 · GoHighLevel</button>
         </div>
       </div>
     </section>
@@ -1909,6 +1650,10 @@
         period: '2017–2019',
         mode: 'Walk',
         vehicle: 'walk',
+        icon: '🚶',
+        backdrop: "[ MCDONALD'S ERA · CREW TRAINER ]",
+        position: '12%',
+        caption: "Walked to work at McDonald's while finishing my degree. Built baseline grit, high-volume speed, and operational discipline.",
         title: "McDonald's Crew Trainer",
         description: 'Early foundation, rapid promotion, and a strong work ethic while studying.'
       },
@@ -1916,6 +1661,10 @@
         period: '2019–2020',
         mode: 'Bicycle',
         vehicle: 'bicycle',
+        icon: '🚴',
+        backdrop: '[ CALL CENTER ERA · HEALTHCARE CSR ]',
+        position: '37%',
+        caption: 'Bicycled to work as a Healthcare Customer Service Representative. Developed extreme attention to detail handling insurance claims.',
         title: 'Healthcare CSR',
         description: 'Built precision under pressure while handling authorizations and claims.'
       },
@@ -1923,6 +1672,10 @@
         period: '2020–2025',
         mode: 'Motorcycle',
         vehicle: 'motorcycle',
+        icon: '🏍️',
+        backdrop: '[ ACCENTURE ERA · REAL-TIME ANALYST ]',
+        position: '62%',
+        caption: 'Rode a motorcycle to Accenture as a Real-Time WFM Analyst. Engineered live automated reporting scripts, Slack tools, and queue balance.',
         title: 'Accenture Real-Time Analyst',
         description: 'Supported WFM analytics with BCP crisis tracking tools and Salesforce connectors.'
       },
@@ -1930,6 +1683,10 @@
         period: '2026',
         mode: 'Hyundai Stargazer X',
         vehicle: 'car',
+        icon: '🚘',
+        backdrop: '[ PRESENT ERA · CRM & AUTOMATION VA ]',
+        position: '88%',
+        caption: 'Now driving a Hyundai Stargazer X as an independent Virtual Assistant & CRM Automation Specialist. Designing multi-tenant GoHighLevel architectures and REST API pipelines.',
         title: 'Virtual Assistant & CRM Specialist',
         description: 'Building GoHighLevel architecture, Apps Script OCR, and enterprise automation.'
       }
@@ -1983,89 +1740,64 @@
 
     selectCareerMilestone(3);
 
-    const journeyModal = document.getElementById('journey-modal');
-    const journeyModalPanel = document.getElementById('journey-modal-panel');
-    const journeyModalRoute = document.getElementById('journey-modal-route');
-    const journeyModalAvatar = document.getElementById('journey-modal-avatar');
-    const journeyModalStops = Array.from(journeyModal.querySelectorAll('[data-modal-milestone]'));
+    const journeyModal = document.getElementById('journeyModal');
+    const journeyModalPanel = journeyModal.querySelector('[role="dialog"]');
+    const journeyModalStops = Array.from(journeyModal.querySelectorAll('.journey-step-btn'));
     let lastFocusedJourneyTrigger = null;
+    let journeyModalCloseTimer = null;
 
-    function positionJourneyModalAvatar(button) {
-      const marker = button.querySelector('.journey-modal-stop-dot').getBoundingClientRect();
-      const route = journeyModalRoute.getBoundingClientRect();
-      journeyModalAvatar.style.left = `${marker.left + marker.width / 2 - route.left}px`;
-      journeyModalAvatar.style.top = `${marker.top + marker.height / 2 - route.top}px`;
-    }
-
-    function selectJourneyModalMilestone(index) {
+    function updateJourneyStep(index) {
       const milestone = careerMilestones[index];
-      const button = journeyModalStops[index];
-      if (!milestone || !button) return;
+      const avatar = document.getElementById('vehicleAvatar');
+      if (!milestone || !avatar || !journeyModalStops[index]) return;
 
       journeyModalStops.forEach((stop, stopIndex) => {
         stop.setAttribute('aria-pressed', String(stopIndex === index));
       });
-      journeyButtons.forEach((stop, stopIndex) => {
-        stop.setAttribute('aria-pressed', String(stopIndex === index));
-      });
-      journeyModal.querySelectorAll('[data-journey-scene]').forEach((scene, sceneIndex) => {
-        scene.classList.toggle('is-selected', sceneIndex === index);
-      });
-      journeyModalAvatar.querySelectorAll('[data-modal-vehicle]').forEach((icon) => {
-        icon.classList.toggle('hidden', icon.dataset.modalVehicle !== milestone.vehicle);
-      });
-
-      document.getElementById('journey-modal-period').textContent = `${milestone.period} · ${milestone.mode}`;
-      document.getElementById('journey-modal-title').textContent = milestone.title;
-      document.getElementById('journey-modal-description').textContent = milestone.description;
+      avatar.style.left = milestone.position;
+      document.getElementById('avatarIcon').textContent = milestone.icon;
+      document.getElementById('avatarLabel').textContent = milestone.mode;
+      document.getElementById('modalStoryCaption').textContent = `${milestone.period} · ${milestone.title}. ${milestone.caption}`;
+      document.getElementById('modalBackdrop').textContent = milestone.backdrop;
       selectCareerMilestone(index);
-      positionJourneyModalAvatar(button);
     }
 
     function openJourneyModal() {
       lastFocusedJourneyTrigger = document.activeElement;
       const selectedMilestone = journeyButtons.findIndex((button) => button.getAttribute('aria-pressed') === 'true');
-      journeyModal.hidden = false;
+      window.clearTimeout(journeyModalCloseTimer);
+      journeyModal.classList.remove('hidden');
       journeyModal.setAttribute('aria-hidden', 'false');
       journeyModalPanel.inert = false;
       document.body.classList.add('overflow-hidden');
-      selectJourneyModalMilestone(Math.max(selectedMilestone, 0));
-      document.getElementById('close-journey-modal').focus();
+      updateJourneyStep(Math.max(selectedMilestone, 0));
+      requestAnimationFrame(() => journeyModal.classList.remove('opacity-0'));
+      document.getElementById('closeJourneyModal').focus();
     }
 
     function closeJourneyModal() {
-      if (journeyModal.hidden) return;
-      journeyModal.hidden = true;
+      if (journeyModal.classList.contains('hidden') || journeyModal.classList.contains('opacity-0')) return;
+      journeyModal.classList.add('opacity-0');
       journeyModal.setAttribute('aria-hidden', 'true');
       journeyModalPanel.inert = true;
-      if (document.getElementById('drawer').inert) document.body.classList.remove('overflow-hidden');
       if (lastFocusedJourneyTrigger instanceof HTMLElement) lastFocusedJourneyTrigger.focus();
+      journeyModalCloseTimer = window.setTimeout(() => {
+        journeyModal.classList.add('hidden');
+        journeyModalCloseTimer = null;
+        if (document.getElementById('drawer').inert) document.body.classList.remove('overflow-hidden');
+      }, 300);
     }
 
-    document.getElementById('open-journey-modal').addEventListener('click', openJourneyModal);
-    document.getElementById('close-journey-modal').addEventListener('click', closeJourneyModal);
+    document.getElementById('openJourneyBtn').addEventListener('click', openJourneyModal);
+    document.getElementById('closeJourneyModal').addEventListener('click', closeJourneyModal);
     journeyModal.addEventListener('click', (event) => {
       if (event.target === journeyModal) closeJourneyModal();
     });
     journeyModalStops.forEach((button) => {
       button.addEventListener('click', () => {
-        selectJourneyModalMilestone(Number(button.dataset.modalMilestone));
+        updateJourneyStep(Number(button.dataset.index));
       });
     });
-
-    window.addEventListener('resize', () => {
-      if (journeyModal.hidden) return;
-      const selectedButton = journeyModalStops.find((button) => button.getAttribute('aria-pressed') === 'true');
-      if (selectedButton) positionJourneyModalAvatar(selectedButton);
-    });
-
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(() => {
-        if (journeyModal.hidden) return;
-        const selectedButton = journeyModalStops.find((button) => button.getAttribute('aria-pressed') === 'true');
-        if (selectedButton) positionJourneyModalAvatar(selectedButton);
-      }).observe(journeyModalRoute);
-    }
 
     const projects = [
       {
@@ -2159,7 +1891,7 @@
     });
 
     document.addEventListener('keydown', (event) => {
-      if (!journeyModal.hidden) {
+      if (!journeyModal.classList.contains('hidden') && !journeyModal.classList.contains('opacity-0')) {
         if (event.key === 'Escape') {
           event.preventDefault();
           closeJourneyModal();
