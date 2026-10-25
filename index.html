@@ -334,90 +334,51 @@
       opacity: 0.48;
     }
 
-    .workflow-tab {
-      color: #94a3b8;
-      transition: color 0.2s ease, background-color 0.2s ease;
-    }
-
-    .workflow-tab[aria-pressed="true"] {
-      background: rgba(16, 185, 129, 0.16);
-      color: #d1fae5;
-    }
-
-    .workflow-step {
+    .automation-node {
       border: 1px solid rgba(148, 163, 184, 0.16);
       background: rgba(15, 23, 42, 0.62);
       transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .workflow-step.is-active {
+    .automation-node.is-active {
       border-color: rgba(52, 211, 153, 0.58);
       background: rgba(6, 78, 59, 0.48);
       box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
     }
 
-    .workflow-icon {
-      display: flex;
-      width: 2.25rem;
-      height: 2.25rem;
-      flex-shrink: 0;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0.5rem;
-      font-size: 0.75rem;
-      font-weight: 800;
+    .automation-node[data-state="processing"] {
+      border-color: rgba(251, 191, 36, 0.45);
+      background: rgba(120, 53, 15, 0.2);
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.08);
     }
 
-    .workflow-icon[data-tone="sky"] {
-      background: rgba(56, 189, 248, 0.1);
-      color: #bae6fd;
+    .automation-node[data-state="success"] {
+      border-color: rgba(52, 211, 153, 0.58);
+      background: rgba(6, 78, 59, 0.48);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
     }
 
-    .workflow-icon[data-tone="amber"] {
-      background: rgba(251, 191, 36, 0.1);
-      color: #fde68a;
-    }
-
-    .workflow-icon[data-tone="emerald"] {
-      background: rgba(52, 211, 153, 0.1);
+    .automation-node[data-state="active"] [id$="-status"],
+    .automation-node[data-state="success"] [id$="-status"] {
       color: #a7f3d0;
     }
 
-    .workflow-connector {
-      height: 1rem;
-      width: 1px;
-      margin-left: 1.125rem;
-      background: linear-gradient(to bottom, rgba(52, 211, 153, 0.55), rgba(52, 211, 153, 0.12));
+    .automation-node[data-state="processing"] [id$="-status"] {
+      color: #fde68a;
     }
 
-    .workflow-log {
-      border-top: 1px solid rgba(148, 163, 184, 0.16);
+    .automation-typing-dots::after {
+      content: "...";
+      display: inline-block;
+      width: 0;
+      max-width: 3ch;
+      overflow: hidden;
+      vertical-align: bottom;
+      animation: typing-dots 1s steps(4, end) infinite;
     }
 
-    .workflow-video {
-      position: relative;
-      aspect-ratio: 16 / 5;
-      min-height: 5.5rem;
-      isolation: isolate;
-      background:
-        radial-gradient(ellipse at 50% 0, rgba(16, 185, 129, 0.12), transparent 72%),
-        rgba(2, 6, 23, 0.62);
-    }
-
-    .workflow-video-placeholder {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: #94a3b8;
-      pointer-events: none;
-    }
-
-    .workflow-video-placeholder[hidden] {
-      display: none;
+    @keyframes typing-dots {
+      to { width: 3ch; }
     }
 
     .hero-layout {
@@ -676,77 +637,57 @@
 
         </div>
 
-        <aside class="workflow-preview min-w-0 rounded-2xl p-4 sm:p-5" aria-label="Interactive sample workflow preview">
+        <aside class="workflow-preview min-w-0 rounded-2xl p-4 sm:p-5" aria-label="Illustrative automation terminal">
           <div class="flex items-start justify-between gap-3">
             <div>
-              <p class="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-emerald-300">System preview</p>
-              <h2 id="workflow-title" class="mt-1 text-lg font-bold text-white">Receipt processing</h2>
+              <p class="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-emerald-300">Live automation</p>
+              <h2 class="mt-1 text-lg font-bold text-white">Workflow terminal</h2>
             </div>
-            <span class="inline-flex items-center gap-1.5 rounded-full border border-slate-500/40 bg-slate-800/80 px-2.5 py-1 text-[0.65rem] font-semibold text-slate-300">
-              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-              Sample flow
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.65rem] font-semibold text-emerald-200">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              Simulated
             </span>
           </div>
 
-          <div class="mt-4 grid grid-cols-3 gap-1 rounded-xl bg-slate-950/60 p-1" role="group" aria-label="Choose a sample workflow">
-            <button type="button" class="workflow-tab rounded-lg px-1 py-2 text-[0.65rem] font-semibold whitespace-nowrap" data-workflow="receipt" aria-pressed="true">Receipt OCR</button>
-            <button type="button" class="workflow-tab rounded-lg px-1 py-2 text-[0.65rem] font-semibold whitespace-nowrap" data-workflow="webhook" aria-pressed="false">Lead routing</button>
-            <button type="button" class="workflow-tab rounded-lg px-1 py-2 text-[0.65rem] font-semibold whitespace-nowrap" data-workflow="ghl-slack" aria-pressed="false">GHL → Slack</button>
-          </div>
-
-          <p id="workflow-cycle-status" class="mt-4 text-[0.65rem] font-medium text-emerald-200/80" aria-live="off">Sample cycle · Step 1 of 3</p>
-
-          <ol id="workflow-steps" class="mt-2" aria-label="Workflow steps">
-            <li class="workflow-step flex items-center gap-3 rounded-xl p-3">
-              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 text-xs font-extrabold text-sky-200">IN</span>
-              <span class="min-w-0 flex-1">
-                <span class="block text-sm font-semibold text-slate-100">Receipt received</span>
-                <span class="block text-xs text-slate-400">PDF detected in Gmail</span>
-              </span>
-              <span class="text-[0.65rem] font-semibold text-emerald-300">READY</span>
-            </li>
-            <li class="workflow-connector" aria-hidden="true"></li>
-            <li class="workflow-step flex items-center gap-3 rounded-xl p-3">
-              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-400/10 text-xs font-extrabold text-amber-200">JS</span>
-              <span class="min-w-0 flex-1">
-                <span class="block text-sm font-semibold text-slate-100">Parse &amp; match</span>
-                <span class="block text-xs text-slate-400">Apps Script + Drive OCR</span>
-              </span>
-              <span class="text-[0.65rem] font-semibold text-emerald-300">PROCESS</span>
-            </li>
-            <li class="workflow-connector" aria-hidden="true"></li>
-            <li class="workflow-step flex items-center gap-3 rounded-xl p-3">
-              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-400/10 text-xs font-extrabold text-emerald-200">CRM</span>
-              <span class="min-w-0 flex-1">
-                <span class="block text-sm font-semibold text-slate-100">Update GoHighLevel</span>
-                <span class="block text-xs text-slate-400">Contact &amp; opportunity synced</span>
-              </span>
-              <span class="text-[0.65rem] font-semibold text-emerald-300">DONE</span>
-            </li>
-          </ol>
-
-          <div class="workflow-log mt-5 space-y-2 pt-4">
-            <div class="flex items-center justify-between gap-3">
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Example events</h3>
-              <span class="text-[0.65rem] text-slate-500">Illustrative, not live data</span>
+          <div class="mt-4 overflow-hidden rounded-xl border border-slate-500/20 bg-slate-950/70">
+            <div class="flex items-center gap-1.5 border-b border-slate-500/20 px-3 py-2.5" aria-hidden="true">
+              <span class="h-2 w-2 rounded-full bg-rose-400/80"></span>
+              <span class="h-2 w-2 rounded-full bg-amber-300/80"></span>
+              <span class="h-2 w-2 rounded-full bg-emerald-400/80"></span>
+              <span class="ml-2 font-mono text-[0.65rem] text-slate-500">live_automation_node.js</span>
             </div>
-            <ul id="workflow-events" class="space-y-1.5 font-mono text-[0.68rem] leading-relaxed text-slate-400" aria-live="polite">
-              <li><span class="text-emerald-300">[OCR]</span> Receipt text extracted</li>
-              <li><span class="text-emerald-300">[MATCH]</span> Order record located</li>
-              <li><span class="text-emerald-300">[SYNC]</span> CRM fields updated</li>
-            </ul>
+
+            <ol class="space-y-2 p-3 font-mono" aria-label="Sample automation steps">
+              <li id="automation-trigger" class="automation-node rounded-lg p-3" data-state="waiting">
+                <div class="flex items-start justify-between gap-3">
+                  <span class="text-[0.65rem] font-bold text-emerald-300">[TRIGGER]</span>
+                  <span id="automation-trigger-status" class="text-[0.6rem] font-bold text-slate-500">WAITING</span>
+                </div>
+                <p class="mt-1 text-xs leading-relaxed text-slate-200">GoHighLevel Contact Created</p>
+                <p id="automation-trigger-detail" class="mt-1 text-[0.65rem] text-slate-500">Listening for contact event</p>
+              </li>
+
+              <li id="automation-process" class="automation-node rounded-lg p-3" data-state="waiting">
+                <div class="flex items-start justify-between gap-3">
+                  <span class="text-[0.65rem] font-bold text-amber-200">[PROCESS]</span>
+                  <span id="automation-process-status" class="text-[0.6rem] font-bold text-slate-500">WAITING</span>
+                </div>
+                <p class="mt-1 text-xs leading-relaxed text-slate-200">Apps Script OCR &amp; Data Sanitization</p>
+                <p id="automation-process-detail" class="mt-1 text-[0.65rem] text-slate-500">Waiting for trigger</p>
+              </li>
+
+              <li id="automation-action" class="automation-node rounded-lg p-3" data-state="waiting">
+                <div class="flex items-start justify-between gap-3">
+                  <span class="text-[0.65rem] font-bold text-sky-200">[ACTION]</span>
+                  <span id="automation-action-status" class="text-[0.6rem] font-bold text-slate-500">QUEUED</span>
+                </div>
+                <p class="mt-1 text-xs leading-relaxed text-slate-200">Slack Webhook Alert Routed</p>
+                <p id="automation-action-detail" class="mt-1 text-[0.65rem] text-slate-500">Queued for #leads</p>
+              </li>
+            </ol>
           </div>
 
-          <div class="workflow-video mt-4 overflow-hidden rounded-xl border border-slate-500/20">
-            <video class="h-full w-full object-cover" autoplay loop muted playsinline preload="none" aria-label="Optional workflow screen recording">
-              <!-- Add <source src="automation-demo.mp4" type="video/mp4"> when the recording is ready. -->
-            </video>
-            <div class="workflow-video-placeholder text-xs" aria-hidden="true">
-              <svg class="h-4 w-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m8 5 12 7-12 7V5Z"/></svg>
-              <span>Drop in a workflow recording</span>
-            </div>
-          </div>
-          <p class="mt-2 text-[0.65rem] text-slate-500">Optional 5–10 second workflow recording</p>
+          <p id="automation-terminal-status" class="mt-3 font-mono text-[0.65rem] text-slate-500" aria-live="off">Demo mode · No external services connected</p>
         </aside>
 
         <div class="hero-proof mt-2 pt-6 grid grid-cols-1 gap-5 lg:gap-8">
@@ -1234,172 +1175,98 @@
       });
     });
 
-    const workflowExamples = {
-      receipt: {
-        title: 'Receipt processing',
-        steps: [
-          { icon: 'IN', title: 'Receipt received', description: 'PDF detected in Gmail', status: 'READY', tone: 'sky' },
-          { icon: 'JS', title: 'Parse & match', description: 'Apps Script + Drive OCR', status: 'PROCESS', tone: 'amber' },
-          { icon: 'CRM', title: 'Update GoHighLevel', description: 'Contact & opportunity synced', status: 'DONE', tone: 'emerald' }
-        ],
-        events: [
-          ['[OCR]', 'Receipt text extracted'],
-          ['[MATCH]', 'Order record located'],
-          ['[SYNC]', 'CRM fields updated']
-        ]
-      },
-      webhook: {
-        title: 'Lead message routing',
-        steps: [
-          { icon: 'CRM', title: 'New lead message', description: 'GoHighLevel event received', status: 'READY', tone: 'emerald' },
-          { icon: 'API', title: 'Route by assignment', description: 'Webhook checks owner & rules', status: 'PROCESS', tone: 'amber' },
-          { icon: 'SLK', title: 'Notify assigned channel', description: 'Slack alert sent to the team', status: 'DONE', tone: 'sky' }
-        ],
-        events: [
-          ['[HOOK]', 'New message event received'],
-          ['[ROUTE]', 'Assigned channel selected'],
-          ['[SLACK]', 'Team alert prepared']
-        ]
-      },
-      'ghl-slack': {
-        title: 'GHL to Slack automation',
-        steps: [
-          { icon: 'GHL', title: 'Contact created', description: 'GoHighLevel trigger received', status: 'READY', tone: 'emerald' },
-          { icon: 'JS', title: 'Process with Apps Script', description: 'Validate fields and workflow data', status: 'PROCESS', tone: 'amber' },
-          { icon: 'SLK', title: 'Route to Slack #alerts', description: 'Notify the assigned team channel', status: 'DONE', tone: 'sky' }
-        ],
-        events: [
-          ['[TRIGGER]', 'GHL contact created'],
-          ['[PROCESS]', 'Apps Script validated contact'],
-          ['[ACTION]', 'Route to Slack #alerts']
-        ]
-      }
+    const automationSteps = {
+      trigger: document.getElementById('automation-trigger'),
+      process: document.getElementById('automation-process'),
+      action: document.getElementById('automation-action')
     };
+    const automationTimers = { cycle: null, success: null };
+    const automationMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let automationPhase = 0;
+    let automationVisible = false;
 
-    let activeWorkflowId = 'receipt';
-    let activeWorkflowStep = 0;
-    let workflowCycleTimer = null;
-    let workflowPreviewVisible = false;
+    function setAutomationStep(step, state, status, detail) {
+      step.dataset.state = state;
+      step.classList.toggle('is-active', state === 'active');
+      step.querySelector('[id$="-status"]').textContent = status;
 
-    function updateWorkflowStep(stepIndex) {
-      const steps = Array.from(document.querySelectorAll('#workflow-steps .workflow-step'));
-      if (!steps.length) return;
-
-      activeWorkflowStep = stepIndex % steps.length;
-      steps.forEach((step, index) => {
-        const isActive = index === activeWorkflowStep;
-        step.classList.toggle('is-active', isActive);
-        if (isActive) step.setAttribute('aria-current', 'step');
-        else step.removeAttribute('aria-current');
-
-        const status = step.querySelector('[data-step-status]');
-        status.textContent = index < activeWorkflowStep ? 'DONE' : isActive ? 'ACTIVE' : 'WAITING';
-      });
-
-      const stage = workflowExamples[activeWorkflowId].steps[activeWorkflowStep];
-      document.getElementById('workflow-cycle-status').textContent =
-        `Sample cycle · Step ${activeWorkflowStep + 1} of ${steps.length} · ${stage.title}`;
+      const detailElement = step.querySelector('[id$="-detail"]');
+      detailElement.classList.toggle('automation-typing-dots', state === 'processing');
+      detailElement.textContent = detail;
     }
 
-    function stopWorkflowCycle() {
-      window.clearInterval(workflowCycleTimer);
-      workflowCycleTimer = null;
+    function renderAutomationPhase(phase) {
+      automationPhase = phase;
+      setAutomationStep(automationSteps.trigger, phase === 0 ? 'active' : 'success', '200 OK', 'Contact created · response 200 OK');
+      setAutomationStep(
+        automationSteps.process,
+        phase === 1 ? 'processing' : phase === 2 ? 'success' : 'waiting',
+        phase === 1 ? 'RUNNING' : phase === 2 ? 'DONE' : 'WAITING',
+        phase === 1 ? 'Executing script' : phase === 2 ? 'OCR complete · fields sanitized' : 'Waiting for trigger'
+      );
+      setAutomationStep(
+        automationSteps.action,
+        phase === 2 ? 'active' : 'waiting',
+        phase === 2 ? 'QUEUED' : 'WAITING',
+        phase === 2 ? 'Queued for #leads' : 'Waiting for process'
+      );
+
+      const terminalStatus = document.getElementById('automation-terminal-status');
+      terminalStatus.textContent = phase === 0
+        ? '› contact.created · 200 OK'
+        : phase === 1
+          ? '› Apps Script: Executing script'
+          : '› Slack webhook: Queued for #leads';
     }
 
-    function syncWorkflowCycle() {
-      stopWorkflowCycle();
-      if (!workflowPreviewVisible || document.hidden || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      workflowCycleTimer = window.setInterval(() => {
-        const stepCount = document.querySelectorAll('#workflow-steps .workflow-step').length;
-        updateWorkflowStep((activeWorkflowStep + 1) % stepCount);
-      }, 5000);
+    function stopAutomationLoop() {
+      window.clearTimeout(automationTimers.cycle);
+      window.clearTimeout(automationTimers.success);
+      automationTimers.cycle = null;
+      automationTimers.success = null;
     }
 
-    document.querySelector('.workflow-video video').addEventListener('loadeddata', () => {
-      document.querySelector('.workflow-video-placeholder').hidden = true;
-    });
+    function advanceAutomation() {
+      automationPhase = (automationPhase + 1) % 3;
+      renderAutomationPhase(automationPhase);
 
-    function renderWorkflowExample(workflowId) {
-      const example = workflowExamples[workflowId];
-      if (!example) return;
-
-      activeWorkflowId = workflowId;
-      document.getElementById('workflow-title').textContent = example.title;
-      document.querySelectorAll('[data-workflow]').forEach((button) => {
-        button.setAttribute('aria-pressed', String(button.dataset.workflow === workflowId));
-      });
-
-      const steps = document.getElementById('workflow-steps');
-      steps.replaceChildren();
-      example.steps.forEach((step, index) => {
-        const item = document.createElement('li');
-        item.className = 'workflow-step flex items-center gap-3 rounded-xl p-3';
-
-        const icon = document.createElement('span');
-        icon.className = 'workflow-icon';
-        icon.dataset.tone = step.tone;
-        icon.textContent = step.icon;
-
-        const content = document.createElement('span');
-        content.className = 'min-w-0 flex-1';
-        const title = document.createElement('span');
-        title.className = 'block text-sm font-semibold text-slate-100';
-        title.textContent = step.title;
-        const description = document.createElement('span');
-        description.className = 'block text-xs text-slate-400';
-        description.textContent = step.description;
-        content.append(title, description);
-
-        const status = document.createElement('span');
-        status.className = 'text-[0.65rem] font-semibold text-emerald-300';
-        status.textContent = step.status;
-        status.dataset.stepStatus = '';
-        item.append(icon, content, status);
-        steps.append(item);
-
-        if (index < example.steps.length - 1) {
-          const connector = document.createElement('li');
-          connector.className = 'workflow-connector';
-          connector.setAttribute('aria-hidden', 'true');
-          steps.append(connector);
-        }
-      });
-
-      const events = document.getElementById('workflow-events');
-      events.replaceChildren();
-      example.events.forEach(([tag, message]) => {
-        const item = document.createElement('li');
-        const label = document.createElement('span');
-        label.className = 'text-emerald-300';
-        label.textContent = tag;
-        item.append(label, document.createTextNode(` ${message}`));
-        events.append(item);
-      });
-      updateWorkflowStep(0);
-      syncWorkflowCycle();
+      if (automationPhase === 2) {
+        scheduleAutomationSuccess();
+      }
+      automationTimers.cycle = window.setTimeout(advanceAutomation, 4500);
     }
 
-    renderWorkflowExample(activeWorkflowId);
+    function scheduleAutomationSuccess() {
+      automationTimers.success = window.setTimeout(() => {
+        setAutomationStep(automationSteps.action, 'success', 'SUCCESS', 'SUCCESS [Sent to #leads]');
+        document.getElementById('automation-terminal-status').textContent = '› Slack webhook: SUCCESS [Sent to #leads]';
+        automationTimers.success = null;
+      }, 1000);
+    }
 
-    document.querySelectorAll('[data-workflow]').forEach((button) => {
-      button.addEventListener('click', () => {
-        renderWorkflowExample(button.dataset.workflow);
-      });
-    });
+    function syncAutomationLoop() {
+      stopAutomationLoop();
+      if (!automationVisible || document.hidden || automationMotion.matches) return;
+      if (automationPhase === 2 && automationSteps.action.dataset.state === 'active') {
+        scheduleAutomationSuccess();
+      }
+      automationTimers.cycle = window.setTimeout(advanceAutomation, 4500);
+    }
+
+    renderAutomationPhase(0);
 
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([entry]) => {
-        workflowPreviewVisible = entry.isIntersecting;
-        syncWorkflowCycle();
+        automationVisible = entry.isIntersecting;
+        syncAutomationLoop();
       }).observe(document.querySelector('.workflow-preview'));
     } else {
-      workflowPreviewVisible = true;
-      syncWorkflowCycle();
+      automationVisible = true;
+      syncAutomationLoop();
     }
 
-    document.addEventListener('visibilitychange', syncWorkflowCycle);
-    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', syncWorkflowCycle);
+    document.addEventListener('visibilitychange', syncAutomationLoop);
+    automationMotion.addEventListener('change', syncAutomationLoop);
 
     const projects = [
       {
