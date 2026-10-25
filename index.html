@@ -64,24 +64,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes float-slow {
-      0%, 100% { transform: translateY(0px) scale(1); }
-      50% { transform: translateY(-20px) scale(1.05); }
-    }
-
-    @keyframes float-reverse {
-      0%, 100% { transform: translateY(0px) scale(1); }
-      50% { transform: translateY(20px) scale(0.95); }
-    }
-
-    .animate-float-1 {
-      animation: float-slow 16s ease-in-out infinite;
-    }
-
-    .animate-float-2 {
-      animation: float-reverse 19s ease-in-out infinite;
-    }
-
     .glass-nav {
       background: rgba(255, 255, 255, 0.78);
       backdrop-filter: blur(20px) saturate(150%);
@@ -261,6 +243,21 @@
 
     .cta-button:hover {
       transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(16, 185, 129, 0.22);
+    }
+
+    .hero-proof {
+      border-top: 1px solid rgba(226, 232, 240, 0.18);
+    }
+
+    .hero-proof-stat + .hero-proof-stat {
+      border-left: 1px solid rgba(226, 232, 240, 0.18);
+    }
+
+    .hero-tech-badge {
+      border: 1px solid rgba(167, 243, 208, 0.2);
+      background: rgba(16, 185, 129, 0.08);
+      color: #d1fae5;
     }
 
     .cta-button svg {
@@ -401,8 +398,8 @@
 <body class="bg-[#F8FAFC] text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900 min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
   <!-- Ambient Animated Background -->
-  <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-emerald-200/30 rounded-full blur-[120px] pointer-events-none animate-float-1 -z-10"></div>
-  <div class="fixed bottom-10 right-1/4 w-[600px] h-[600px] bg-teal-100/40 rounded-full blur-[140px] pointer-events-none animate-float-2 -z-10"></div>
+  <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-emerald-200/30 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+  <div class="fixed bottom-10 right-1/4 w-[600px] h-[600px] bg-teal-100/40 rounded-full blur-[140px] pointer-events-none -z-10"></div>
 
   <!-- Floating Navigation Bar -->
   <header class="fixed top-4 inset-x-0 z-40 max-w-6xl mx-auto px-4">
@@ -456,16 +453,22 @@
         <div class="hero-atmosphere absolute inset-0"></div>
         <div class="relative z-10 max-w-3xl space-y-6">
           <p class="text-emerald-300 text-xs font-bold uppercase">Virtual Assistant / CRM Automation</p>
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-300/20 text-emerald-200 text-xs font-bold">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Crafted with Diligence & Purpose</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-300/20 text-emerald-200 text-xs font-bold">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Crafted with Diligence & Purpose</span>
+            </div>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-300/25 text-emerald-100 text-xs font-bold">
+              <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse shadow-[0_0_10px_rgba(110,231,183,0.9)]"></span>
+              <span>Available for Hire</span>
+            </div>
           </div>
 
           <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
             I turn repetitive CRM work into <span class="hero-accent">reliable workflows.</span>
           </h1>
 
-          <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+          <p class="text-slate-200 text-base sm:text-lg leading-relaxed max-w-2xl">
             As a Virtual Assistant and CRM Automation Specialist, I build GoHighLevel architecture, multi-tenant Apps Script workflows, API integrations, and data operations that reduce repetitive handoffs and keep customer information moving reliably.
           </p>
 
@@ -478,24 +481,34 @@
               Background & Experience
             </a>
           </div>
+
+          <div class="hero-proof mt-8 pt-6 space-y-5">
+            <div class="grid grid-cols-3">
+              <div class="hero-proof-stat pr-3 text-center sm:text-left">
+                <p class="text-2xl sm:text-3xl font-extrabold text-white">60+</p>
+                <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">Slack channels routed</p>
+              </div>
+              <div class="hero-proof-stat px-3 text-center">
+                <p class="text-2xl sm:text-3xl font-extrabold text-white">90+</p>
+                <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">CSV columns cleaned</p>
+              </div>
+              <div class="hero-proof-stat pl-3 text-center sm:text-right">
+                <p class="text-2xl sm:text-3xl font-extrabold text-white">20–25</p>
+                <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">CRM fields structured</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="mr-1 text-[0.65rem] font-bold uppercase tracking-wider text-emerald-200/80">Tech stack</span>
+              <span class="hero-tech-badge rounded-full px-3 py-1 text-xs font-semibold">GoHighLevel</span>
+              <span class="hero-tech-badge rounded-full px-3 py-1 text-xs font-semibold">Apps Script</span>
+              <span class="hero-tech-badge rounded-full px-3 py-1 text-xs font-semibold">Slack Webhooks</span>
+              <span class="hero-tech-badge rounded-full px-3 py-1 text-xs font-semibold">REST APIs</span>
+            </div>
+          </div>
         </div>
       </div>
 
-    </section>
-
-    <section aria-label="Selected project scale" class="grid grid-cols-3 gap-3 sm:gap-6 border-y border-slate-200/80 px-2 py-5 sm:px-6">
-      <div class="text-center">
-        <p class="text-2xl sm:text-3xl font-extrabold text-emerald-800">60+</p>
-        <p class="text-xs sm:text-sm font-semibold text-slate-600">Slack channels routed</p>
-      </div>
-      <div class="text-center">
-        <p class="text-2xl sm:text-3xl font-extrabold text-emerald-800">90+</p>
-        <p class="text-xs sm:text-sm font-semibold text-slate-600">CSV columns cleaned</p>
-      </div>
-      <div class="text-center">
-        <p class="text-2xl sm:text-3xl font-extrabold text-emerald-800">20-25</p>
-        <p class="text-xs sm:text-sm font-semibold text-slate-600">GoHighLevel fields structured</p>
-      </div>
     </section>
 
     <!-- ABOUT & EXPERIENCE SECTION -->
