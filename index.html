@@ -319,6 +319,87 @@
       color: #d1fae5;
     }
 
+    .journey-track {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      isolation: isolate;
+    }
+
+    .journey-track::before {
+      position: absolute;
+      top: 1.25rem;
+      right: 12.5%;
+      left: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg, #a7f3d0, #10b981 55%, #cbd5e1);
+      content: "";
+      z-index: -1;
+    }
+
+    .journey-milestone {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0 0.5rem;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .journey-marker {
+      display: grid;
+      width: 2.5rem;
+      height: 2.5rem;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 2px solid #cbd5e1;
+      border-radius: 9999px;
+      background: #fff;
+      color: #64748b;
+      transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+    }
+
+    .journey-milestone[aria-pressed="true"] .journey-marker {
+      border-color: #059669;
+      background: #ecfdf5;
+      color: #047857;
+      box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.1), 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .journey-milestone[aria-pressed="true"] .journey-year {
+      color: #047857;
+    }
+
+    .journey-vehicle {
+      position: absolute;
+      top: 1.25rem;
+      left: 12.5%;
+      z-index: 2;
+      display: grid;
+      width: 2.5rem;
+      height: 2.5rem;
+      place-items: center;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      border-radius: 9999px;
+      background: #fff;
+      color: #047857;
+      box-shadow: 0 5px 16px rgba(5, 150, 105, 0.2);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: left 0.65s var(--ease-out), top 0.65s var(--ease-out);
+    }
+
+    .journey-story {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .journey-story.is-updating {
+      opacity: 0.45;
+      transform: translateY(4px);
+    }
+
     .workflow-preview {
       display: flex;
       flex-direction: column;
@@ -476,7 +557,8 @@
 
     .focus-ring:focus-visible,
     .nav-link:focus-visible,
-    .project-card:focus-visible {
+    .project-card:focus-visible,
+    .journey-milestone:focus-visible {
       outline: 3px solid rgba(16, 185, 129, 0.75);
       outline-offset: 4px;
     }
@@ -484,6 +566,40 @@
     @media (max-width: 767px) {
       section {
         scroll-margin-top: 6rem;
+      }
+
+      .journey-track {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.5rem;
+        padding-left: 0.25rem;
+      }
+
+      .journey-track::before {
+        top: 1.25rem;
+        bottom: 1.25rem;
+        left: 1.25rem;
+        width: 2px;
+        height: auto;
+        background: linear-gradient(180deg, #a7f3d0, #10b981 55%, #cbd5e1);
+      }
+
+      .journey-milestone {
+        min-height: 3.5rem;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 0.75rem;
+        padding: 0;
+        text-align: left;
+      }
+
+      .journey-marker {
+        position: relative;
+        z-index: 1;
+      }
+
+      .journey-vehicle {
+        top: 1.75rem;
+        left: 1.5rem;
       }
 
       header nav.glass-nav {
@@ -823,6 +939,78 @@
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- CAREER JOURNEY TIMELINE -->
+    <section id="career-journey" class="space-y-6 section-surface">
+      <div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Career Journey &amp; Milestones</h2>
+        <p class="text-slate-600 text-base font-medium">Select a milestone to explore the road so far</p>
+      </div>
+
+      <div class="dark-panel rounded-2xl p-5 sm:p-8">
+        <div id="journey-track" class="journey-track" role="group" aria-label="Career milestones">
+          <span id="journey-vehicle" class="journey-vehicle" aria-hidden="true">
+            <svg data-journey-vehicle="walk" class="hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="13" cy="4.5" r="2" fill="currentColor" stroke="none"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m11.5 8-2 4 3 2 1 5m-4-7-3 4-3 1m8-5 4 2 2 4m-5-10 3 1"/>
+            </svg>
+            <svg data-journey-vehicle="bicycle" class="hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="5" cy="17" r="3.25" stroke-width="1.5"/>
+              <circle cx="19" cy="17" r="3.25" stroke-width="1.5"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 17 4-7 4 7H5Zm4-7h4m0 0 2 7m-2-7 3-2m-3 2 3 7h3"/>
+            </svg>
+            <svg data-journey-vehicle="motorcycle" class="hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="5" cy="17" r="2.75" stroke-width="1.5"/>
+              <circle cx="19" cy="17" r="2.75" stroke-width="1.5"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m5 17 4-6h4l3 6h3m-7-6-2-3h4l2 3m-6 0-2 2m7-2 2-2h2"/>
+            </svg>
+            <svg data-journey-vehicle="car" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m4 15 1.5-5a2 2 0 0 1 1.9-1.4h9.2a2 2 0 0 1 1.9 1.4L20 15v4h-2v-2H6v2H4v-4Zm1 0h14M8 12h.01M16 12h.01"/>
+              <circle cx="7.5" cy="15" r="1" fill="currentColor" stroke="none"/>
+              <circle cx="16.5" cy="15" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+
+          <button type="button" class="journey-milestone" data-milestone="0" aria-pressed="false" aria-controls="journey-story">
+            <span class="journey-marker" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
+            <span>
+              <span class="journey-year block text-sm font-extrabold text-slate-700">2017</span>
+              <span class="block text-xs font-semibold text-slate-500">Walk</span>
+            </span>
+          </button>
+          <button type="button" class="journey-milestone" data-milestone="1" aria-pressed="false" aria-controls="journey-story">
+            <span class="journey-marker" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
+            <span>
+              <span class="journey-year block text-sm font-extrabold text-slate-700">2019</span>
+              <span class="block text-xs font-semibold text-slate-500">Bicycle</span>
+            </span>
+          </button>
+          <button type="button" class="journey-milestone" data-milestone="2" aria-pressed="false" aria-controls="journey-story">
+            <span class="journey-marker" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
+            <span>
+              <span class="journey-year block text-sm font-extrabold text-slate-700">2020</span>
+              <span class="block text-xs font-semibold text-slate-500">Motorcycle</span>
+            </span>
+          </button>
+          <button type="button" class="journey-milestone" data-milestone="3" aria-pressed="true" aria-controls="journey-story">
+            <span class="journey-marker" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
+            <span>
+              <span class="journey-year block text-sm font-extrabold text-slate-700">2026</span>
+              <span class="block text-xs font-semibold text-slate-500">Hyundai Stargazer X</span>
+            </span>
+          </button>
+        </div>
+
+        <article id="journey-story" class="journey-story mt-8 rounded-2xl border border-emerald-100 bg-gradient-to-br from-white to-emerald-50/70 p-5 sm:p-7" aria-live="polite" aria-atomic="true">
+          <div class="flex flex-wrap items-center gap-2">
+            <p id="journey-period" class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">2026</p>
+            <p id="journey-mode" class="rounded-full border border-emerald-200 bg-white px-3 py-1 text-xs font-semibold text-emerald-800">Hyundai Stargazer X</p>
+          </div>
+          <h3 id="journey-title" class="mt-3 text-xl font-extrabold text-slate-900">Virtual Assistant &amp; CRM Specialist</h3>
+          <p id="journey-description" class="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">GoHighLevel architecture, Apps Script OCR, and enterprise automation.</p>
+        </article>
       </div>
     </section>
 
@@ -1302,6 +1490,85 @@
 
     document.addEventListener('visibilitychange', syncAutomationLoop);
     automationMotion.addEventListener('change', syncAutomationLoop);
+
+    const careerMilestones = [
+      {
+        period: '2017–2019',
+        mode: 'Walk',
+        vehicle: 'walk',
+        title: "McDonald's Crew Trainer",
+        description: 'Early foundation, rapid promotion, and a strong work ethic while studying.'
+      },
+      {
+        period: '2019–2020',
+        mode: 'Bicycle',
+        vehicle: 'bicycle',
+        title: 'Healthcare CSR',
+        description: 'Built precision under pressure while handling authorizations and claims.'
+      },
+      {
+        period: '2020–2025',
+        mode: 'Motorcycle',
+        vehicle: 'motorcycle',
+        title: 'Accenture Real-Time Analyst',
+        description: 'Supported WFM analytics with BCP crisis tracking tools and Salesforce connectors.'
+      },
+      {
+        period: '2026',
+        mode: 'Hyundai Stargazer X',
+        vehicle: 'car',
+        title: 'Virtual Assistant & CRM Specialist',
+        description: 'Building GoHighLevel architecture, Apps Script OCR, and enterprise automation.'
+      }
+    ];
+    const journeyTrack = document.getElementById('journey-track');
+    const journeyVehicle = document.getElementById('journey-vehicle');
+    const journeyButtons = Array.from(journeyTrack.querySelectorAll('[data-milestone]'));
+
+    function positionJourneyVehicle(button) {
+      const marker = button.querySelector('.journey-marker').getBoundingClientRect();
+      const track = journeyTrack.getBoundingClientRect();
+      journeyVehicle.style.left = `${marker.left + marker.width / 2 - track.left}px`;
+      journeyVehicle.style.top = `${marker.top + marker.height / 2 - track.top}px`;
+    }
+
+    function selectCareerMilestone(index) {
+      const milestone = careerMilestones[index];
+      const button = journeyButtons[index];
+      if (!milestone || !button) return;
+
+      journeyButtons.forEach((item, itemIndex) => {
+        item.setAttribute('aria-pressed', String(itemIndex === index));
+      });
+      journeyVehicle.querySelectorAll('[data-journey-vehicle]').forEach((icon) => {
+        icon.classList.toggle('hidden', icon.dataset.journeyVehicle !== milestone.vehicle);
+      });
+      document.getElementById('journey-period').textContent = milestone.period;
+      document.getElementById('journey-mode').textContent = milestone.mode;
+      document.getElementById('journey-title').textContent = milestone.title;
+      document.getElementById('journey-description').textContent = milestone.description;
+      positionJourneyVehicle(button);
+    }
+
+    journeyButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        selectCareerMilestone(Number(button.dataset.milestone));
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      const selectedButton = journeyButtons.find((button) => button.getAttribute('aria-pressed') === 'true');
+      if (selectedButton) positionJourneyVehicle(selectedButton);
+    });
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(() => {
+        const selectedButton = journeyButtons.find((button) => button.getAttribute('aria-pressed') === 'true');
+        if (selectedButton) positionJourneyVehicle(selectedButton);
+      }).observe(journeyTrack);
+    }
+
+    selectCareerMilestone(3);
 
     const projects = [
       {
