@@ -319,87 +319,6 @@
       color: #d1fae5;
     }
 
-    .journey-track {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      isolation: isolate;
-    }
-
-    .journey-track::before {
-      position: absolute;
-      top: 1.25rem;
-      right: 12.5%;
-      left: 12.5%;
-      height: 2px;
-      background: linear-gradient(90deg, #a7f3d0, #10b981 55%, #cbd5e1);
-      content: "";
-      z-index: -1;
-    }
-
-    .journey-milestone {
-      display: flex;
-      min-width: 0;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0 0.5rem;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .journey-marker {
-      display: grid;
-      width: 2.5rem;
-      height: 2.5rem;
-      flex: 0 0 auto;
-      place-items: center;
-      border: 2px solid #cbd5e1;
-      border-radius: 9999px;
-      background: #fff;
-      color: #64748b;
-      transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
-    }
-
-    .journey-milestone[aria-pressed="true"] .journey-marker {
-      border-color: #059669;
-      background: #ecfdf5;
-      color: #047857;
-      box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.1), 0 0 20px rgba(16, 185, 129, 0.2);
-    }
-
-    .journey-milestone[aria-pressed="true"] .journey-year {
-      color: #047857;
-    }
-
-    .journey-vehicle {
-      position: absolute;
-      top: 1.25rem;
-      left: 12.5%;
-      z-index: 2;
-      display: grid;
-      width: 2.5rem;
-      height: 2.5rem;
-      place-items: center;
-      border: 1px solid rgba(16, 185, 129, 0.28);
-      border-radius: 9999px;
-      background: #fff;
-      color: #047857;
-      box-shadow: 0 5px 16px rgba(5, 150, 105, 0.2);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: left 0.65s var(--ease-out), top 0.65s var(--ease-out);
-    }
-
-    .journey-story {
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .journey-story.is-updating {
-      opacity: 0.45;
-      transform: translateY(4px);
-    }
-
     .journey-modal-overlay[hidden] {
       display: none;
     }
@@ -408,98 +327,135 @@
       transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
-    .journey-modal-card {
-      max-height: min(92dvh, 52rem);
-      overflow-y: auto;
-      background: radial-gradient(ellipse at 50% 0, rgba(16, 185, 129, 0.12), transparent 32rem), #0f172a;
+    .journey-carousel-card {
+      background: radial-gradient(ellipse at 50% 0, rgba(16, 185, 129, 0.14), transparent 28rem), #0f172a;
       box-shadow: 0 30px 90px rgba(2, 6, 23, 0.55);
     }
 
-    .journey-highway {
+    .journey-slide {
+      min-width: 0;
+      opacity: 1;
+      transform: translateX(0);
+      transition: opacity 0.22s ease, transform 0.22s var(--ease-out);
+    }
+
+    .journey-slide.is-changing {
+      opacity: 0;
+      transform: translateX(0.75rem);
+    }
+
+    .journey-slide.is-changing[data-direction="-1"] {
+      transform: translateX(-0.75rem);
+    }
+
+    .journey-visual-header {
       background:
-        radial-gradient(ellipse at 80% 0, rgba(16, 185, 129, 0.12), transparent 50%),
-        linear-gradient(180deg, #020617, #0f172a 55%, rgba(2, 44, 34, 0.82));
+        radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.18), transparent 12rem),
+        linear-gradient(125deg, #1e293b, #064e3b);
     }
 
-    .journey-road {
-      background: linear-gradient(180deg, #1e293b 0 42%, #334155 42% 58%, #1e293b 58% 100%);
-      box-shadow: 0 0 22px rgba(16, 185, 129, 0.12);
+    .journey-visual-header[data-theme="mcdonalds"] {
+      background: radial-gradient(circle at 78% 25%, rgba(251, 191, 36, 0.42), transparent 10rem), linear-gradient(125deg, #7f1d1d, #dc2626 58%, #991b1b);
     }
 
-    .journey-road-centerline {
-      background-image: repeating-linear-gradient(90deg, rgba(167, 243, 208, 0.8) 0 1.15rem, transparent 1.15rem 2.15rem);
+    .journey-visual-header[data-theme="healthcare"] {
+      background: radial-gradient(circle at 78% 25%, rgba(103, 232, 249, 0.38), transparent 10rem), linear-gradient(125deg, #164e63, #0f766e 58%, #155e75);
     }
 
-    .journey-avatar {
+    .journey-visual-header[data-theme="accenture"] {
+      background: radial-gradient(circle at 78% 25%, rgba(196, 181, 253, 0.35), transparent 10rem), linear-gradient(125deg, #312e81, #4338ca 58%, #1e1b4b);
+    }
+
+    .journey-visual-header[data-theme="automation"] {
+      background: radial-gradient(circle at 78% 25%, rgba(110, 231, 183, 0.35), transparent 10rem), linear-gradient(125deg, #022c22, #047857 58%, #064e3b);
+    }
+
+    .journey-animation-track {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, transparent 0 35%, rgba(30, 41, 59, 0.92) 35% 88%, transparent 88%);
+    }
+
+    .journey-animation-track::before {
+      position: absolute;
+      top: 62%;
+      right: 0;
+      left: 0;
+      height: 1px;
+      background: repeating-linear-gradient(90deg, rgba(167, 243, 208, 0.85) 0 1.25rem, transparent 1.25rem 2.25rem);
+      content: "";
+    }
+
+    .journey-animation-figure {
       position: absolute;
       top: 50%;
-      z-index: 2;
+      left: 12%;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      transform: translate(-50%, -50%);
-      transition: left 0.6s var(--ease-out);
+      gap: 0.5rem;
+      transform: translateY(-58%);
+      animation: journey-ride 4.2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.3));
     }
 
-    .journey-step-btn[aria-pressed="true"] {
-      border-color: rgba(52, 211, 153, 0.5);
-      background: rgba(16, 185, 129, 0.2);
-      color: #a7f3d0;
-      box-shadow: 0 0 18px rgba(16, 185, 129, 0.08);
+    .journey-animation-figure span:first-child {
+      display: inline-block;
+      animation: journey-bob 0.55s ease-in-out infinite alternate;
     }
 
-    .journey-step-btn:focus-visible {
-      outline: 3px solid rgba(110, 231, 183, 0.8);
+    @keyframes journey-ride {
+      from { left: 12%; }
+      to { left: calc(88% - 2.5rem); }
+    }
+
+    @keyframes journey-bob {
+      from { transform: translateY(1px) rotate(-3deg); }
+      to { transform: translateY(-3px) rotate(3deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .journey-animation-figure,
+      .journey-animation-figure span:first-child {
+        animation: none;
+      }
+
+      .journey-slide {
+        transition-duration: 0.01ms;
+      }
+    }
+
+    .journey-dot[aria-current="step"] {
+      background: #6ee7b7;
+      box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.16), 0 0 18px rgba(16, 185, 129, 0.4);
+    }
+
+    .journey-carousel-arrow:focus-visible,
+    .journey-dot:focus-visible {
+      outline: 3px solid rgba(110, 231, 183, 0.85);
       outline-offset: 3px;
     }
 
-    .journey-modal-route {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      align-items: start;
-      isolation: isolate;
-      margin-top: 1rem;
-      padding: 0.8rem 0 0.2rem;
-      overflow: hidden;
-    }
+    @media (max-width: 480px) {
+      .journey-carousel-layout {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
 
-    .journey-modal-route::before {
-      position: absolute;
-      top: 1.7rem;
-      right: 12.5%;
-      left: 12.5%;
-      height: 1rem;
-      border: 1px solid rgba(148, 163, 184, 0.24);
-      border-right: 0;
-      border-left: 0;
-      background: repeating-linear-gradient(90deg, #334155 0 1.5rem, #1e293b 1.5rem 3rem);
-      content: "";
-      z-index: -1;
-    }
+      #journeySlide {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
 
-    .journey-modal-avatar {
-      position: absolute;
-      top: 2.2rem;
-      left: 12.5%;
-      z-index: 2;
-      display: grid;
-      width: 2.75rem;
-      height: 2.75rem;
-      place-items: center;
-      border: 1px solid rgba(167, 243, 208, 0.35);
-      border-radius: 9999px;
-      background: rgba(15, 23, 42, 0.94);
-      color: #a7f3d0;
-      box-shadow: 0 5px 18px rgba(2, 6, 23, 0.45), 0 0 18px rgba(16, 185, 129, 0.18);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: left 0.7s var(--ease-out), top 0.7s var(--ease-out);
-    }
+      #journeyPrevious {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: end;
+      }
 
-    .journey-modal-avatar svg {
-      width: 1.5rem;
-      height: 1.5rem;
+      #journeyNext {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: start;
+      }
     }
 
     .workflow-preview {
@@ -660,7 +616,8 @@
     .focus-ring:focus-visible,
     .nav-link:focus-visible,
     .project-card:focus-visible,
-    .journey-milestone:focus-visible {
+    .journey-carousel-arrow:focus-visible,
+    .journey-dot:focus-visible {
       outline: 3px solid rgba(16, 185, 129, 0.75);
       outline-offset: 4px;
     }
@@ -668,44 +625,6 @@
     @media (max-width: 767px) {
       section {
         scroll-margin-top: 6rem;
-      }
-
-      .journey-step-btn {
-        text-align: left;
-      }
-
-      .journey-track {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 0.5rem;
-        padding-left: 0.25rem;
-      }
-
-      .journey-track::before {
-        top: 1.25rem;
-        bottom: 1.25rem;
-        left: 1.25rem;
-        width: 2px;
-        height: auto;
-        background: linear-gradient(180deg, #a7f3d0, #10b981 55%, #cbd5e1);
-      }
-
-      .journey-milestone {
-        min-height: 3.5rem;
-        flex-direction: row;
-        justify-content: flex-start;
-        gap: 0.75rem;
-        padding: 0;
-        text-align: left;
-      }
-
-      .journey-marker {
-        position: relative;
-        z-index: 1;
-      }
-
-      .journey-vehicle {
-        top: 1.75rem;
-        left: 1.5rem;
       }
 
       header nav.glass-nav {
@@ -983,7 +902,7 @@
         </div>
         <button id="openJourneyBtn" type="button" class="focus-ring inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-2.5 text-xs font-bold text-emerald-800 shadow-md transition hover:-translate-y-0.5 hover:bg-emerald-500/20 hover:shadow-lg">
           <span aria-hidden="true">🚗</span>
-          <span>My Journey</span>
+          <span>Interactive Journey</span>
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg>
         </button>
       </div>
@@ -1052,78 +971,6 @@
           </div>
         </div>
 
-      </div>
-    </section>
-
-    <!-- CAREER JOURNEY TIMELINE -->
-    <section id="career-journey" class="space-y-6 section-surface">
-      <div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Career Journey &amp; Milestones</h2>
-        <p class="text-slate-600 text-base font-medium">Select a milestone to explore the road so far</p>
-      </div>
-
-      <div class="dark-panel rounded-2xl p-5 sm:p-8">
-        <div id="journey-track" class="journey-track" role="group" aria-label="Career milestones">
-          <span id="journey-vehicle" class="journey-vehicle" aria-hidden="true">
-            <svg data-journey-vehicle="walk" class="hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="13" cy="4.5" r="2" fill="currentColor" stroke="none"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m11.5 8-2 4 3 2 1 5m-4-7-3 4-3 1m8-5 4 2 2 4m-5-10 3 1"/>
-            </svg>
-            <svg data-journey-vehicle="bicycle" class="hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="5" cy="17" r="3.25" stroke-width="1.5"/>
-              <circle cx="19" cy="17" r="3.25" stroke-width="1.5"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m5 17 4-7 4 7H5Zm4-7h4m0 0 2 7m-2-7 3-2m-3 2 3 7h3"/>
-            </svg>
-            <svg data-journey-vehicle="motorcycle" class="hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="5" cy="17" r="2.75" stroke-width="1.5"/>
-              <circle cx="19" cy="17" r="2.75" stroke-width="1.5"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m5 17 4-6h4l3 6h3m-7-6-2-3h4l2 3m-6 0-2 2m7-2 2-2h2"/>
-            </svg>
-            <svg data-journey-vehicle="car" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m4 15 1.5-5a2 2 0 0 1 1.9-1.4h9.2a2 2 0 0 1 1.9 1.4L20 15v4h-2v-2H6v2H4v-4Zm1 0h14M8 12h.01M16 12h.01"/>
-              <circle cx="7.5" cy="15" r="1" fill="currentColor" stroke="none"/>
-              <circle cx="16.5" cy="15" r="1" fill="currentColor" stroke="none"/>
-            </svg>
-          </span>
-
-          <button type="button" class="journey-milestone" data-milestone="0" aria-pressed="false" aria-controls="journey-story">
-            <span class="journey-marker" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
-            <span>
-              <span class="journey-year block text-sm font-extrabold text-slate-700">2017</span>
-              <span class="block text-xs font-semibold text-slate-500">Walk</span>
-            </span>
-          </button>
-          <button type="button" class="journey-milestone" data-milestone="1" aria-pressed="false" aria-controls="journey-story">
-            <span class="journey-marker" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
-            <span>
-              <span class="journey-year block text-sm font-extrabold text-slate-700">2019</span>
-              <span class="block text-xs font-semibold text-slate-500">Bicycle</span>
-            </span>
-          </button>
-          <button type="button" class="journey-milestone" data-milestone="2" aria-pressed="false" aria-controls="journey-story">
-            <span class="journey-marker" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
-            <span>
-              <span class="journey-year block text-sm font-extrabold text-slate-700">2020</span>
-              <span class="block text-xs font-semibold text-slate-500">Motorcycle</span>
-            </span>
-          </button>
-          <button type="button" class="journey-milestone" data-milestone="3" aria-pressed="true" aria-controls="journey-story">
-            <span class="journey-marker" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-current"></span></span>
-            <span>
-              <span class="journey-year block text-sm font-extrabold text-slate-700">2026</span>
-              <span class="block text-xs font-semibold text-slate-500">Hyundai Stargazer X</span>
-            </span>
-          </button>
-        </div>
-
-        <article id="journey-story" class="journey-story mt-8 rounded-2xl border border-emerald-100 bg-gradient-to-br from-white to-emerald-50/70 p-5 sm:p-7" aria-live="polite" aria-atomic="true">
-          <div class="flex flex-wrap items-center gap-2">
-            <p id="journey-period" class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">2026</p>
-            <p id="journey-mode" class="rounded-full border border-emerald-200 bg-white px-3 py-1 text-xs font-semibold text-emerald-800">Hyundai Stargazer X</p>
-          </div>
-          <h3 id="journey-title" class="mt-3 text-xl font-extrabold text-slate-900">Virtual Assistant &amp; CRM Specialist</h3>
-          <p id="journey-description" class="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600 sm:text-base">GoHighLevel architecture, Apps Script OCR, and enterprise automation.</p>
-        </article>
       </div>
     </section>
 
@@ -1295,36 +1142,59 @@
   </footer>
 
   <!-- My Journey modal overlay -->
-  <div id="journeyModal" class="journey-modal-overlay fixed inset-0 z-[70] hidden items-center justify-center bg-slate-950/80 p-4 opacity-0 backdrop-blur-md" aria-hidden="true">
-    <section class="journey-modal-card relative w-full max-w-4xl rounded-3xl border border-emerald-400/20 p-5 text-white sm:p-8" role="dialog" aria-modal="true" aria-labelledby="journeyModalHeading" aria-describedby="modalStoryCaption" tabindex="-1" inert>
+  <div id="journeyModal" class="journey-modal-overlay fixed inset-0 z-[70] hidden flex items-center justify-center bg-slate-950/80 p-4 opacity-0 backdrop-blur-md" aria-hidden="true">
+    <section class="journey-carousel-card relative max-h-[92dvh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-emerald-400/20 p-4 text-white sm:p-7" role="dialog" aria-modal="true" aria-labelledby="journeyModalHeading" aria-describedby="journeyDescription" tabindex="-1" inert>
       <button id="closeJourneyModal" type="button" class="focus-ring absolute right-4 top-4 z-10 rounded-full bg-slate-800 p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white sm:right-5 sm:top-5" aria-label="Close modal">
         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
       </button>
 
-      <div class="mb-6 space-y-2 pr-8 text-center sm:px-8 sm:pr-8">
+      <div class="mb-5 space-y-2 pr-10 text-center sm:px-10">
         <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Interactive Career Timeline</span>
-        <h2 id="journeyModalHeading" class="text-2xl font-extrabold text-white sm:text-3xl">My Journey Across Wheels</h2>
-        <p id="modalStoryCaption" class="mx-auto min-h-12 max-w-xl text-sm leading-relaxed text-slate-300" aria-live="polite" aria-atomic="true">Select a milestone to explore the journey.</p>
+        <h2 id="journeyModalHeading" class="text-2xl font-extrabold text-white sm:text-3xl">My Journey</h2>
+        <p class="text-sm text-slate-400">Use the arrows, dots, or keyboard to explore each chapter.</p>
       </div>
 
-      <div class="journey-highway relative mx-auto flex min-h-44 w-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-800 p-4 sm:h-44">
-        <div id="modalBackdrop" class="text-right font-mono text-[0.62rem] tracking-widest text-emerald-400/60 sm:text-xs" aria-hidden="true">[ PRESENT ERA · CRM &amp; AUTOMATION VA ]</div>
+      <div class="journey-carousel-layout grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-2 sm:grid-cols-[3.25rem_minmax(0,1fr)_3.25rem] sm:gap-4">
+        <button id="journeyPrevious" type="button" class="journey-carousel-arrow focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Previous milestone">
+          <span aria-hidden="true">‹</span>
+        </button>
 
-        <div class="relative mx-2 flex h-16 items-center sm:mx-4" aria-hidden="true">
-          <div class="journey-road absolute inset-x-0 h-5 rounded-full"></div>
-          <div class="journey-road-centerline absolute inset-x-0 h-0.5"></div>
-          <div id="vehicleAvatar" class="journey-avatar" style="left: 88%;">
-            <span id="avatarIcon" class="text-3xl drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">🚘</span>
-            <span id="avatarLabel" class="whitespace-nowrap rounded-full border border-emerald-500/30 bg-slate-900/90 px-2 py-0.5 text-[0.65rem] font-bold text-emerald-300">Hyundai Stargazer X</span>
+        <article id="journeySlide" class="journey-slide min-w-0 overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-900/80 shadow-2xl" aria-live="polite" aria-atomic="true">
+          <div id="journeyVisualHeader" class="journey-visual-header flex min-h-28 items-end justify-between gap-3 p-4 sm:min-h-36 sm:p-6" data-theme="mcdonalds">
+            <div class="min-w-0">
+              <p class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/70">Career chapter</p>
+              <h3 id="journeyTheme" class="mt-1 text-xl font-extrabold text-white sm:text-2xl">McDonald's</h3>
+            </div>
+            <span id="journeyHeaderIcon" class="shrink-0 text-4xl drop-shadow-lg sm:text-5xl" aria-hidden="true">🍟</span>
           </div>
-        </div>
 
-        <div class="grid grid-cols-1 gap-2 border-t border-slate-800/80 pt-3 sm:grid-cols-4">
-          <button type="button" class="journey-step-btn rounded-xl border px-2 py-2 text-xs font-bold transition-all" data-index="0" aria-pressed="false">2017 · McDonald's</button>
-          <button type="button" class="journey-step-btn rounded-xl border px-2 py-2 text-xs font-bold transition-all" data-index="1" aria-pressed="false">2019 · Healthcare CSR</button>
-          <button type="button" class="journey-step-btn rounded-xl border px-2 py-2 text-xs font-bold transition-all" data-index="2" aria-pressed="false">2020 · Accenture WFM</button>
-          <button type="button" class="journey-step-btn rounded-xl border px-2 py-2 text-xs font-bold transition-all" data-index="3" aria-pressed="true">2026 · GoHighLevel</button>
+          <div class="p-4 sm:p-6">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="journeyPeriod" class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-200">2017–2019 · On Foot</span>
+            </div>
+            <h3 id="journeyTitle" class="mt-3 text-xl font-extrabold text-white sm:text-2xl">McDonald's Crew Trainer</h3>
+            <p id="journeySubtitle" class="mt-1 text-sm font-semibold text-emerald-200">Early foundation · Team leadership</p>
+            <p id="journeyDescription" class="mt-3 min-h-16 text-sm leading-relaxed text-slate-300 sm:text-base">Built an early foundation through hard work while studying, with rapid promotion to Crew Trainer and a strong record of reliability, speed, and operational discipline.</p>
+          </div>
+        </article>
+
+        <button id="journeyNext" type="button" class="journey-carousel-arrow focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Next milestone">
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>
+
+      <div class="journey-animation-track mt-4 h-24 rounded-2xl border border-slate-700/80 sm:h-28" role="img" aria-label="Animated vehicle traveling along a road">
+        <div class="journey-animation-figure" aria-hidden="true">
+          <span id="journeyVehicleIcon" class="text-3xl sm:text-4xl">🚶</span>
+          <span id="journeyVehicleLabel" class="rounded-full border border-emerald-300/25 bg-slate-950/90 px-2.5 py-1 text-[0.65rem] font-bold text-emerald-200">On Foot</span>
         </div>
+      </div>
+
+      <div class="mt-5 flex items-center justify-center gap-4" role="group" aria-label="Choose a career milestone">
+        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="0" aria-label="2017–2019, McDonald's Crew Trainer" aria-current="step"></button>
+        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="1" aria-label="2019–2020, Healthcare CSR" aria-current="false"></button>
+        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="2" aria-label="2020–2025, Accenture Real-Time Analyst" aria-current="false"></button>
+        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="3" aria-label="2026, CRM Automation Specialist" aria-current="false"></button>
       </div>
     </section>
   </div>
@@ -1648,129 +1518,97 @@
     const careerMilestones = [
       {
         period: '2017–2019',
-        mode: 'Walk',
-        vehicle: 'walk',
+        mode: 'On Foot',
         icon: '🚶',
-        backdrop: "[ MCDONALD'S ERA · CREW TRAINER ]",
-        position: '12%',
-        caption: "Walked to work at McDonald's while finishing my degree. Built baseline grit, high-volume speed, and operational discipline.",
+        theme: "McDonald's",
+        themeIcon: '🍟',
+        themeKey: 'mcdonalds',
         title: "McDonald's Crew Trainer",
-        description: 'Early foundation, rapid promotion, and a strong work ethic while studying.'
+        subtitle: 'Early foundation · Team leadership',
+        description: 'Built an early foundation through hard work while studying, with rapid promotion to Crew Trainer and a strong record of reliability, speed, and operational discipline.'
       },
       {
         period: '2019–2020',
         mode: 'Bicycle',
-        vehicle: 'bicycle',
         icon: '🚴',
-        backdrop: '[ CALL CENTER ERA · HEALTHCARE CSR ]',
-        position: '37%',
-        caption: 'Bicycled to work as a Healthcare Customer Service Representative. Developed extreme attention to detail handling insurance claims.',
+        theme: 'Healthcare CSR',
+        themeIcon: '✚',
+        themeKey: 'healthcare',
         title: 'Healthcare CSR',
-        description: 'Built precision under pressure while handling authorizations and claims.'
+        subtitle: 'Member support · Claims operations',
+        description: 'Handled healthcare authorizations and claims with accuracy under pressure, building strong customer service and attention-to-detail skills.'
       },
       {
         period: '2020–2025',
         mode: 'Motorcycle',
-        vehicle: 'motorcycle',
         icon: '🏍️',
-        backdrop: '[ ACCENTURE ERA · REAL-TIME ANALYST ]',
-        position: '62%',
-        caption: 'Rode a motorcycle to Accenture as a Real-Time WFM Analyst. Engineered live automated reporting scripts, Slack tools, and queue balance.',
+        theme: 'Accenture WFM Operations',
+        themeIcon: '📊',
+        themeKey: 'accenture',
         title: 'Accenture Real-Time Analyst',
-        description: 'Supported WFM analytics with BCP crisis tracking tools and Salesforce connectors.'
+        subtitle: 'Workforce management · Real-time analytics',
+        description: 'Supported WFM analytics and live operations, building BCP crisis-tracking tools, automated reporting, and Salesforce-to-spreadsheet connectors.'
       },
       {
         period: '2026',
-        mode: 'Hyundai Stargazer X',
-        vehicle: 'car',
+        mode: 'Car',
         icon: '🚘',
-        backdrop: '[ PRESENT ERA · CRM & AUTOMATION VA ]',
-        position: '88%',
-        caption: 'Now driving a Hyundai Stargazer X as an independent Virtual Assistant & CRM Automation Specialist. Designing multi-tenant GoHighLevel architectures and REST API pipelines.',
+        theme: 'CRM Automation Hub',
+        themeIcon: '⚙️',
+        themeKey: 'automation',
         title: 'Virtual Assistant & CRM Specialist',
-        description: 'Building GoHighLevel architecture, Apps Script OCR, and enterprise automation.'
+        subtitle: 'GoHighLevel · Apps Script · Enterprise automation',
+        description: 'Designing GoHighLevel CRM architecture, Apps Script OCR tools, and enterprise automation workflows for reliable, connected operations.'
       }
     ];
-    const journeyTrack = document.getElementById('journey-track');
-    const journeyVehicle = document.getElementById('journey-vehicle');
-    const journeyButtons = Array.from(journeyTrack.querySelectorAll('[data-milestone]'));
-
-    function positionJourneyVehicle(button) {
-      const marker = button.querySelector('.journey-marker').getBoundingClientRect();
-      const track = journeyTrack.getBoundingClientRect();
-      journeyVehicle.style.left = `${marker.left + marker.width / 2 - track.left}px`;
-      journeyVehicle.style.top = `${marker.top + marker.height / 2 - track.top}px`;
-    }
-
-    function selectCareerMilestone(index) {
-      const milestone = careerMilestones[index];
-      const button = journeyButtons[index];
-      if (!milestone || !button) return;
-
-      journeyButtons.forEach((item, itemIndex) => {
-        item.setAttribute('aria-pressed', String(itemIndex === index));
-      });
-      journeyVehicle.querySelectorAll('[data-journey-vehicle]').forEach((icon) => {
-        icon.classList.toggle('hidden', icon.dataset.journeyVehicle !== milestone.vehicle);
-      });
-      document.getElementById('journey-period').textContent = milestone.period;
-      document.getElementById('journey-mode').textContent = milestone.mode;
-      document.getElementById('journey-title').textContent = milestone.title;
-      document.getElementById('journey-description').textContent = milestone.description;
-      positionJourneyVehicle(button);
-    }
-
-    journeyButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        selectCareerMilestone(Number(button.dataset.milestone));
-      });
-    });
-
-    window.addEventListener('resize', () => {
-      const selectedButton = journeyButtons.find((button) => button.getAttribute('aria-pressed') === 'true');
-      if (selectedButton) positionJourneyVehicle(selectedButton);
-    });
-
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(() => {
-        const selectedButton = journeyButtons.find((button) => button.getAttribute('aria-pressed') === 'true');
-        if (selectedButton) positionJourneyVehicle(selectedButton);
-      }).observe(journeyTrack);
-    }
-
-    selectCareerMilestone(3);
 
     const journeyModal = document.getElementById('journeyModal');
     const journeyModalPanel = journeyModal.querySelector('[role="dialog"]');
-    const journeyModalStops = Array.from(journeyModal.querySelectorAll('.journey-step-btn'));
+    const journeySlide = document.getElementById('journeySlide');
+    const journeyDots = Array.from(journeyModal.querySelectorAll('.journey-dot'));
     let lastFocusedJourneyTrigger = null;
     let journeyModalCloseTimer = null;
+    let journeySlideTimer = null;
+    let activeJourneyIndex = 0;
 
-    function updateJourneyStep(index) {
+    function updateJourneyStep(index, direction = 1) {
       const milestone = careerMilestones[index];
-      const avatar = document.getElementById('vehicleAvatar');
-      if (!milestone || !avatar || !journeyModalStops[index]) return;
+      if (!milestone || !journeyDots[index]) return;
 
-      journeyModalStops.forEach((stop, stopIndex) => {
-        stop.setAttribute('aria-pressed', String(stopIndex === index));
-      });
-      avatar.style.left = milestone.position;
-      document.getElementById('avatarIcon').textContent = milestone.icon;
-      document.getElementById('avatarLabel').textContent = milestone.mode;
-      document.getElementById('modalStoryCaption').textContent = `${milestone.period} · ${milestone.title}. ${milestone.caption}`;
-      document.getElementById('modalBackdrop').textContent = milestone.backdrop;
-      selectCareerMilestone(index);
+      window.clearTimeout(journeySlideTimer);
+      activeJourneyIndex = index;
+      journeySlide.dataset.direction = String(direction);
+      journeySlide.classList.add('is-changing');
+      journeySlideTimer = window.setTimeout(() => {
+        document.getElementById('journeyPeriod').textContent = `${milestone.period} · ${milestone.mode}`;
+        document.getElementById('journeyTheme').textContent = milestone.theme;
+        document.getElementById('journeyHeaderIcon').textContent = milestone.themeIcon;
+        document.getElementById('journeyVisualHeader').dataset.theme = milestone.themeKey;
+        document.getElementById('journeyTitle').textContent = milestone.title;
+        document.getElementById('journeySubtitle').textContent = milestone.subtitle;
+        document.getElementById('journeyDescription').textContent = milestone.description;
+        document.getElementById('journeyVehicleIcon').textContent = milestone.icon;
+        document.getElementById('journeyVehicleLabel').textContent = milestone.mode;
+        journeyDots.forEach((dot, dotIndex) => {
+          dot.setAttribute('aria-current', dotIndex === index ? 'step' : 'false');
+        });
+        journeySlide.classList.remove('is-changing');
+        journeySlideTimer = null;
+      }, 220);
+    }
+
+    function moveJourney(direction) {
+      const nextIndex = (activeJourneyIndex + direction + careerMilestones.length) % careerMilestones.length;
+      updateJourneyStep(nextIndex, direction);
     }
 
     function openJourneyModal() {
       lastFocusedJourneyTrigger = document.activeElement;
-      const selectedMilestone = journeyButtons.findIndex((button) => button.getAttribute('aria-pressed') === 'true');
       window.clearTimeout(journeyModalCloseTimer);
       journeyModal.classList.remove('hidden');
       journeyModal.setAttribute('aria-hidden', 'false');
       journeyModalPanel.inert = false;
       document.body.classList.add('overflow-hidden');
-      updateJourneyStep(Math.max(selectedMilestone, 0));
       requestAnimationFrame(() => journeyModal.classList.remove('opacity-0'));
       document.getElementById('closeJourneyModal').focus();
     }
@@ -1790,12 +1628,15 @@
 
     document.getElementById('openJourneyBtn').addEventListener('click', openJourneyModal);
     document.getElementById('closeJourneyModal').addEventListener('click', closeJourneyModal);
+    document.getElementById('journeyPrevious').addEventListener('click', () => moveJourney(-1));
+    document.getElementById('journeyNext').addEventListener('click', () => moveJourney(1));
     journeyModal.addEventListener('click', (event) => {
       if (event.target === journeyModal) closeJourneyModal();
     });
-    journeyModalStops.forEach((button) => {
-      button.addEventListener('click', () => {
-        updateJourneyStep(Number(button.dataset.index));
+    journeyDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const index = Number(dot.dataset.index);
+        updateJourneyStep(index, index >= activeJourneyIndex ? 1 : -1);
       });
     });
 
@@ -1895,6 +1736,12 @@
         if (event.key === 'Escape') {
           event.preventDefault();
           closeJourneyModal();
+          return;
+        }
+
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+          event.preventDefault();
+          moveJourney(event.key === 'ArrowRight' ? 1 : -1);
           return;
         }
 
