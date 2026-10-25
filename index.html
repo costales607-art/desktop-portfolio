@@ -46,6 +46,10 @@
       --shadow-card-hover: 0 24px 48px rgba(15, 23, 42, 0.12), 0 8px 18px rgba(5, 150, 105, 0.08);
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     section {
       scroll-margin-top: 6rem;
     }
@@ -748,10 +752,16 @@
     let lastFocusedProject = null;
 
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener('click', () => {
-        const targetId = link.hash.slice(1);
+      link.addEventListener('click', (e) => {
+        const targetId = link.getAttribute('href').slice(1);
+        if (!targetId) return;
+
         const target = document.getElementById(targetId);
         if (!target) return;
+
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'instant', block: 'start' });
+        history.pushState(null, '', `#${targetId}`);
 
         target.classList.remove('section-appear');
         void target.offsetWidth;
