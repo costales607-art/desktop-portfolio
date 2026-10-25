@@ -79,6 +79,10 @@
     .hero-content > :nth-child(5) { animation-delay: 0.44s; }
     .hero-content > :nth-child(6) { animation-delay: 0.52s; }
 
+    .workflow-preview {
+      animation: hero-enter 0.55s var(--ease-out) 0.58s both;
+    }
+
     .copy-toast {
       opacity: 0;
       pointer-events: none;
@@ -298,9 +302,14 @@
 
     .hero-proof {
       border-top: 1px solid rgba(226, 232, 240, 0.18);
+      animation: hero-enter 0.55s var(--ease-out) 0.62s both;
     }
 
     .hero-proof-stat + .hero-proof-stat {
+      border-left: 1px solid rgba(226, 232, 240, 0.18);
+    }
+
+    .hero-tech-stack {
       border-left: 1px solid rgba(226, 232, 240, 0.18);
     }
 
@@ -308,6 +317,94 @@
       border: 1px solid rgba(167, 243, 208, 0.2);
       background: rgba(16, 185, 129, 0.08);
       color: #d1fae5;
+    }
+
+    .workflow-preview {
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: linear-gradient(155deg, rgba(15, 23, 42, 0.96), rgba(2, 44, 34, 0.94));
+      box-shadow: 0 24px 60px rgba(2, 6, 23, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .workflow-tab {
+      color: #94a3b8;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .workflow-tab[aria-pressed="true"] {
+      background: rgba(16, 185, 129, 0.16);
+      color: #d1fae5;
+    }
+
+    .workflow-step {
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      background: rgba(15, 23, 42, 0.62);
+    }
+
+    .workflow-icon {
+      display: flex;
+      width: 2.25rem;
+      height: 2.25rem;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .workflow-icon[data-tone="sky"] {
+      background: rgba(56, 189, 248, 0.1);
+      color: #bae6fd;
+    }
+
+    .workflow-icon[data-tone="amber"] {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fde68a;
+    }
+
+    .workflow-icon[data-tone="emerald"] {
+      background: rgba(52, 211, 153, 0.1);
+      color: #a7f3d0;
+    }
+
+    .workflow-connector {
+      height: 1rem;
+      width: 1px;
+      margin-left: 1.125rem;
+      background: linear-gradient(to bottom, rgba(52, 211, 153, 0.55), rgba(52, 211, 153, 0.12));
+    }
+
+    .workflow-log {
+      border-top: 1px solid rgba(148, 163, 184, 0.16);
+    }
+
+    .hero-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      .hero-layout {
+        grid-template-columns: minmax(0, 1.1fr) minmax(19rem, 0.9fr);
+        row-gap: 1.5rem;
+      }
+
+      .hero-layout > .hero-proof {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: center;
+        column-gap: 2rem;
+        margin-top: 0;
+        padding-top: 1.25rem;
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .hero-tech-stack {
+        border-left: 0;
+        border-top: 1px solid rgba(226, 232, 240, 0.18);
+        padding-top: 1rem;
+      }
     }
 
     .cta-button svg {
@@ -502,7 +599,8 @@
         <div class="absolute -right-12 -top-10 h-48 w-48 rounded-full bg-white/5 blur-3xl"></div>
         <div class="absolute left-0 bottom-0 h-56 w-56 rounded-full bg-emerald-400/10 blur-3xl"></div>
         <div class="hero-atmosphere absolute inset-0"></div>
-        <div class="hero-content relative z-10 max-w-3xl space-y-6">
+        <div class="hero-layout relative z-10 grid gap-10 lg:gap-12 lg:items-center">
+        <div class="hero-content min-w-0 max-w-3xl space-y-6 lg:max-w-none">
           <p class="text-emerald-300 text-xs font-bold uppercase">Virtual Assistant / CRM Automation</p>
           <div class="flex flex-wrap items-center gap-2">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-300/20 text-emerald-200 text-xs font-bold">
@@ -533,30 +631,93 @@
             </a>
           </div>
 
-          <div class="hero-proof mt-8 pt-6 space-y-5">
-            <div class="grid grid-cols-3">
-              <div class="hero-proof-stat pr-3 text-center sm:text-left">
-                <p class="text-2xl sm:text-3xl font-extrabold text-white">60+</p>
-                <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">Slack channels routed</p>
-              </div>
-              <div class="hero-proof-stat px-3 text-center">
-                <p class="text-2xl sm:text-3xl font-extrabold text-white">90+</p>
-                <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">CSV columns cleaned</p>
-              </div>
-              <div class="hero-proof-stat pl-3 text-center sm:text-right">
-                <p class="text-2xl sm:text-3xl font-extrabold text-white">20–25</p>
-                <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">CRM fields structured</p>
-              </div>
-            </div>
+        </div>
 
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="mr-1 text-[0.65rem] font-bold uppercase tracking-wider text-emerald-200/80">Tech stack</span>
-              <span class="hero-tech-badge rounded-full px-3 py-1 text-xs font-semibold">GoHighLevel</span>
-              <span class="hero-tech-badge rounded-full px-3 py-1 text-xs font-semibold">Apps Script</span>
-              <span class="hero-tech-badge rounded-full px-3 py-1 text-xs font-semibold">Slack Webhooks</span>
-              <span class="hero-tech-badge rounded-full px-3 py-1 text-xs font-semibold">REST APIs</span>
+        <aside class="workflow-preview min-w-0 rounded-2xl p-4 sm:p-5" aria-label="Interactive sample workflow preview">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <p class="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-emerald-300">System preview</p>
+              <h2 id="workflow-title" class="mt-1 text-lg font-bold text-white">Receipt processing</h2>
+            </div>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-slate-500/40 bg-slate-800/80 px-2.5 py-1 text-[0.65rem] font-semibold text-slate-300">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              Sample flow
+            </span>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-1 rounded-xl bg-slate-950/60 p-1" role="group" aria-label="Choose a sample workflow">
+            <button type="button" class="workflow-tab rounded-lg px-2 py-2 text-xs font-semibold" data-workflow="receipt" aria-pressed="true">Receipt OCR</button>
+            <button type="button" class="workflow-tab rounded-lg px-2 py-2 text-xs font-semibold" data-workflow="webhook" aria-pressed="false">Lead routing</button>
+          </div>
+
+          <ol id="workflow-steps" class="mt-5" aria-label="Workflow steps">
+            <li class="workflow-step flex items-center gap-3 rounded-xl p-3">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 text-xs font-extrabold text-sky-200">IN</span>
+              <span class="min-w-0 flex-1">
+                <span class="block text-sm font-semibold text-slate-100">Receipt received</span>
+                <span class="block text-xs text-slate-400">PDF detected in Gmail</span>
+              </span>
+              <span class="text-[0.65rem] font-semibold text-emerald-300">READY</span>
+            </li>
+            <li class="workflow-connector" aria-hidden="true"></li>
+            <li class="workflow-step flex items-center gap-3 rounded-xl p-3">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-400/10 text-xs font-extrabold text-amber-200">JS</span>
+              <span class="min-w-0 flex-1">
+                <span class="block text-sm font-semibold text-slate-100">Parse &amp; match</span>
+                <span class="block text-xs text-slate-400">Apps Script + Drive OCR</span>
+              </span>
+              <span class="text-[0.65rem] font-semibold text-emerald-300">PROCESS</span>
+            </li>
+            <li class="workflow-connector" aria-hidden="true"></li>
+            <li class="workflow-step flex items-center gap-3 rounded-xl p-3">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-400/10 text-xs font-extrabold text-emerald-200">CRM</span>
+              <span class="min-w-0 flex-1">
+                <span class="block text-sm font-semibold text-slate-100">Update GoHighLevel</span>
+                <span class="block text-xs text-slate-400">Contact &amp; opportunity synced</span>
+              </span>
+              <span class="text-[0.65rem] font-semibold text-emerald-300">DONE</span>
+            </li>
+          </ol>
+
+          <div class="workflow-log mt-5 space-y-2 pt-4">
+            <div class="flex items-center justify-between gap-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Example events</h3>
+              <span class="text-[0.65rem] text-slate-500">Illustrative, not live data</span>
+            </div>
+            <ul id="workflow-events" class="space-y-1.5 font-mono text-[0.68rem] leading-relaxed text-slate-400" aria-live="polite">
+              <li><span class="text-emerald-300">[OCR]</span> Receipt text extracted</li>
+              <li><span class="text-emerald-300">[MATCH]</span> Order record located</li>
+              <li><span class="text-emerald-300">[SYNC]</span> CRM fields updated</li>
+            </ul>
+          </div>
+        </aside>
+
+        <div class="hero-proof mt-2 pt-6 grid grid-cols-1 gap-5 lg:gap-8">
+          <div class="grid grid-cols-3">
+            <div class="hero-proof-stat pr-3 text-center sm:text-left">
+              <p class="text-2xl sm:text-3xl font-extrabold text-white">60+</p>
+              <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">Slack channels routed</p>
+            </div>
+            <div class="hero-proof-stat px-3 text-center">
+              <p class="text-2xl sm:text-3xl font-extrabold text-white">90+</p>
+              <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">CSV columns cleaned</p>
+            </div>
+            <div class="hero-proof-stat pl-3 text-center sm:text-right">
+              <p class="text-2xl sm:text-3xl font-extrabold text-white">20–25</p>
+              <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">CRM fields structured</p>
             </div>
           </div>
+
+          <div class="hero-tech-stack min-w-0 pt-4 lg:pl-8 lg:pt-0">
+            <p class="mb-3 text-center text-[0.65rem] font-bold uppercase tracking-wider text-emerald-200/80 lg:text-left">Core tech stack</p>
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <span class="hero-tech-badge rounded-xl px-2 py-2 text-center text-xs font-semibold">GoHighLevel</span>
+              <span class="hero-tech-badge rounded-xl px-2 py-2 text-center text-xs font-semibold">Apps Script</span>
+              <span class="hero-tech-badge rounded-xl px-2 py-2 text-center text-xs font-semibold">Slack Webhooks</span>
+              <span class="hero-tech-badge rounded-xl px-2 py-2 text-center text-xs font-semibold">REST APIs</span>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
@@ -893,6 +1054,97 @@
         target.classList.remove('section-appear');
         void target.offsetWidth;
         target.classList.add('section-appear');
+      });
+    });
+
+    const workflowExamples = {
+      receipt: {
+        title: 'Receipt processing',
+        steps: [
+          { icon: 'IN', title: 'Receipt received', description: 'PDF detected in Gmail', status: 'READY', tone: 'sky' },
+          { icon: 'JS', title: 'Parse & match', description: 'Apps Script + Drive OCR', status: 'PROCESS', tone: 'amber' },
+          { icon: 'CRM', title: 'Update GoHighLevel', description: 'Contact & opportunity synced', status: 'DONE', tone: 'emerald' }
+        ],
+        events: [
+          ['[OCR]', 'Receipt text extracted'],
+          ['[MATCH]', 'Order record located'],
+          ['[SYNC]', 'CRM fields updated']
+        ]
+      },
+      webhook: {
+        title: 'Lead message routing',
+        steps: [
+          { icon: 'CRM', title: 'New lead message', description: 'GoHighLevel event received', status: 'READY', tone: 'emerald' },
+          { icon: 'API', title: 'Route by assignment', description: 'Webhook checks owner & rules', status: 'PROCESS', tone: 'amber' },
+          { icon: 'SLK', title: 'Notify assigned channel', description: 'Slack alert sent to the team', status: 'DONE', tone: 'sky' }
+        ],
+        events: [
+          ['[HOOK]', 'New message event received'],
+          ['[ROUTE]', 'Assigned channel selected'],
+          ['[SLACK]', 'Team alert prepared']
+        ]
+      }
+    };
+
+    function renderWorkflowExample(workflowId) {
+      const example = workflowExamples[workflowId];
+      if (!example) return;
+
+      document.getElementById('workflow-title').textContent = example.title;
+      document.querySelectorAll('[data-workflow]').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.workflow === workflowId));
+      });
+
+      const steps = document.getElementById('workflow-steps');
+      steps.replaceChildren();
+      example.steps.forEach((step, index) => {
+        const item = document.createElement('li');
+        item.className = 'workflow-step flex items-center gap-3 rounded-xl p-3';
+
+        const icon = document.createElement('span');
+        icon.className = 'workflow-icon';
+        icon.dataset.tone = step.tone;
+        icon.textContent = step.icon;
+
+        const content = document.createElement('span');
+        content.className = 'min-w-0 flex-1';
+        const title = document.createElement('span');
+        title.className = 'block text-sm font-semibold text-slate-100';
+        title.textContent = step.title;
+        const description = document.createElement('span');
+        description.className = 'block text-xs text-slate-400';
+        description.textContent = step.description;
+        content.append(title, description);
+
+        const status = document.createElement('span');
+        status.className = 'text-[0.65rem] font-semibold text-emerald-300';
+        status.textContent = step.status;
+        item.append(icon, content, status);
+        steps.append(item);
+
+        if (index < example.steps.length - 1) {
+          const connector = document.createElement('li');
+          connector.className = 'workflow-connector';
+          connector.setAttribute('aria-hidden', 'true');
+          steps.append(connector);
+        }
+      });
+
+      const events = document.getElementById('workflow-events');
+      events.replaceChildren();
+      example.events.forEach(([tag, message]) => {
+        const item = document.createElement('li');
+        const label = document.createElement('span');
+        label.className = 'text-emerald-300';
+        label.textContent = tag;
+        item.append(label, document.createTextNode(` ${message}`));
+        events.append(item);
+      });
+    }
+
+    document.querySelectorAll('[data-workflow]').forEach((button) => {
+      button.addEventListener('click', () => {
+        renderWorkflowExample(button.dataset.workflow);
       });
     });
 
