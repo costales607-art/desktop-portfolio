@@ -59,6 +59,56 @@
       animation: section-appear 0.35s ease-out both;
     }
 
+    @keyframes hero-enter {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      animation: hero-enter 0.55s var(--ease-out) 0.08s both;
+    }
+
+    .hero-content > * {
+      animation: hero-enter 0.55s var(--ease-out) both;
+    }
+
+    .hero-content > :nth-child(1) { animation-delay: 0.12s; }
+    .hero-content > :nth-child(2) { animation-delay: 0.2s; }
+    .hero-content > :nth-child(3) { animation-delay: 0.28s; }
+    .hero-content > :nth-child(4) { animation-delay: 0.36s; }
+    .hero-content > :nth-child(5) { animation-delay: 0.44s; }
+    .hero-content > :nth-child(6) { animation-delay: 0.52s; }
+
+    .copy-toast {
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 0.5rem);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .copy-toast.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .copy-toast[data-state="error"] {
+      border-color: #fecaca;
+      background: #fff1f2;
+      color: #9f1239;
+    }
+
+    .copy-toast[data-state="error"] .toast-success-icon {
+      display: none;
+    }
+
+    .copy-toast .toast-error-icon {
+      display: none;
+    }
+
+    .copy-toast[data-state="error"] .toast-error-icon {
+      display: block;
+    }
+
     @keyframes section-appear {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
@@ -385,6 +435,7 @@
       *::after {
         scroll-behavior: auto !important;
         animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
@@ -451,7 +502,7 @@
         <div class="absolute -right-12 -top-10 h-48 w-48 rounded-full bg-white/5 blur-3xl"></div>
         <div class="absolute left-0 bottom-0 h-56 w-56 rounded-full bg-emerald-400/10 blur-3xl"></div>
         <div class="hero-atmosphere absolute inset-0"></div>
-        <div class="relative z-10 max-w-3xl space-y-6">
+        <div class="hero-content relative z-10 max-w-3xl space-y-6">
           <p class="text-emerald-300 text-xs font-bold uppercase">Virtual Assistant / CRM Automation</p>
           <div class="flex flex-wrap items-center gap-2">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-300/20 text-emerald-200 text-xs font-bold">
@@ -732,9 +783,13 @@
       <p class="text-slate-600 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
         Have a CRM process that needs fixing? Email me about GoHighLevel, Apps Script, or webhook support.
       </p>
-      <div class="pt-2">
-        <a href="mailto:costales607@gmail.com" class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/25 transition-all hover:-translate-y-0.5">
-          <span>Email Jake</span>
+      <div class="pt-2 flex flex-wrap justify-center gap-3">
+        <button id="copy-email" type="button" class="focus-ring inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/25 transition-all hover:-translate-y-0.5">
+          <span>Copy Email</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-2M5 7h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/></svg>
+        </button>
+        <a href="mailto:costales607@gmail.com" class="focus-ring inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-emerald-200 text-emerald-900 hover:bg-emerald-50 font-bold text-sm transition-colors">
+          <span>Open Email App</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
         </a>
       </div>
@@ -762,8 +817,66 @@
     <div id="drawer-content" class="space-y-4"></div>
   </aside>
 
+  <div id="copy-toast" class="copy-toast fixed bottom-6 left-1/2 z-[60] flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-5 py-3 text-sm font-semibold text-emerald-900 shadow-xl" role="status" aria-live="polite" data-state="success">
+    <svg class="toast-success-icon h-5 w-5 shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m5 12 4 4L19 6"/></svg>
+    <svg class="toast-error-icon h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.4 0Z"/></svg>
+    <span id="copy-toast-message">Email copied to clipboard!</span>
+  </div>
+
   <script>
     let lastFocusedProject = null;
+    let copyToastTimeout;
+
+    function showCopyToast(message, state) {
+      const toast = document.getElementById('copy-toast');
+      document.getElementById('copy-toast-message').textContent = message;
+      toast.dataset.state = state;
+      toast.classList.add('is-visible');
+      window.clearTimeout(copyToastTimeout);
+      copyToastTimeout = window.setTimeout(() => {
+        toast.classList.remove('is-visible');
+      }, 3200);
+    }
+
+    async function copyContactEmail() {
+      const email = 'costales607@gmail.com';
+
+      try {
+        let copied = false;
+        if (navigator.clipboard?.writeText) {
+          try {
+            await navigator.clipboard.writeText(email);
+            copied = true;
+          } catch (error) {
+            console.warn('Clipboard API was unavailable; trying the fallback:', error);
+          }
+        }
+
+        if (!copied) {
+          const emailField = document.createElement('textarea');
+          emailField.value = email;
+          emailField.setAttribute('readonly', '');
+          emailField.style.position = 'fixed';
+          emailField.style.opacity = '0';
+          document.body.append(emailField);
+          emailField.select();
+          try {
+            copied = document.execCommand('copy');
+          } finally {
+            emailField.remove();
+          }
+
+          if (!copied) throw new Error('Clipboard copy command was rejected.');
+        }
+
+        showCopyToast('Email copied to clipboard!', 'success');
+      } catch (error) {
+        console.error('Unable to copy contact email:', error);
+        showCopyToast('Could not copy. Use Open Email App instead.', 'error');
+      }
+    }
+
+    document.getElementById('copy-email').addEventListener('click', copyContactEmail);
 
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
       link.addEventListener('click', (e) => {
