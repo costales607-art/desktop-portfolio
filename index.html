@@ -405,22 +405,30 @@
       mask-image: linear-gradient(90deg, transparent, #000);
     }
 
+    .journey-motion-path {
+      position: absolute;
+      inset: 0 12%;
+      pointer-events: none;
+    }
+
     .journey-figure-motion {
       position: absolute;
       top: 50%;
-      left: 8%;
-      width: 84%;
-      transform: translateY(-50%);
-      animation: journey-ride 5s ease-in-out infinite alternate;
+      left: 5%;
+      transform: translate(-50%, -50%);
+      transition: left 0.8s linear;
       will-change: transform;
     }
 
     .journey-animation-figure {
-      display: flex;
-      width: max-content;
-      align-items: center;
-      gap: 0.5rem;
+      display: grid;
+      justify-items: center;
+      gap: 0.1rem;
       filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.3));
+    }
+
+    .journey-animation-figure > span {
+      white-space: nowrap;
     }
 
     .journey-vehicle-graphic {
@@ -428,11 +436,6 @@
       height: 3.5rem;
       flex: 0 0 auto;
       overflow: visible;
-    }
-
-    @keyframes journey-ride {
-      from { transform: translate(0, -50%); }
-      to { transform: translate(82%, -50%); }
     }
 
     @keyframes walkCycle {
@@ -529,6 +532,10 @@
       .journey-vehicle-graphic {
         animation: none;
         will-change: auto;
+      }
+
+      .journey-figure-motion {
+        transition-duration: 0.01ms;
       }
 
       .journey-slide {
@@ -1296,8 +1303,9 @@
       </div>
 
       <div id="journeyAnimationTrack" class="journey-animation-track mt-4 h-24 rounded-2xl border border-slate-700/80 sm:h-28" data-vehicle="walk" role="img" aria-label="Animated walking figure traveling along a road">
-        <div class="journey-figure-motion" aria-hidden="true">
-          <div class="journey-animation-figure">
+        <div class="journey-motion-path" aria-hidden="true">
+          <div id="journeyFigureMotion" class="journey-figure-motion">
+            <div class="journey-animation-figure">
             <svg id="journeyVehicleIcon" class="journey-vehicle-graphic text-emerald-200" data-vehicle="walk" viewBox="0 0 130 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" aria-hidden="true">
               <g class="vehicle-walk">
                 <circle cx="38" cy="12" r="6" fill="currentColor" stroke="none"/>
@@ -1333,6 +1341,7 @@
               </g>
             </svg>
             <span id="journeyVehicleLabel" class="rounded-full border border-emerald-300/25 bg-slate-950/90 px-2.5 py-1 text-[0.65rem] font-bold text-emerald-200">On Foot</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1665,6 +1674,7 @@
     const careerMilestones = [
       {
         period: '2017–2019',
+        position: '5%',
         vehicle: 'walk',
         mode: 'On Foot',
         theme: "McDonald's",
@@ -1676,6 +1686,7 @@
       },
       {
         period: '2019–2020',
+        position: '30%',
         vehicle: 'bicycle',
         mode: 'Bicycle',
         theme: 'Healthcare CSR',
@@ -1687,6 +1698,7 @@
       },
       {
         period: '2020–2025',
+        position: '60%',
         vehicle: 'motorcycle',
         mode: 'Motorcycle',
         theme: 'Accenture WFM Operations',
@@ -1698,6 +1710,7 @@
       },
       {
         period: '2026',
+        position: '85%',
         vehicle: 'car',
         mode: 'Car',
         theme: 'CRM Automation Hub',
@@ -1736,6 +1749,7 @@
         document.getElementById('journeyDescription').textContent = milestone.description;
         document.getElementById('journeyVehicleIcon').dataset.vehicle = milestone.vehicle;
         document.getElementById('journeyVehicleLabel').textContent = milestone.mode;
+        document.getElementById('journeyFigureMotion').style.left = milestone.position;
         const journeyAnimationTrack = document.getElementById('journeyAnimationTrack');
         journeyAnimationTrack.dataset.vehicle = milestone.vehicle;
         journeyAnimationTrack.setAttribute(
