@@ -832,12 +832,13 @@
 
     body {
       isolation: isolate;
-      color: #1e1b4b;
+      color: #e0e7ff;
+      background-color: #0b1026;
       background-image:
-        radial-gradient(ellipse at 10% 3%, rgba(129, 140, 248, 0.22), transparent 34rem),
-        radial-gradient(ellipse at 91% 22%, rgba(56, 189, 248, 0.14), transparent 32rem),
-        radial-gradient(ellipse at 47% 94%, rgba(251, 146, 120, 0.12), transparent 36rem),
-        linear-gradient(145deg, #f8f8ff 0%, #f3f4ff 46%, #fff8f5 100%);
+        radial-gradient(ellipse at 10% 3%, rgba(99, 102, 241, 0.26), transparent 34rem),
+        radial-gradient(ellipse at 91% 22%, rgba(14, 165, 233, 0.16), transparent 32rem),
+        radial-gradient(ellipse at 47% 94%, rgba(190, 24, 93, 0.12), transparent 36rem),
+        linear-gradient(145deg, #0b1026 0%, #17143d 48%, #21152f 100%);
       background-attachment: fixed;
     }
 
@@ -884,13 +885,27 @@
 
     .glass-nav {
       border-color: rgba(165, 180, 252, 0.46);
-      background: rgba(250, 250, 255, 0.76);
-      box-shadow: 0 16px 42px rgba(30, 27, 75, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.88);
+      background: rgba(30, 27, 75, 0.78);
+      color: #e0e7ff;
+      box-shadow: 0 16px 42px rgba(2, 6, 23, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .glass-nav .brand-name {
+      color: #f8fafc;
+    }
+
+    .glass-nav .nav-link {
+      color: #c7d2fe;
+    }
+
+    .glass-nav .nav-link:hover {
+      background: rgba(129, 140, 248, 0.18);
+      color: #7dd3fc;
     }
 
     .section-surface {
       border-color: rgba(129, 140, 248, 0.18);
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(245, 246, 255, 0.72));
+      background: linear-gradient(145deg, rgba(238, 242, 255, 0.94), rgba(226, 232, 255, 0.9));
       box-shadow: 0 24px 58px rgba(30, 27, 75, 0.065), inset 0 1px 0 rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
@@ -915,6 +930,10 @@
       border-color: rgba(99, 102, 241, 0.34);
       transform: perspective(900px) rotateX(1deg) rotateY(-0.7deg) translateY(-5px);
       box-shadow: var(--shadow-card-hover);
+    }
+
+    .card-hover-effect.scroll-reveal.is-revealed:hover {
+      transform: perspective(900px) rotateX(1deg) rotateY(-0.7deg) translateY(-5px);
     }
 
     .card-hover-effect svg {
@@ -1025,61 +1044,74 @@
       right: max(1rem, env(safe-area-inset-right));
       bottom: max(1rem, env(safe-area-inset-bottom));
       z-index: 55;
-      width: min(21rem, calc(100vw - 2rem));
-      overflow: hidden;
-      border: 1px solid rgba(165, 180, 252, 0.42);
-      border-radius: 1.25rem;
-      background: rgba(30, 27, 75, 0.88);
+      width: 3rem;
+      height: 3rem;
+      border: 1px solid rgba(165, 180, 252, 0.5);
+      border-radius: 9999px;
+      background: rgba(30, 27, 75, 0.82);
       color: #eef2ff;
-      box-shadow: 0 18px 50px rgba(30, 27, 75, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.08), 0 8px 28px rgba(30, 27, 75, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.14);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }
 
     .audio-toggle {
-      display: flex;
+      position: relative;
+      display: grid;
       width: 100%;
-      min-height: 3.5rem;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1rem;
+      height: 100%;
+      place-items: center;
+      border-radius: 9999px;
       color: inherit;
-      text-align: left;
-      transition: background-color 0.25s ease;
+      transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
     }
 
     .audio-toggle:hover {
-      background: rgba(129, 140, 248, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 0 26px rgba(56, 189, 248, 0.28);
     }
 
     .audio-toggle-icon {
       display: grid;
-      width: 2rem;
-      height: 2rem;
-      flex: 0 0 auto;
+      width: 2.2rem;
+      height: 2.2rem;
       place-items: center;
-      border: 1px solid rgba(125, 211, 252, 0.34);
+      border: 1px solid rgba(125, 211, 252, 0.46);
       border-radius: 9999px;
-      background: rgba(56, 189, 248, 0.12);
+      background:
+        radial-gradient(circle at center, rgba(186, 230, 253, 0.2) 0 9%, transparent 10%),
+        repeating-radial-gradient(circle at center, rgba(199, 210, 254, 0.22) 0 1px, transparent 1px 5px),
+        #312e81;
       color: #bae6fd;
+      box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.18);
+    }
+
+    .audio-widget[data-state="playing"] .audio-toggle-icon {
+      animation: spinSlow 8s linear infinite;
+    }
+
+    @keyframes spinSlow {
+      to { transform: rotate(360deg); }
     }
 
     .audio-wave {
+      position: absolute;
+      top: -0.55rem;
+      left: 50%;
       display: flex;
-      height: 1.25rem;
-      align-items: center;
+      height: 0.65rem;
+      align-items: flex-end;
       gap: 2px;
-      margin-left: auto;
-      opacity: 0.45;
+      opacity: 0;
+      transform: translateX(-50%);
+      transition: opacity 0.2s ease;
     }
 
     .audio-wave span {
       width: 3px;
-      height: 5px;
+      height: 4px;
       border-radius: 999px;
       background: #7dd3fc;
-      transform: scaleY(0.65);
-      transform-origin: center;
     }
 
     .audio-widget[data-state="playing"] .audio-wave {
@@ -1087,43 +1119,63 @@
     }
 
     .audio-widget[data-state="playing"] .audio-wave span {
-      animation: audio-wave 0.72s ease-in-out infinite alternate;
+      animation: audio-wave 0.5s ease-in-out infinite alternate;
     }
 
-    .audio-wave span:nth-child(2) { animation-delay: -0.48s; }
-    .audio-wave span:nth-child(3) { animation-delay: -0.24s; }
-    .audio-wave span:nth-child(4) { animation-delay: -0.56s; }
-    .audio-wave span:nth-child(5) { animation-delay: -0.12s; }
+    .audio-wave span:nth-child(2) { animation-delay: -0.3s; }
+    .audio-wave span:nth-child(3) { animation-delay: -0.18s; }
+    .audio-wave span:nth-child(4) { animation-delay: -0.36s; }
 
     @keyframes audio-wave {
-      to { transform: scaleY(2.4); }
+      to { height: 10px; }
+    }
+
+    .audio-tooltip {
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 0.65rem);
+      width: min(18rem, calc(100vw - 2rem));
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(165, 180, 252, 0.42);
+      border-radius: 1rem;
+      background: rgba(30, 27, 75, 0.94);
+      color: #eef2ff;
+      box-shadow: 0 16px 42px rgba(30, 27, 75, 0.28);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(0.35rem);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .audio-widget:hover .audio-tooltip,
+    .audio-widget:focus-within .audio-tooltip {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
     }
 
     .audio-credit {
-      padding: 0 1rem 0.85rem 3.75rem;
       color: #c7d2fe;
-      font-size: 0.62rem;
+      font-size: 0.65rem;
       line-height: 1.45;
     }
 
-    .audio-frame-wrap {
-      padding: 0 0.75rem 0.75rem;
-    }
-
-    .audio-frame-wrap iframe {
-      display: block;
+    .audio-volume {
       width: 100%;
-      aspect-ratio: 16 / 9;
-      border: 1px solid rgba(165, 180, 252, 0.24);
-      border-radius: 0.75rem;
+      accent-color: #38bdf8;
     }
 
-    @media (max-width: 480px) {
-      .audio-widget {
-        right: 0.75rem;
-        bottom: max(0.75rem, env(safe-area-inset-bottom));
-        width: min(19rem, calc(100vw - 1.5rem));
-      }
+    .audio-player-host {
+      position: fixed;
+      left: -220px;
+      bottom: -220px;
+      width: 200px;
+      height: 200px;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1139,10 +1191,191 @@
         transition: none;
       }
     }
+
+    #twilight-stars {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.68;
+    }
+
+    .view-mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.22rem;
+      border: 1px solid rgba(165, 180, 252, 0.44);
+      border-radius: 9999px;
+      background: rgba(30, 27, 75, 0.82);
+      box-shadow: 0 8px 24px rgba(30, 27, 75, 0.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .view-mode-button {
+      min-height: 2rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 9999px;
+      color: #c7d2fe;
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .view-mode-button[aria-pressed="true"] {
+      background: linear-gradient(120deg, #6366f1, #0ea5e9);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.22);
+    }
+
+    .overview-dashboard {
+      display: none;
+    }
+
+    main.is-overview {
+      min-height: 70vh;
+      padding-top: 9.5rem;
+    }
+
+    main.is-overview > section:not(#overviewDashboard) {
+      display: none;
+    }
+
+    main.is-overview > #overviewDashboard {
+      display: block;
+      animation: section-appear 0.4s var(--ease-out) both;
+    }
+
+    #portfolioMain:not(.is-overview) > #home {
+      margin-top: 0;
+    }
+
+    .overview-card {
+      position: relative;
+      min-height: 12rem;
+      overflow: hidden;
+      border: 1px solid rgba(165, 180, 252, 0.32);
+      background:
+        radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.2), transparent 45%),
+        linear-gradient(145deg, rgba(49, 46, 129, 0.9), rgba(30, 27, 75, 0.94));
+      color: #eef2ff;
+      text-align: left;
+      box-shadow: 0 18px 40px rgba(30, 27, 75, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s var(--ease-out), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .overview-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(125, 211, 252, 0.65);
+      box-shadow: 0 24px 48px rgba(30, 27, 75, 0.24), 0 0 24px rgba(56, 189, 248, 0.1);
+    }
+
+    @media (max-width: 480px) {
+      .overview-card:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .overview-card-icon {
+      display: grid;
+      width: 2.75rem;
+      height: 2.75rem;
+      place-items: center;
+      border: 1px solid rgba(125, 211, 252, 0.32);
+      border-radius: 0.9rem;
+      background: rgba(56, 189, 248, 0.12);
+      color: #bae6fd;
+    }
+
+    .overview-modal[hidden] {
+      display: none;
+    }
+
+    .overview-modal {
+      display: flex;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.28s ease, visibility 0.28s ease;
+    }
+
+    .overview-modal.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .overview-dialog-panel {
+      width: min(68rem, 100%);
+      max-height: min(92dvh, 60rem);
+      overflow-y: auto;
+      border: 1px solid rgba(165, 180, 252, 0.3);
+      border-radius: 1.5rem;
+      background: rgba(30, 27, 75, 0.94);
+      padding: clamp(0.75rem, 2.5vw, 1.5rem);
+      box-shadow: 0 30px 90px rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transform: translateY(0.75rem) scale(0.99);
+      transition: transform 0.3s var(--ease-out);
+    }
+
+    .overview-modal.is-open .overview-dialog-panel {
+      transform: translateY(0) scale(1);
+    }
+
+    #overviewDialogContent > section {
+      width: 100%;
+      max-width: 100%;
+      max-height: calc(min(92dvh, 60rem) - 6rem);
+      overflow-y: auto;
+    }
+
+    #contact .dark-panel {
+      border-color: rgba(165, 180, 252, 0.32);
+      background:
+        radial-gradient(ellipse at 80% 0, rgba(56, 189, 248, 0.18), transparent 28rem),
+        linear-gradient(145deg, #1e1b4b, #312e81);
+      color: #f8fafc;
+    }
+
+    #contact .dark-panel h2,
+    #contact .dark-panel p {
+      color: #f1f5f9;
+    }
+
+    #contact .dark-panel > div:first-child {
+      border-color: rgba(125, 211, 252, 0.3);
+      background: rgba(56, 189, 248, 0.14);
+      color: #e0f2fe;
+    }
+
+    #contact .dark-panel > div a {
+      border-color: rgba(191, 219, 254, 0.44);
+      color: #f8fafc;
+    }
+
+    #contact .dark-panel > div a:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    @media (max-width: 767px) {
+      main.is-overview {
+        padding-top: 9rem;
+      }
+
+      .overview-card {
+        min-height: 10rem;
+      }
+    }
+
   </style>
 </head>
-<body class="bg-[#F8FAFC] text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900 min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+<body class="bg-[#0b1026] text-slate-800 font-sans antialiased selection:bg-indigo-200 selection:text-indigo-950 min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
+  <canvas id="twilight-stars" aria-hidden="true"></canvas>
   <!-- Ambient Animated Background -->
   <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-indigo-300/25 rounded-full blur-[120px] pointer-events-none -z-10"></div>
   <div class="fixed bottom-10 right-1/4 w-[600px] h-[600px] bg-sky-200/30 rounded-full blur-[140px] pointer-events-none -z-10"></div>
@@ -1186,10 +1419,46 @@
         <svg class="mobile-contact-chat" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/><path stroke-linecap="round" stroke-width="1.8" d="M8.5 11.5h.01m3.49 0h.01m3.49 0h.01"/></svg>
       </a>
     </nav>
+    <div class="mt-2 flex justify-center">
+      <div class="view-mode-toggle" role="group" aria-label="Portfolio view mode">
+        <button class="view-mode-button" type="button" data-view-mode="scroll" aria-pressed="true">Scroll Mode</button>
+        <button class="view-mode-button" type="button" data-view-mode="overview" aria-pressed="false">Overview Mode</button>
+      </div>
+    </div>
   </header>
 
   <!-- Main Container -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-20 space-y-16 flex-grow w-full">
+  <main id="portfolioMain" class="max-w-6xl mx-auto px-4 sm:px-6 pt-36 sm:pt-32 pb-20 space-y-16 flex-grow w-full">
+
+    <section id="overviewDashboard" class="overview-dashboard section-surface space-y-6" aria-labelledby="overviewHeading">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-500">Portfolio overview</p>
+        <h1 id="overviewHeading" class="mt-2 text-3xl font-extrabold text-indigo-950 sm:text-4xl">Choose a chapter</h1>
+        <p class="mt-2 text-sm text-slate-600 sm:text-base">Open a focused view without scrolling through the full portfolio.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
+        <button type="button" class="overview-card focus-ring flex flex-col justify-between rounded-2xl p-5" data-overview-target="home">
+          <span class="overview-card-icon" aria-hidden="true"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6"/></svg></span>
+          <span class="mt-5 block"><span class="block text-lg font-extrabold">Home</span><span class="mt-1 block text-sm text-indigo-100/75">A quick introduction and automation preview</span></span>
+        </button>
+        <button type="button" class="overview-card focus-ring flex flex-col justify-between rounded-2xl p-5" data-overview-target="about">
+          <span class="overview-card-icon" aria-hidden="true"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 21a8 8 0 0 0-16 0m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg></span>
+          <span class="mt-5 block"><span class="block text-lg font-extrabold">About</span><span class="mt-1 block text-sm text-indigo-100/75">Experience, principles, and technical capabilities</span></span>
+        </button>
+        <button type="button" class="overview-card focus-ring flex flex-col justify-between rounded-2xl p-5" data-overview-target="services">
+          <span class="overview-card-icon" aria-hidden="true"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7h18v13H3zM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-13 5h18m-11 0v2h4v-2"/></svg></span>
+          <span class="mt-5 block"><span class="block text-lg font-extrabold">Services</span><span class="mt-1 block text-sm text-indigo-100/75">CRM support, workflow automation, and data tools</span></span>
+        </button>
+        <button type="button" class="overview-card focus-ring flex flex-col justify-between rounded-2xl p-5" data-overview-target="projects">
+          <span class="overview-card-icon" aria-hidden="true"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v16H4zM8 9l-2 3 2 3m8-6 2 3-2 3m-3-5-2 4"/></svg></span>
+          <span class="mt-5 block"><span class="block text-lg font-extrabold">Projects</span><span class="mt-1 block text-sm text-indigo-100/75">Case studies and implementation details</span></span>
+        </button>
+        <button type="button" class="overview-card focus-ring flex flex-col justify-between rounded-2xl p-5" data-overview-target="contact">
+          <span class="overview-card-icon" aria-hidden="true"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h18v14H3zM3 7l9 6 9-6"/></svg></span>
+          <span class="mt-5 block"><span class="block text-lg font-extrabold">Contact</span><span class="mt-1 block text-sm text-indigo-100/75">Get in touch about your CRM process</span></span>
+        </button>
+      </div>
+    </section>
 
     <!-- HOME HERO SECTION -->
     <section id="home" class="pt-2">
@@ -1570,19 +1839,34 @@
   </footer>
 
   <aside id="audioWidget" class="audio-widget" data-state="off" aria-label="Background music player">
-    <button id="audioToggle" class="audio-toggle" type="button" aria-pressed="false" aria-controls="audioFrameWrap">
+    <button id="audioToggle" class="audio-toggle focus-ring" type="button" aria-label="Play background music" aria-pressed="false" aria-describedby="audioTooltip">
       <span class="audio-toggle-icon" aria-hidden="true">
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 18V5l12-2v13M9 18c0 1.1-1.3 2-3 2s-3-.9-3-2 1.3-2 3-2 3 .9 3 2Zm12-2c0 1.1-1.3 2-3 2s-3-.9-3-2 1.3-2 3-2 3 .9 3 2Z"/></svg>
       </span>
-      <span class="min-w-0 flex-1">
-        <span id="audioToggleLabel" class="block text-xs font-bold">Play Background Music</span>
-        <span id="audioStateLabel" class="mt-0.5 block text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-indigo-200">Music off</span>
-      </span>
       <span class="audio-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
     </button>
-    <p class="audio-credit">BGM: Katawaredoki (Kimi no Na wa) Piano Cover by Torby Brand</p>
-    <div id="audioFrameWrap" class="audio-frame-wrap" hidden></div>
+    <div id="audioTooltip" class="audio-tooltip">
+      <p class="audio-credit">BGM: Katawaredoki Piano Cover by Torby Brand</p>
+      <label class="mt-3 flex items-center gap-3 text-xs font-semibold text-indigo-100" for="audioVolume">
+        <span>Volume</span>
+        <input id="audioVolume" class="audio-volume" type="range" min="0" max="100" value="45" aria-label="Background music volume">
+      </label>
+      <p id="audioStateLabel" class="mt-2 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-indigo-200" aria-live="polite">Music off</p>
+    </div>
   </aside>
+  <div id="audioPlayerHost" class="audio-player-host" aria-hidden="true"></div>
+
+  <div id="overviewSectionModal" class="overview-modal fixed inset-0 z-[45] items-center justify-center bg-slate-950/75 p-3 backdrop-blur-md sm:p-6" aria-hidden="true" hidden>
+    <section class="overview-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="overviewDialogTitle" tabindex="-1" inert>
+      <div class="mb-3 flex items-center justify-between gap-4">
+        <h2 id="overviewDialogTitle" class="text-sm font-bold uppercase tracking-[0.16em] text-sky-200">Section</h2>
+        <button id="overviewDialogClose" class="focus-ring grid h-10 w-10 shrink-0 place-items-center rounded-full border border-indigo-200/25 bg-indigo-900/70 text-indigo-100 transition hover:bg-indigo-800" type="button" aria-label="Close section">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="overviewDialogContent"></div>
+    </section>
+  </div>
 
   <!-- My Journey modal overlay -->
   <div id="journeyModal" class="journey-modal-overlay fixed inset-0 z-[70] hidden flex items-center justify-center bg-slate-950/80 p-4 opacity-0 backdrop-blur-md" aria-hidden="true">
@@ -1883,6 +2167,15 @@
         if (!target) return;
 
         e.preventDefault();
+        if (
+          document.getElementById('portfolioMain').classList.contains('is-overview') &&
+          target.parentElement === document.getElementById('portfolioMain')
+        ) {
+          openOverviewSection(targetId, link);
+          history.pushState(null, '', `#${targetId}`);
+          return;
+        }
+
         target.scrollIntoView({ behavior: 'instant', block: 'start' });
         history.pushState(null, '', `#${targetId}`);
 
@@ -2113,7 +2406,10 @@
       journeyModalCloseTimer = window.setTimeout(() => {
         journeyModal.classList.add('hidden');
         journeyModalCloseTimer = null;
-        if (document.getElementById('drawer').inert) document.body.classList.remove('overflow-hidden');
+        if (
+          document.getElementById('drawer').inert &&
+          overviewSectionModal.hidden
+        ) document.body.classList.remove('overflow-hidden');
       }, 300);
     }
 
@@ -2204,7 +2500,9 @@
       drawer.classList.add('translate-x-full');
       drawer.inert = true;
       drawer.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('overflow-hidden');
+      if (overviewSectionModal.hidden && journeyModal.classList.contains('hidden')) {
+        document.body.classList.remove('overflow-hidden');
+      }
       if (lastFocusedProject instanceof HTMLElement) lastFocusedProject.focus();
     }
 
@@ -2254,6 +2552,32 @@
         }
       }
 
+      if (!overviewModal.hidden && overviewModal.classList.contains('is-open')) {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          if (!document.getElementById('drawer').inert) closeDrawer();
+          else closeOverviewSection();
+          return;
+        }
+
+        if (event.key === 'Tab' && document.getElementById('drawer').inert) {
+          const focusable = Array.from(overviewDialog.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )).filter((element) => !element.closest('[inert]'));
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+          return;
+        }
+      }
+
       if (event.key === 'Escape' && !document.getElementById('drawer').inert) closeDrawer();
     });
 
@@ -2276,36 +2600,344 @@
 
     const audioWidget = document.getElementById('audioWidget');
     const audioToggle = document.getElementById('audioToggle');
-    const audioFrameWrap = document.getElementById('audioFrameWrap');
+    const audioStateLabel = document.getElementById('audioStateLabel');
+    const audioPlayerHost = document.getElementById('audioPlayerHost');
+    const audioVolume = document.getElementById('audioVolume');
+    let youtubeApiPromise = null;
+    let youtubePlayer = null;
+    let audioRequestId = 0;
 
-    function setBackgroundMusicPlaying(playing) {
-      audioWidget.dataset.state = playing ? 'playing' : 'off';
-      audioToggle.setAttribute('aria-pressed', String(playing));
-      document.getElementById('audioToggleLabel').textContent = playing
-        ? 'Turn Music Off'
-        : 'Play Background Music';
-      document.getElementById('audioStateLabel').textContent = playing
-        ? 'Music on'
-        : 'Music off';
+    function setAudioState(state, message) {
+      audioWidget.dataset.state = state;
+      audioToggle.setAttribute('aria-pressed', String(state === 'playing' || state === 'loading'));
+      audioToggle.setAttribute(
+        'aria-label',
+        state === 'playing' ? 'Turn background music off' : 'Play background music'
+      );
+      audioStateLabel.textContent = message;
+    }
 
-      if (!playing) {
-        audioFrameWrap.replaceChildren();
-        audioFrameWrap.hidden = true;
-        return;
+    function loadYouTubeIframeApi() {
+      if (window.YT?.Player) return Promise.resolve(window.YT);
+      if (youtubeApiPromise) return youtubeApiPromise;
+
+      youtubeApiPromise = new Promise((resolve, reject) => {
+        const existingCallback = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          try {
+            if (typeof existingCallback === 'function') existingCallback();
+          } catch (error) {
+            console.error('Existing YouTube player callback failed:', error);
+          } finally {
+            resolve(window.YT);
+          }
+        };
+        let script = document.querySelector('script[data-youtube-iframe-api]');
+        if (!script) {
+          script = document.createElement('script');
+          script.src = 'https://www.youtube.com/iframe_api';
+          script.dataset.youtubeIframeApi = 'true';
+          script.onerror = () => {
+            youtubeApiPromise = null;
+            reject(new Error('YouTube player API could not be loaded.'));
+          };
+          document.head.append(script);
+        }
+      });
+
+      return youtubeApiPromise;
+    }
+
+    async function startBackgroundMusic() {
+      const requestId = ++audioRequestId;
+      setAudioState('loading', 'Loading player…');
+
+      try {
+        await loadYouTubeIframeApi();
+        if (requestId !== audioRequestId) return;
+
+        audioPlayerHost.id = 'audioPlayerHost';
+        audioPlayerHost.replaceChildren();
+        const playerMount = document.createElement('div');
+        playerMount.id = 'youtubeAudioPlayer';
+        audioPlayerHost.append(playerMount);
+
+        youtubePlayer = new window.YT.Player(playerMount, {
+          width: '200',
+          height: '200',
+          videoId: 'ox7Wt6fsm_A',
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            playsinline: 1,
+            rel: 0
+          },
+          events: {
+            onReady(event) {
+              if (requestId !== audioRequestId) {
+                event.target.destroy();
+                return;
+              }
+              event.target.setVolume(Number(audioVolume.value));
+              event.target.playVideo();
+              setAudioState('playing', 'Music on');
+            },
+            onError(event) {
+              console.error('YouTube background music playback failed:', event.data);
+              setAudioState('error', 'Playback unavailable');
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Unable to start background music:', error);
+        setAudioState('error', 'Player unavailable');
       }
+    }
 
-      const player = document.createElement('iframe');
-      player.title = 'Katawaredoki (Kimi no Na wa) Piano Cover by Torby Brand';
-      player.src = 'https://www.youtube-nocookie.com/embed/ox7Wt6fsm_A?autoplay=1&controls=1&rel=0&playsinline=1';
-      player.allow = 'autoplay; encrypted-media; picture-in-picture';
-      player.referrerPolicy = 'strict-origin-when-cross-origin';
-      audioFrameWrap.replaceChildren(player);
-      audioFrameWrap.hidden = false;
+    function stopBackgroundMusic() {
+      audioRequestId += 1;
+      if (youtubePlayer) {
+        youtubePlayer.destroy();
+        youtubePlayer = null;
+      }
+      audioPlayerHost.replaceChildren();
+      setAudioState('off', 'Music off');
     }
 
     audioToggle.addEventListener('click', () => {
-      setBackgroundMusicPlaying(audioWidget.dataset.state !== 'playing');
+      if (audioWidget.dataset.state === 'playing' || audioWidget.dataset.state === 'loading') {
+        stopBackgroundMusic();
+      } else {
+        startBackgroundMusic();
+      }
     });
+
+    audioVolume.addEventListener('input', () => {
+      if (youtubePlayer?.setVolume) youtubePlayer.setVolume(Number(audioVolume.value));
+    });
+
+    const overviewModal = document.getElementById('overviewSectionModal');
+    const overviewDialog = overviewModal.querySelector('[role="dialog"]');
+    const overviewDialogContent = document.getElementById('overviewDialogContent');
+    const portfolioMain = document.getElementById('portfolioMain');
+    const viewModeButtons = Array.from(document.querySelectorAll('[data-view-mode]'));
+    let activeOverviewSection = null;
+    let overviewPlaceholder = null;
+    let overviewReturnFocus = null;
+    let overviewCloseTimer = null;
+
+    function restoreOverviewSection() {
+      if (activeOverviewSection && overviewPlaceholder?.parentNode) {
+        overviewPlaceholder.parentNode.insertBefore(activeOverviewSection, overviewPlaceholder);
+        overviewPlaceholder.remove();
+      }
+      activeOverviewSection = null;
+      overviewPlaceholder = null;
+      overviewDialogContent.replaceChildren();
+    }
+
+    function closeOverviewSection(restoreImmediately = false) {
+      if (overviewModal.hidden) return;
+
+      window.clearTimeout(overviewCloseTimer);
+      overviewModal.classList.remove('is-open');
+      overviewModal.setAttribute('aria-hidden', 'true');
+      overviewDialog.inert = true;
+      if (overviewReturnFocus instanceof HTMLElement) overviewReturnFocus.focus();
+
+      if (restoreImmediately) {
+        overviewModal.hidden = true;
+        restoreOverviewSection();
+        if (document.getElementById('drawer').inert && journeyModal.classList.contains('hidden')) {
+          document.body.classList.remove('overflow-hidden');
+        }
+        return;
+      }
+
+      overviewCloseTimer = window.setTimeout(() => {
+        overviewModal.hidden = true;
+        restoreOverviewSection();
+        overviewCloseTimer = null;
+        if (document.getElementById('drawer').inert && journeyModal.classList.contains('hidden')) {
+          document.body.classList.remove('overflow-hidden');
+        }
+      }, 300);
+    }
+
+    function openOverviewSection(sectionId, trigger) {
+      const section = document.getElementById(sectionId);
+      if (!section || !portfolioMain.contains(section) || sectionId === 'overviewDashboard') return;
+
+      if (!overviewModal.hidden) closeOverviewSection(true);
+      overviewReturnFocus = trigger instanceof HTMLElement ? trigger : document.activeElement;
+      overviewPlaceholder = document.createComment(`Return ${sectionId} to portfolio`);
+      section.parentNode.insertBefore(overviewPlaceholder, section);
+      activeOverviewSection = section;
+      overviewDialogContent.append(section);
+      document.getElementById('overviewDialogTitle').textContent =
+        document.querySelector(`[data-overview-target="${sectionId}"]`)?.querySelector('span.block.text-lg')?.textContent ||
+        section.querySelector('h1, h2')?.textContent?.trim() ||
+        sectionId;
+
+      window.clearTimeout(overviewCloseTimer);
+      overviewModal.hidden = false;
+      overviewModal.setAttribute('aria-hidden', 'false');
+      overviewDialog.inert = false;
+      document.body.classList.add('overflow-hidden');
+      requestAnimationFrame(() => overviewModal.classList.add('is-open'));
+      document.getElementById('overviewDialogClose').focus();
+    }
+
+    function setViewMode(mode) {
+      const overview = mode === 'overview';
+      if (!overview && !overviewModal.hidden) closeOverviewSection(true);
+      portfolioMain.classList.toggle('is-overview', overview);
+      viewModeButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.viewMode === mode));
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    viewModeButtons.forEach((button) => {
+      button.addEventListener('click', () => setViewMode(button.dataset.viewMode));
+    });
+
+    document.querySelectorAll('[data-overview-target]').forEach((button) => {
+      button.addEventListener('click', () => {
+        openOverviewSection(button.dataset.overviewTarget, button);
+      });
+    });
+
+    document.getElementById('overviewDialogClose').addEventListener('click', () => {
+      closeOverviewSection();
+    });
+
+    overviewModal.addEventListener('click', (event) => {
+      if (event.target === overviewModal) closeOverviewSection();
+    });
+
+    const twilightCanvas = document.getElementById('twilight-stars');
+    const twilightContext = twilightCanvas.getContext('2d');
+    const twilightMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let twilightWidth = 0;
+    let twilightHeight = 0;
+    let twilightScale = 1;
+    let twilightStars = [];
+    let twilightFrame = null;
+    let twilightLastFrame = 0;
+    let twilightNextComet = 0;
+    let twilightComet = null;
+
+    function resizeTwilightCanvas() {
+      twilightWidth = window.innerWidth;
+      twilightHeight = window.innerHeight;
+      twilightScale = Math.min(window.devicePixelRatio || 1, 1.5);
+      twilightCanvas.width = Math.round(twilightWidth * twilightScale);
+      twilightCanvas.height = Math.round(twilightHeight * twilightScale);
+      twilightContext.setTransform(twilightScale, 0, 0, twilightScale, 0, 0);
+      const starCount = Math.min(115, Math.max(48, Math.round(twilightWidth * twilightHeight / 10500)));
+      twilightStars = Array.from({ length: starCount }, () => ({
+        x: Math.random() * twilightWidth,
+        y: Math.random() * twilightHeight,
+        radius: Math.random() * 1.15 + 0.25,
+        alpha: Math.random() * 0.48 + 0.16,
+        drift: Math.random() * 0.12 + 0.025,
+        phase: Math.random() * Math.PI * 2
+      }));
+      renderTwilight(0, 0);
+      scheduleTwilightFrame();
+    }
+
+    function renderTwilight(deltaSeconds, timestamp) {
+      twilightContext.clearRect(0, 0, twilightWidth, twilightHeight);
+      twilightStars.forEach((star) => {
+        if (!twilightMotion.matches) {
+          star.y += star.drift * deltaSeconds;
+          if (star.y > twilightHeight) star.y = 0;
+        }
+        const shimmer = twilightMotion.matches
+          ? 0
+          : Math.sin(timestamp / 1700 + star.phase) * 0.13;
+        twilightContext.beginPath();
+        twilightContext.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        twilightContext.fillStyle = `rgba(199, 210, 254, ${Math.max(0.08, star.alpha + shimmer)})`;
+        twilightContext.fill();
+      });
+
+      if (twilightComet) {
+        twilightComet.progress += deltaSeconds / 1.35;
+        if (twilightComet.progress >= 1) {
+          twilightComet = null;
+          twilightNextComet = timestamp + 9000 + Math.random() * 12000;
+        } else {
+          const x = twilightComet.startX + twilightComet.distance * twilightComet.progress;
+          const y = twilightComet.startY + twilightComet.distance * 0.28 * twilightComet.progress;
+          const tail = twilightContext.createLinearGradient(x, y, x - 120, y - 34);
+          tail.addColorStop(0, 'rgba(125, 211, 252, 0.72)');
+          tail.addColorStop(1, 'rgba(125, 211, 252, 0)');
+          twilightContext.beginPath();
+          twilightContext.moveTo(x, y);
+          twilightContext.lineTo(x - 120, y - 34);
+          twilightContext.strokeStyle = tail;
+          twilightContext.lineWidth = 1.5;
+          twilightContext.stroke();
+          twilightContext.beginPath();
+          twilightContext.arc(x, y, 1.8, 0, Math.PI * 2);
+          twilightContext.fillStyle = 'rgba(224, 242, 254, 0.9)';
+          twilightContext.fill();
+        }
+      } else if (!twilightMotion.matches && timestamp >= twilightNextComet) {
+        twilightComet = {
+          startX: Math.random() * twilightWidth * 0.7 + twilightWidth * 0.15,
+          startY: Math.random() * twilightHeight * 0.36,
+          distance: Math.min(twilightWidth * 0.28, 230),
+          progress: 0
+        };
+      }
+    }
+
+    function scheduleTwilightFrame() {
+      if (twilightFrame !== null || document.hidden || twilightMotion.matches) return;
+      twilightFrame = window.requestAnimationFrame(animateTwilight);
+    }
+
+    function animateTwilight(timestamp) {
+      twilightFrame = null;
+      if (document.hidden || twilightMotion.matches) return;
+      if (twilightLastFrame && timestamp - twilightLastFrame < 1000 / 60) {
+        scheduleTwilightFrame();
+        return;
+      }
+      const deltaSeconds = twilightLastFrame
+        ? Math.min((timestamp - twilightLastFrame) / 1000, 0.05)
+        : 1 / 60;
+      twilightLastFrame = timestamp;
+      renderTwilight(deltaSeconds, timestamp);
+      scheduleTwilightFrame();
+    }
+
+    function pauseTwilight() {
+      if (twilightFrame !== null) {
+        window.cancelAnimationFrame(twilightFrame);
+        twilightFrame = null;
+      }
+      twilightLastFrame = 0;
+    }
+
+    window.addEventListener('resize', resizeTwilightCanvas);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) pauseTwilight();
+      else scheduleTwilightFrame();
+    });
+    twilightMotion.addEventListener('change', () => {
+      if (twilightMotion.matches) {
+        pauseTwilight();
+        renderTwilight(0, performance.now());
+      } else {
+        scheduleTwilightFrame();
+      }
+    });
+    resizeTwilightCanvas();
 
     const revealTargets = document.querySelectorAll(
       '.section-surface > div:first-child, .card-hover-effect, .hero-tech-badge'
