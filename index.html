@@ -376,47 +376,159 @@
       background: linear-gradient(180deg, transparent 0 35%, rgba(30, 41, 59, 0.92) 35% 88%, transparent 88%);
     }
 
-    .journey-animation-track::before {
+    .journey-animation-track::before,
+    .journey-animation-track::after {
       position: absolute;
       top: 62%;
       right: 0;
       left: 0;
       height: 1px;
-      background: repeating-linear-gradient(90deg, rgba(167, 243, 208, 0.85) 0 1.25rem, transparent 1.25rem 2.25rem);
       content: "";
+      pointer-events: none;
+    }
+
+    .journey-animation-track::before {
+      background: repeating-linear-gradient(90deg, rgba(167, 243, 208, 0.85) 0 1.25rem, transparent 1.25rem 2.25rem);
+    }
+
+    .journey-animation-track[data-vehicle="car"]::before {
+      animation: road-dashes 0.75s linear infinite;
+    }
+
+    .journey-animation-track[data-vehicle="motorcycle"]::after {
+      top: 48%;
+      left: 62%;
+      width: 4rem;
+      height: 1.25rem;
+      background: repeating-linear-gradient(180deg, transparent 0 0.3rem, rgba(226, 232, 240, 0.65) 0.3rem 0.4rem, transparent 0.4rem 0.7rem);
+      animation: speed-lines 0.55s linear infinite;
+      mask-image: linear-gradient(90deg, transparent, #000);
+    }
+
+    .journey-figure-motion {
+      position: absolute;
+      top: 50%;
+      left: 8%;
+      width: 84%;
+      transform: translateY(-50%);
+      animation: journey-ride 5s ease-in-out infinite alternate;
+      will-change: transform;
     }
 
     .journey-animation-figure {
-      position: absolute;
-      top: 50%;
-      left: 12%;
       display: flex;
+      width: max-content;
       align-items: center;
       gap: 0.5rem;
-      transform: translateY(-58%);
-      animation: journey-ride 4.2s ease-in-out infinite alternate;
       filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.3));
     }
 
-    .journey-animation-figure span:first-child {
-      display: inline-block;
-      animation: journey-bob 0.55s ease-in-out infinite alternate;
+    .journey-vehicle-graphic {
+      width: 6rem;
+      height: 3.5rem;
+      flex: 0 0 auto;
+      overflow: visible;
     }
 
     @keyframes journey-ride {
-      from { left: 12%; }
-      to { left: calc(88% - 2.5rem); }
+      from { transform: translate(0, -50%); }
+      to { transform: translate(82%, -50%); }
     }
 
-    @keyframes journey-bob {
-      from { transform: translateY(1px) rotate(-3deg); }
-      to { transform: translateY(-3px) rotate(3deg); }
+    @keyframes walkCycle {
+      from { transform: rotate(-28deg); }
+      to { transform: rotate(28deg); }
+    }
+
+    @keyframes pedalCycle {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes motorRumble {
+      from { transform: translate(0, 0); }
+      to { transform: translate(1px, -1px); }
+    }
+
+    @keyframes spinWheels {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes carBounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-1.5px); }
+    }
+
+    @keyframes road-dashes {
+      to { background-position-x: -2.25rem; }
+    }
+
+    @keyframes speed-lines {
+      from { transform: translateX(1.5rem); opacity: 0; }
+      35% { opacity: 0.85; }
+      to { transform: translateX(-2.5rem); opacity: 0; }
+    }
+
+    .journey-vehicle-graphic .vehicle-walk,
+    .journey-vehicle-graphic .vehicle-bicycle,
+    .journey-vehicle-graphic .vehicle-motorcycle,
+    .journey-vehicle-graphic .vehicle-car {
+      display: none;
+    }
+
+    .journey-vehicle-graphic[data-vehicle="walk"] .vehicle-walk,
+    .journey-vehicle-graphic[data-vehicle="bicycle"] .vehicle-bicycle,
+    .journey-vehicle-graphic[data-vehicle="motorcycle"] .vehicle-motorcycle,
+    .journey-vehicle-graphic[data-vehicle="car"] .vehicle-car {
+      display: initial;
+    }
+
+    .vehicle-limb {
+      transform-box: fill-box;
+      transform-origin: top center;
+      animation: walkCycle 0.34s ease-in-out infinite alternate;
+    }
+
+    .vehicle-leg-back {
+      animation-delay: -0.17s;
+    }
+
+    .vehicle-wheel {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: spinWheels 0.7s linear infinite;
+    }
+
+    .vehicle-pedals {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pedalCycle 0.45s linear infinite;
+    }
+
+    #journeyVehicleIcon .vehicle-pedals {
+      transform-box: view-box;
+      transform-origin: 51px 42px;
+    }
+
+    .vehicle-motorcycle-body {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: motorRumble 0.08s linear infinite alternate;
+    }
+
+    .vehicle-chassis {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: carBounce 0.24s ease-in-out infinite alternate;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .journey-animation-figure,
-      .journey-animation-figure span:first-child {
+      .journey-figure-motion,
+      .journey-animation-track[data-vehicle]::before,
+      .journey-animation-track[data-vehicle]::after,
+      .journey-vehicle-graphic *,
+      .journey-vehicle-graphic {
         animation: none;
+        will-change: auto;
       }
 
       .journey-slide {
@@ -1170,7 +1282,7 @@
 
           <div class="p-4 sm:p-6">
             <div class="flex flex-wrap items-center gap-2">
-              <span id="journeyPeriod" class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-200">2017–2019 · On Foot</span>
+              <span id="journeyPeriod" class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-200">2017–2019</span>
             </div>
             <h3 id="journeyTitle" class="mt-3 text-xl font-extrabold text-white sm:text-2xl">McDonald's Crew Trainer</h3>
             <p id="journeySubtitle" class="mt-1 text-sm font-semibold text-emerald-200">Early foundation · Team leadership</p>
@@ -1183,10 +1295,45 @@
         </button>
       </div>
 
-      <div class="journey-animation-track mt-4 h-24 rounded-2xl border border-slate-700/80 sm:h-28" role="img" aria-label="Animated vehicle traveling along a road">
-        <div class="journey-animation-figure" aria-hidden="true">
-          <span id="journeyVehicleIcon" class="text-3xl sm:text-4xl">🚶</span>
-          <span id="journeyVehicleLabel" class="rounded-full border border-emerald-300/25 bg-slate-950/90 px-2.5 py-1 text-[0.65rem] font-bold text-emerald-200">On Foot</span>
+      <div id="journeyAnimationTrack" class="journey-animation-track mt-4 h-24 rounded-2xl border border-slate-700/80 sm:h-28" data-vehicle="walk" role="img" aria-label="Animated walking figure traveling along a road">
+        <div class="journey-figure-motion" aria-hidden="true">
+          <div class="journey-animation-figure">
+            <svg id="journeyVehicleIcon" class="journey-vehicle-graphic text-emerald-200" data-vehicle="walk" viewBox="0 0 130 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" aria-hidden="true">
+              <g class="vehicle-walk">
+                <circle cx="38" cy="12" r="6" fill="currentColor" stroke="none"/>
+                <path d="M38 20v17m0-12-10 8m10-8 10 7" stroke-width="4"/>
+                <g class="vehicle-limb"><path d="M38 37 29 51l-3 7" stroke-width="4"/></g>
+                <g class="vehicle-limb vehicle-leg-back"><path d="M38 37 47 49l7 4" stroke-width="4"/></g>
+              </g>
+              <g class="vehicle-bicycle">
+                <g class="vehicle-wheel"><circle cx="24" cy="48" r="12" stroke-width="2"/><path d="M24 36v24m-12-12h24m-20-8 16 16m0-16L16 56" stroke-width="1"/></g>
+                <g class="vehicle-wheel"><circle cx="77" cy="48" r="12" stroke-width="2"/><path d="M77 36v24m-12-12h24m-20-8 16 16m0-16L69 56" stroke-width="1"/></g>
+                <path d="m24 48 17-22 12 22H24l11-14h18l12-9m-12 9 14 14m-35-22h8" stroke-width="2"/>
+                <circle cx="45" cy="9" r="5" fill="currentColor" stroke="none"/>
+                <path d="m43 16-5 11 12 7m-11-7 11-5" stroke-width="3"/>
+                <g class="vehicle-pedals"><path d="M51 42v-8m0 8 7 5m-7-5-7 5" stroke-width="2"/></g>
+              </g>
+              <g class="vehicle-motorcycle vehicle-motorcycle-body">
+                <g>
+                  <circle cx="59" cy="10" r="5" fill="currentColor" stroke="none"/>
+                  <path d="m57 17-8 10 12 6 8-8m-18 2-10 2" stroke-width="4"/>
+                </g>
+                <g class="vehicle-wheel"><circle cx="30" cy="48" r="11" stroke-width="3"/><path d="M30 37v22m-11-11h22m-19-8 16 16m0-16L22 56" stroke-width="1"/></g>
+                <g class="vehicle-wheel"><circle cx="88" cy="48" r="11" stroke-width="3"/><path d="M88 37v22m-11-11h22m-19-8 16 16m0-16L80 56" stroke-width="1"/></g>
+                <path d="m30 48 15-15h22l9 15H56l-11-15m22 0 9-7h9" stroke-width="4"/>
+              </g>
+              <g class="vehicle-car">
+                <g class="vehicle-chassis">
+                  <path d="m17 42 7-13a8 8 0 0 1 7-5h39a8 8 0 0 1 7 5l7 13v11H17V42Z" fill="#064e3b" stroke-width="2"/>
+                  <path d="m29 29-5 12h50l-5-12a4 4 0 0 0-4-3H33a4 4 0 0 0-4 3Z" fill="#0f172a" stroke-width="2"/>
+                  <path d="M18 42h66" stroke-width="2"/>
+                  <g class="vehicle-wheel"><circle cx="32" cy="52" r="7" fill="#0f172a" stroke-width="3"/><path d="M32 46v12m-6-6h12" stroke-width="1"/></g>
+                  <g class="vehicle-wheel"><circle cx="70" cy="52" r="7" fill="#0f172a" stroke-width="3"/><path d="M70 46v12m-6-6h12" stroke-width="1"/></g>
+                </g>
+              </g>
+            </svg>
+            <span id="journeyVehicleLabel" class="rounded-full border border-emerald-300/25 bg-slate-950/90 px-2.5 py-1 text-[0.65rem] font-bold text-emerald-200">On Foot</span>
+          </div>
         </div>
       </div>
 
@@ -1518,8 +1665,8 @@
     const careerMilestones = [
       {
         period: '2017–2019',
+        vehicle: 'walk',
         mode: 'On Foot',
-        icon: '🚶',
         theme: "McDonald's",
         themeIcon: '🍟',
         themeKey: 'mcdonalds',
@@ -1529,8 +1676,8 @@
       },
       {
         period: '2019–2020',
+        vehicle: 'bicycle',
         mode: 'Bicycle',
-        icon: '🚴',
         theme: 'Healthcare CSR',
         themeIcon: '✚',
         themeKey: 'healthcare',
@@ -1540,8 +1687,8 @@
       },
       {
         period: '2020–2025',
+        vehicle: 'motorcycle',
         mode: 'Motorcycle',
-        icon: '🏍️',
         theme: 'Accenture WFM Operations',
         themeIcon: '📊',
         themeKey: 'accenture',
@@ -1551,8 +1698,8 @@
       },
       {
         period: '2026',
+        vehicle: 'car',
         mode: 'Car',
-        icon: '🚘',
         theme: 'CRM Automation Hub',
         themeIcon: '⚙️',
         themeKey: 'automation',
@@ -1580,15 +1727,21 @@
       journeySlide.dataset.direction = String(direction);
       journeySlide.classList.add('is-changing');
       journeySlideTimer = window.setTimeout(() => {
-        document.getElementById('journeyPeriod').textContent = `${milestone.period} · ${milestone.mode}`;
+        document.getElementById('journeyPeriod').textContent = milestone.period;
         document.getElementById('journeyTheme').textContent = milestone.theme;
         document.getElementById('journeyHeaderIcon').textContent = milestone.themeIcon;
         document.getElementById('journeyVisualHeader').dataset.theme = milestone.themeKey;
         document.getElementById('journeyTitle').textContent = milestone.title;
         document.getElementById('journeySubtitle').textContent = milestone.subtitle;
         document.getElementById('journeyDescription').textContent = milestone.description;
-        document.getElementById('journeyVehicleIcon').textContent = milestone.icon;
+        document.getElementById('journeyVehicleIcon').dataset.vehicle = milestone.vehicle;
         document.getElementById('journeyVehicleLabel').textContent = milestone.mode;
+        const journeyAnimationTrack = document.getElementById('journeyAnimationTrack');
+        journeyAnimationTrack.dataset.vehicle = milestone.vehicle;
+        journeyAnimationTrack.setAttribute(
+          'aria-label',
+          `Animated ${milestone.mode.toLowerCase()} figure traveling along a road`
+        );
         journeyDots.forEach((dot, dotIndex) => {
           dot.setAttribute('aria-current', dotIndex === index ? 'step' : 'false');
         });
