@@ -114,6 +114,15 @@
       animation: hero-enter 0.55s var(--ease-out) 0.58s both;
     }
 
+    .journey-hero-cta {
+      animation: journey-cta-glow 2.8s ease-in-out infinite;
+    }
+
+    @keyframes journey-cta-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.2), 0 10px 28px rgba(99, 102, 241, 0.24); }
+      50% { box-shadow: 0 0 0 7px rgba(167, 139, 250, 0.08), 0 12px 36px rgba(236, 72, 153, 0.3); }
+    }
+
     .copy-toast {
       opacity: 0;
       pointer-events: none;
@@ -367,20 +376,33 @@
 
     .journey-carousel-card {
       border-color: rgba(165, 180, 252, 0.25);
-      background: radial-gradient(ellipse at 50% 0, rgba(56, 189, 248, 0.13), transparent 28rem), #1e1b4b;
-      box-shadow: 0 30px 90px rgba(2, 6, 23, 0.55);
+      background:
+        linear-gradient(to bottom, rgba(2, 6, 23, 0.38), transparent 1.6rem),
+        linear-gradient(to top, rgba(2, 6, 23, 0.32), transparent 1.4rem),
+        radial-gradient(ellipse at 50% 0, rgba(56, 189, 248, 0.13), transparent 28rem),
+        #1e1b4b;
+      box-shadow: 0 30px 90px rgba(2, 6, 23, 0.55), inset 0 0 90px rgba(2, 6, 23, 0.16);
     }
 
     .journey-slide {
       min-width: 0;
       opacity: 1;
       transform: translateX(0);
-      transition: opacity 0.22s ease, transform 0.22s var(--ease-out);
+      transition: opacity 0.3s ease, transform 0.3s var(--ease-out), filter 0.3s ease;
+    }
+
+    .journey-slide > * {
+      transition: transform 0.3s var(--ease-out);
     }
 
     .journey-slide.is-changing {
       opacity: 0;
       transform: translateX(0.75rem);
+      filter: blur(5px);
+    }
+
+    .journey-slide.is-changing > * {
+      transform: translateY(0.4rem);
     }
 
     .journey-slide.is-changing[data-direction="-1"] {
@@ -413,7 +435,10 @@
       position: relative;
       overflow: hidden;
       border-color: rgba(165, 180, 252, 0.2);
-      background: linear-gradient(180deg, transparent 0 35%, rgba(49, 46, 129, 0.92) 35% 88%, transparent 88%);
+      background:
+        radial-gradient(ellipse at 50% 45%, rgba(56, 189, 248, 0.12), transparent 62%),
+        linear-gradient(180deg, transparent 0 35%, rgba(49, 46, 129, 0.92) 35% 88%, transparent 88%);
+      box-shadow: inset 0 0 34px rgba(56, 189, 248, 0.08);
     }
 
     .journey-animation-track::before,
@@ -450,6 +475,22 @@
       pointer-events: none;
     }
 
+    .journey-motion-path::after {
+      position: absolute;
+      top: 62%;
+      right: 0;
+      left: 0;
+      height: 2px;
+      content: "";
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.65), rgba(167, 139, 250, 0.6), transparent);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.42);
+      animation: journey-road-glow 3.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes journey-road-glow {
+      to { opacity: 0.42; }
+    }
+
     .journey-figure-motion {
       position: absolute;
       top: 50%;
@@ -459,7 +500,22 @@
       will-change: transform;
     }
 
+    .journey-figure-motion::before {
+      position: absolute;
+      top: 64%;
+      right: 62%;
+      width: clamp(2rem, 7vw, 5rem);
+      height: 0.25rem;
+      content: "";
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.7));
+      filter: blur(3px);
+      opacity: 0.75;
+    }
+
     .journey-animation-figure {
+      position: relative;
+      z-index: 1;
       display: grid;
       justify-items: center;
       gap: 0.1rem;
@@ -1250,7 +1306,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <!-- Projects (Spans 2 columns) -->
         <button type="button" class="overview-card focus-ring md:col-span-2 rounded-2xl p-6 flex flex-col justify-between min-h-[14rem]" data-overview-target="projects">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85" alt="Analytics and workflows" class="overview-card-bg">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85" alt="Analytics and workflows" class="overview-card-bg" onerror="this.style.display='none'">
           <div class="flex justify-between items-start z-10">
             <span class="overview-card-icon" aria-hidden="true">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v16H4zM8 9l-2 3 2 3m8-6 2 3-2 3m-3-5-2 4"/></svg>
@@ -1265,7 +1321,7 @@
 
         <!-- Services (1 column) -->
         <button type="button" class="overview-card focus-ring rounded-2xl p-6 flex flex-col justify-between min-h-[14rem]" data-overview-target="services">
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85" alt="Data Services" class="overview-card-bg">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85" alt="Data Services" class="overview-card-bg" onerror="this.style.display='none'">
           <div class="flex justify-between items-start z-10">
             <span class="overview-card-icon" aria-hidden="true">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7h18v13H3zM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-13 5h18m-11 0v2h4v-2"/></svg>
@@ -1280,7 +1336,7 @@
 
         <!-- Home (1 column) -->
         <button type="button" class="overview-card focus-ring rounded-2xl p-6 flex flex-col justify-between min-h-[13rem]" data-overview-target="home">
-          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1000&q=85" alt="Code displayed on a computer screen" class="overview-card-bg">
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1000&q=85" alt="Code displayed on a computer screen" class="overview-card-bg" onerror="this.style.display='none'">
           <div class="flex justify-between items-start z-10">
             <span class="overview-card-icon" aria-hidden="true">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6"/></svg>
@@ -1294,7 +1350,7 @@
 
         <!-- About (1 column) -->
         <button type="button" class="overview-card focus-ring rounded-2xl p-6 flex flex-col justify-between min-h-[13rem]" data-overview-target="about">
-          <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85" alt="Professionals collaborating at work" class="overview-card-bg">
+          <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85" alt="Professionals collaborating at work" class="overview-card-bg" onerror="this.style.display='none'">
           <div class="flex justify-between items-start z-10">
             <span class="overview-card-icon" aria-hidden="true">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 21a8 8 0 0 0-16 0m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
@@ -1309,7 +1365,7 @@
 
         <!-- Contact (1 column) -->
         <button type="button" class="overview-card focus-ring rounded-2xl p-6 flex flex-col justify-between min-h-[13rem]" data-overview-target="contact">
-          <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1000&q=85" alt="Business professionals discussing a project" class="overview-card-bg">
+          <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1000&q=85" alt="Business professionals discussing a project" class="overview-card-bg" onerror="this.style.display='none'">
           <div class="flex justify-between items-start z-10">
             <span class="overview-card-icon" aria-hidden="true">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h18v14H3zM3 7l9 6 9-6"/></svg>
@@ -1359,6 +1415,10 @@
             <a href="#about" class="cta-button focus-ring px-6 py-3 rounded-full bg-white/10 hover:bg-white/15 text-white text-sm font-bold border border-white/15">
               Background & Experience
             </a>
+            <button id="heroJourneyBtn" type="button" class="journey-hero-cta cta-button focus-ring inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-105">
+              <span aria-hidden="true">✨</span>
+              <span>Experience My Story</span>
+            </button>
           </div>
 
         </div>
@@ -1470,7 +1530,7 @@
         <!-- Profile Card -->
         <div class="md:col-span-4 dark-panel rounded-2xl p-6 flex flex-col items-center text-center space-y-4 card-hover-effect h-full">
           <div class="w-28 h-28 rounded-full ring-4 ring-emerald-100 overflow-hidden shadow-lg">
-            <img src="profile.jpg" alt="Jake B. Dasmariñas" class="w-full h-full object-cover">
+            <img src="profile.jpg" alt="Jake B. Dasmariñas" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150'">
           </div>
           <div class="space-y-1">
             <h3 class="title-label text-[1.2rem] font-bold">Jake B. Dasmariñas</h3>
@@ -1581,7 +1641,7 @@
         <!-- Case Study 1: Order Receipt System -->
         <div data-project-index="0" role="button" tabindex="0" aria-label="Open case study: Multi-Tenant Order Receipt OCR Pipeline" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
           <div class="h-56 rounded-xl bg-slate-100 overflow-hidden relative border border-slate-100">
-            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=85" alt="Phone calculator and paperwork representing order receipt processing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=85" alt="Phone calculator and paperwork representing order receipt processing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
           </div>
           <div class="space-y-2">
             <span class="text-sm font-bold text-emerald-800 uppercase">Enterprise Architecture</span>
@@ -1593,7 +1653,7 @@
         <!-- Case Study 2: Slack Webhook Channel Router -->
         <div data-project-index="1" role="button" tabindex="0" aria-label="Open case study: GoHighLevel to Slack Webhook Alert Engine" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
           <div class="h-56 rounded-xl bg-slate-100 overflow-hidden relative border border-slate-100">
-            <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=85" alt="Team collaborating around a laptop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=85" alt="Team collaborating around a laptop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
           </div>
           <div class="space-y-2">
             <span class="text-sm font-bold text-emerald-800 uppercase">Integration & Webhooks</span>
@@ -1605,7 +1665,7 @@
         <!-- Case Study 3: Data Migration Script -->
         <div data-project-index="2" role="button" tabindex="0" aria-label="Open case study: Google Apps Script CRM Data Migration Tool" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
           <div class="h-56 rounded-xl bg-slate-100 overflow-hidden relative border border-slate-100">
-            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85" alt="Professional reviewing data on a laptop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85" alt="Professional reviewing data on a laptop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
           </div>
           <div class="space-y-2">
             <span class="text-sm font-bold text-emerald-800 uppercase">Data Operations</span>
@@ -1617,7 +1677,7 @@
         <!-- Case Study 4: Salesforce CRM Auto-Sync -->
         <div data-project-index="3" role="button" tabindex="0" aria-label="Open case study: Salesforce-to-Spreadsheet Live Connector" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
           <div class="h-56 rounded-xl bg-slate-100 overflow-hidden relative border border-slate-100">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85" alt="Business analytics dashboard on a monitor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85" alt="Business analytics dashboard on a monitor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
           </div>
           <div class="space-y-2">
             <span class="text-sm font-bold text-emerald-800 uppercase">Analytics & CRM</span>
@@ -1684,7 +1744,7 @@
           <span>Copy Email</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-2M5 7h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/></svg>
         </button>
-        <a href="mailto:costales607@gmail.com" class="focus-ring inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-emerald-200 text-emerald-900 hover:bg-emerald-50 font-bold text-sm transition-colors">
+        <a id="open-email-app" href="#" class="focus-ring inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-emerald-200 text-emerald-900 hover:bg-emerald-50 font-bold text-sm transition-colors">
           <span>Open Email App</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
         </a>
@@ -1742,6 +1802,12 @@
         <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Interactive Career Timeline</span>
         <h2 id="journeyModalHeading" class="text-2xl font-extrabold text-white sm:text-3xl">My Journey</h2>
         <p class="text-sm text-slate-400">Use the arrows, dots, or keyboard to explore each chapter.</p>
+        <div class="flex justify-center pt-2">
+          <button id="toggleNarrationBtn" type="button" class="focus-ring inline-flex items-center gap-2 rounded-full border border-indigo-300/30 bg-indigo-900/60 px-4 py-2 text-xs font-bold text-indigo-100 transition hover:bg-indigo-800" aria-pressed="false">
+            <span id="narrationIcon" aria-hidden="true">🔊</span>
+            <span id="narrationLabel">Narrate Story</span>
+          </button>
+        </div>
       </div>
 
       <div class="journey-carousel-layout grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-2 sm:grid-cols-[3.25rem_minmax(0,1fr)_3.25rem] sm:gap-4">
@@ -1763,8 +1829,8 @@
               <span id="journeyPeriod" class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-200">2017–2019</span>
             </div>
             <h3 id="journeyTitle" class="mt-3 text-xl font-extrabold text-white sm:text-2xl">McDonald's Crew Trainer</h3>
-            <p id="journeySubtitle" class="mt-1 text-sm font-semibold text-emerald-200">Early foundation · Team leadership</p>
-            <p id="journeyDescription" class="mt-3 min-h-16 text-sm leading-relaxed text-slate-300 sm:text-base">Built an early foundation through hard work while studying, with rapid promotion to Crew Trainer and a strong record of reliability, speed, and operational discipline.</p>
+            <p id="journeySubtitle" class="mt-1 text-sm font-semibold text-emerald-200">Early foundation · Grit & Discipline</p>
+            <p id="journeyDescription" class="mt-3 min-h-16 text-sm leading-relaxed text-slate-300 sm:text-base">I used to wonder how people survived being a working student. There were days I’d fall asleep in the crew room right after a shift—closing my eyes in the morning and waking up when it was already night. It tested every ounce of my physical and mental strength. But looking back, McDonald’s didn't just employ me; it molded me. It built the grit, courage, and resilience that define who I am today.</p>
           </div>
         </article>
 
@@ -1821,7 +1887,7 @@
         <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="0" aria-label="2017–2019, McDonald's Crew Trainer" aria-current="step"></button>
         <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="1" aria-label="2019–2020, Healthcare CSR" aria-current="false"></button>
         <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="2" aria-label="2020–2025, Accenture Real-Time Analyst" aria-current="false"></button>
-        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="3" aria-label="2026, CRM Automation Specialist" aria-current="false"></button>
+        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="3" aria-label="2026, Virtual Assistant and CRM Specialist" aria-current="false"></button>
       </div>
     </section>
   </div>
@@ -1847,8 +1913,14 @@
   </div>
 
   <script>
+    /* GLOBAL CONSTANTS */
+    const CONTACT_EMAIL = 'costales607@gmail.com';
+
     let lastFocusedProject = null;
     let copyToastTimeout;
+
+    // Initialize mailto href dynamically
+    document.getElementById('open-email-app').setAttribute('href', `mailto:${CONTACT_EMAIL}`);
 
     function showCopyToast(message, state) {
       const toast = document.getElementById('copy-toast');
@@ -1862,13 +1934,11 @@
     }
 
     async function copyContactEmail() {
-      const email = 'costales607@gmail.com';
-
       try {
         let copied = false;
         if (navigator.clipboard?.writeText) {
           try {
-            await navigator.clipboard.writeText(email);
+            await navigator.clipboard.writeText(CONTACT_EMAIL);
             copied = true;
           } catch (error) {
             console.warn('Clipboard API was unavailable; trying fallback:', error);
@@ -1877,7 +1947,7 @@
 
         if (!copied) {
           const emailField = document.createElement('textarea');
-          emailField.value = email;
+          emailField.value = CONTACT_EMAIL;
           emailField.setAttribute('readonly', '');
           emailField.style.position = 'fixed';
           emailField.style.opacity = '0';
@@ -1922,7 +1992,6 @@
       networkCanvas.height = Math.round(networkHeight * networkScale);
       networkContext.setTransform(networkScale, 0, 0, networkScale, 0, 0);
       
-      // Node count throttled for mobile vs desktop
       const isMobile = window.innerWidth < 768;
       const count = isMobile ? 12 : Math.min(22, Math.round(networkWidth / 45));
 
@@ -2061,7 +2130,6 @@
       twilightFrame = null;
       if (document.hidden || twilightMotion.matches) return;
 
-      // Throttle rendering to ~30 FPS
       if (timestamp - twilightLastFrame < 33) {
         scheduleTwilightFrame();
         return;
@@ -2210,8 +2278,8 @@
         themeIcon: '🍟',
         themeKey: 'mcdonalds',
         title: "McDonald's Crew Trainer",
-        subtitle: 'Early foundation · Team leadership',
-        description: 'Built an early foundation through hard work while studying, with rapid promotion to Crew Trainer and a strong record of reliability, speed, and operational discipline.'
+        subtitle: 'Early foundation · Grit & Discipline',
+        description: `I used to wonder how people survived being a working student. There were days I’d fall asleep in the crew room right after a shift—closing my eyes in the morning and waking up when it was already night. It tested every ounce of my physical and mental strength. But looking back, McDonald’s didn't just employ me; it molded me. It built the grit, courage, and resilience that define who I am today.`
       },
       {
         period: '2019–2020',
@@ -2222,8 +2290,8 @@
         themeIcon: '✚',
         themeKey: 'healthcare',
         title: 'Healthcare CSR',
-        subtitle: 'Member support · Claims operations',
-        description: 'Handled healthcare authorizations and claims with accuracy under pressure, building strong customer service and attention-to-detail skills.'
+        subtitle: 'Empathy under pressure · Member care',
+        description: `With only one year left before graduation, I made the painful choice to step back from school. My mind and body were completely exhausted. That season taught me a profound lesson: I couldn't help solve someone else's problems if I didn't care for my own foundation first. Stepping into healthcare support taught me deep empathy and patience—learning to truly stand in the caller's shoes to bring them peace of mind.`
       },
       {
         period: '2020–2025',
@@ -2234,8 +2302,8 @@
         themeIcon: '📊',
         themeKey: 'accenture',
         title: 'Accenture Real-Time Analyst',
-        subtitle: 'Workforce management · Real-time analytics',
-        description: 'Supported WFM analytics and live operations, building BCP crisis-tracking tools, automated reporting, and Salesforce-to-spreadsheet connectors.'
+        subtitle: 'Workforce management · Systems innovation',
+        description: `Before my agent training even started, I pointed at the Workforce team and told my friends, “I’m going to be there someday.” By God’s grace, I reached that dream. Working as an RTA awakened my true passion for continuous improvement. Seeing manual, frustrating tasks drove me to find better ways—turning complex operational headaches into fast, efficient, and innovative solutions.`
       },
       {
         period: '2026',
@@ -2246,8 +2314,8 @@
         themeIcon: '⚙️',
         themeKey: 'automation',
         title: 'Virtual Assistant & CRM Specialist',
-        subtitle: 'GoHighLevel · Apps Script · Enterprise automation',
-        description: 'Designing GoHighLevel CRM architecture, Apps Script OCR tools, and enterprise automation workflows for reliable, connected operations.'
+        subtitle: 'GoHighLevel · Vibe Coding · Enterprise automation',
+        description: `Stepping into the VA world was terrifying without prior agency experience, but I remembered a lesson that shaped my life: say yes to opportunity, trust the process, and learn relentlessly. Today, I combine my passion for system design with AI-powered vibe coding to unlock capabilities I once only dreamed of. I give all glory to God, and my promise to every client is simple: trust me with your operations, and together, we will build systems that run with clarity, speed, and precision.`
       }
     ];
 
@@ -2259,11 +2327,79 @@
     let journeyModalCloseTimer = null;
     let journeySlideTimer = null;
     let activeJourneyIndex = 0;
+    const journeyNarrationButton = document.getElementById('toggleNarrationBtn');
+    const journeyNarrationLabel = document.getElementById('narrationLabel');
+    const journeyNarrationIcon = document.getElementById('narrationIcon');
+    const journeySpeech = window.speechSynthesis || null;
+    let isNarrating = false;
+    let narrationDucking = false;
+    let narrationRequestId = 0;
+
+    function updateNarrationControl() {
+      journeyNarrationButton.setAttribute('aria-pressed', String(isNarrating));
+      journeyNarrationLabel.textContent = isNarrating ? 'Stop Narration' : 'Narrate Story';
+      journeyNarrationIcon.textContent = isNarrating ? '⏹️' : '🔊';
+    }
+
+    function applyBackgroundMusicVolume() {
+      if (youtubePlayer?.setVolume) {
+        youtubePlayer.setVolume(getAudioVolume(youtubePlayer));
+      }
+    }
+
+    function stopNarration(disableNarration = false) {
+      narrationRequestId += 1;
+      journeySpeech?.cancel();
+      narrationDucking = false;
+      if (disableNarration) {
+        isNarrating = false;
+        updateNarrationControl();
+      }
+      applyBackgroundMusicVolume();
+    }
+
+    function speakMilestoneStory(text) {
+      if (!journeySpeech || typeof window.SpeechSynthesisUtterance !== 'function' || !isNarrating) return;
+
+      journeySpeech.cancel();
+      const requestId = ++narrationRequestId;
+      const utterance = new window.SpeechSynthesisUtterance(text);
+      utterance.rate = 0.89;
+      utterance.pitch = 0.85;
+      const voices = journeySpeech.getVoices();
+      const englishVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith('en'));
+      const selectedVoice = englishVoices.find((voice) => /natural|daniel|google|oliver/i.test(voice.name)) ||
+        englishVoices.find((voice) => voice.default) ||
+        englishVoices[0];
+      if (selectedVoice) utterance.voice = selectedVoice;
+
+      narrationDucking = true;
+      applyBackgroundMusicVolume();
+      utterance.onend = () => {
+        if (requestId !== narrationRequestId) return;
+        narrationDucking = false;
+        applyBackgroundMusicVolume();
+      };
+      utterance.onerror = (event) => {
+        if (requestId !== narrationRequestId || event.error === 'canceled' || event.error === 'interrupted') return;
+        console.error('Journey narration failed:', event.error);
+        narrationDucking = false;
+        applyBackgroundMusicVolume();
+      };
+      try {
+        journeySpeech.speak(utterance);
+      } catch (error) {
+        console.error('Unable to start journey narration:', error);
+        narrationDucking = false;
+        applyBackgroundMusicVolume();
+      }
+    }
 
     function updateJourneyStep(index, direction = 1) {
       const milestone = careerMilestones[index];
       if (!milestone || !journeyDots[index]) return;
 
+      stopNarration();
       window.clearTimeout(journeySlideTimer);
       activeJourneyIndex = index;
       journeySlide.dataset.direction = String(direction);
@@ -2287,6 +2423,7 @@
         });
         journeySlide.classList.remove('is-changing');
         journeySlideTimer = null;
+        if (isNarrating) speakMilestoneStory(milestone.description);
       }, 220);
     }
 
@@ -2307,6 +2444,7 @@
     }
 
     function closeJourneyModal() {
+      stopNarration(true);
       if (journeyModal.classList.contains('hidden') || journeyModal.classList.contains('opacity-0')) return;
       journeyModal.classList.add('opacity-0');
       journeyModal.setAttribute('aria-hidden', 'true');
@@ -2322,7 +2460,22 @@
     }
 
     document.getElementById('openJourneyBtn').addEventListener('click', openJourneyModal);
+    document.getElementById('heroJourneyBtn').addEventListener('click', openJourneyModal);
     document.getElementById('closeJourneyModal').addEventListener('click', closeJourneyModal);
+    journeyNarrationButton.addEventListener('click', () => {
+      if (!journeySpeech || typeof window.SpeechSynthesisUtterance !== 'function') {
+        console.error('Journey narration is not supported by this browser.');
+        journeyNarrationLabel.textContent = 'Narration unavailable';
+        return;
+      }
+      if (isNarrating) {
+        stopNarration(true);
+        return;
+      }
+      isNarrating = true;
+      updateNarrationControl();
+      speakMilestoneStory(careerMilestones[activeJourneyIndex].description);
+    });
     document.getElementById('journeyPrevious').addEventListener('click', () => moveJourney(-1));
     document.getElementById('journeyNext').addEventListener('click', () => moveJourney(1));
     journeyModal.addEventListener('click', (event) => {
@@ -2333,6 +2486,18 @@
         const index = Number(dot.dataset.index);
         updateJourneyStep(index, index >= activeJourneyIndex ? 1 : -1);
       });
+    });
+    document.addEventListener('keydown', (event) => {
+      if (journeyModal.classList.contains('hidden')) return;
+      if (event.key === 'Escape') {
+        closeJourneyModal();
+        return;
+      }
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      if (event.target instanceof HTMLElement && event.target.isContentEditable) return;
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) return;
+      event.preventDefault();
+      moveJourney(event.key === 'ArrowRight' ? 1 : -1);
     });
 
     const projects = [
@@ -2379,7 +2544,7 @@
       lastFocusedProject = document.activeElement;
       document.getElementById('drawer-tag').innerText = p.category;
       document.getElementById('drawer-content').innerHTML = `
-        <img src="${p.image}" alt="${p.imageAlt}" class="w-full h-56 object-cover rounded-xl mb-4 shadow-sm border border-slate-100">
+        <img src="${p.image}" alt="${p.imageAlt}" class="w-full h-56 object-cover rounded-xl mb-4 shadow-sm border border-slate-100" onerror="this.style.display='none'">
         <h3 class="title-label text-lg font-bold">${p.title}</h3>
         <p class="text-slate-600 text-base leading-relaxed">${p.details}</p>
 
@@ -2461,18 +2626,25 @@
 
     function getAudioVolume(player, now = performance.now()) {
       const baseVolume = Number(audioVolume.value);
+      let volume = baseVolume;
       if (audioFadeInStartedAt !== null) {
         const fadeProgress = Math.min(1, (now - audioFadeInStartedAt) / (audioFadeSeconds * 1000));
         if (fadeProgress >= 1) audioFadeInStartedAt = null;
-        else return Math.round(baseVolume * fadeProgress);
+        else volume = baseVolume * fadeProgress;
       }
 
-      const currentTime = player.getCurrentTime();
-      if (currentTime >= audioLoopEnd - audioFadeSeconds) {
-        const fadeProgress = Math.max(0, (audioLoopEnd - currentTime) / audioFadeSeconds);
-        return Math.round(baseVolume * fadeProgress);
+      if (audioFadeInStartedAt === null) {
+        try {
+          const currentTime = player.getCurrentTime();
+          if (currentTime >= audioLoopEnd - audioFadeSeconds) {
+            const fadeProgress = Math.max(0, (audioLoopEnd - currentTime) / audioFadeSeconds);
+            volume *= fadeProgress;
+          }
+        } catch (error) {
+          console.warn('Unable to read background music playback time:', error);
+        }
       }
-      return baseVolume;
+      return Math.round(narrationDucking ? Math.min(volume, 12) : volume);
     }
 
     function setAudioState(state, message) {
@@ -2545,8 +2717,14 @@
                 event.target.destroy();
                 return;
               }
-              event.target.setVolume(Number(audioVolume.value));
-              event.target.playVideo();
+              event.target.setVolume(getAudioVolume(event.target));
+              try {
+                event.target.playVideo();
+              } catch (playErr) {
+                console.warn('Autoplay prevented by browser:', playErr);
+                setAudioState('off', 'Music off (Click again)');
+                return;
+              }
               window.clearInterval(audioLoopTimer);
               audioLoopTimer = window.setInterval(() => {
                 if (event.target.getPlayerState() === window.YT.PlayerState.PLAYING) {
@@ -2582,7 +2760,9 @@
       audioLoopTimer = null;
       audioFadeInStartedAt = null;
       if (youtubePlayer) {
-        youtubePlayer.destroy();
+        try {
+          youtubePlayer.destroy();
+        } catch (e) {}
         youtubePlayer = null;
       }
       audioPlayerHost.replaceChildren();
