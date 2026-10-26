@@ -173,6 +173,52 @@
       transition: color 0.25s var(--ease-out), background-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
     }
 
+    .tooltip-target {
+      position: relative;
+    }
+
+    .tooltip-target::after {
+      position: absolute;
+      z-index: 90;
+      left: 50%;
+      bottom: calc(100% + 0.55rem);
+      width: max-content;
+      max-width: min(15rem, calc(100vw - 2rem));
+      padding: 0.4rem 0.65rem;
+      border: 1px solid rgba(165, 180, 252, 0.38);
+      border-radius: 0.65rem;
+      background: rgba(30, 27, 75, 0.96);
+      color: #eef2ff;
+      content: attr(data-tooltip);
+      font-size: 0.68rem;
+      font-weight: 700;
+      line-height: 1.35;
+      text-align: center;
+      white-space: normal;
+      box-shadow: 0 8px 24px rgba(2, 6, 23, 0.32);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 0.25rem);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+    }
+
+    .tooltip-target[data-tooltip-position="bottom"]::after {
+      top: calc(100% + 0.55rem);
+      bottom: auto;
+    }
+
+    .tooltip-target:hover::after,
+    .tooltip-target:focus::after,
+    .tooltip-target:focus-visible::after,
+    .tooltip-target:focus-within::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    [data-view-mode] {
+      position: relative;
+    }
+
     .nav-link:hover {
       transform: translateY(-1px);
     }
@@ -187,6 +233,10 @@
 
     .brand-name {
       display: inline;
+    }
+
+    .mobile-home-label {
+      display: none;
     }
 
     .mobile-contact {
@@ -231,6 +281,32 @@
       box-shadow: 0 24px 58px rgba(30, 27, 75, 0.065), inset 0 1px 0 rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+    }
+
+    .audio-widget::before,
+    .audio-widget::after {
+      position: absolute;
+      inset: -0.25rem;
+      z-index: -1;
+      border: 1px solid rgba(125, 211, 252, 0.72);
+      border-radius: inherit;
+      content: "";
+      pointer-events: none;
+      animation: audio-attention-pulse 2.4s ease-out infinite;
+    }
+
+    .audio-widget::after {
+      animation-delay: 1.2s;
+    }
+
+    .audio-widget[data-discovered="true"]::before,
+    .audio-widget[data-discovered="true"]::after {
+      display: none;
+    }
+
+    @keyframes audio-attention-pulse {
+      0% { opacity: 0.7; transform: scale(0.92); }
+      100% { opacity: 0; transform: scale(1.45); }
     }
 
     .dark-panel {
@@ -830,8 +906,10 @@
       }
 
       .glass-nav > a:first-child {
-        width: 2.75rem;
-        height: 2.75rem;
+        min-width: 2.75rem;
+        min-height: 3.25rem;
+        flex-direction: column;
+        gap: 0.15rem;
         justify-self: center;
         justify-content: center;
       }
@@ -844,6 +922,14 @@
       .glass-nav .brand-name,
       .glass-nav .mobile-contact {
         display: none;
+      }
+
+      .glass-nav .mobile-home-label {
+        display: block;
+        color: #c7d2fe;
+        font-size: 0.54rem;
+        font-weight: 700;
+        line-height: 1;
       }
 
       .glass-nav .nav-links {
@@ -876,14 +962,26 @@
 
       .glass-nav .nav-label {
         position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip-path: inset(50%);
+        top: calc(100% - 0.1rem);
+        left: 50%;
+        width: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        clip-path: none;
+        color: #c7d2fe;
+        font-size: 0.54rem;
+        font-weight: 700;
+        line-height: 1;
+        transform: translateX(-50%);
         white-space: nowrap;
         border: 0;
+      }
+
+      .glass-nav .nav-link {
+        height: 3.25rem;
+        flex-direction: column;
+        gap: 0.25rem;
       }
 
       .section-surface {
@@ -1089,6 +1187,7 @@
       box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.08), 0 8px 28px rgba(30, 27, 75, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.14);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+      isolation: isolate;
     }
 
     .audio-toggle {
@@ -1214,6 +1313,50 @@
       opacity: 0;
     }
 
+    .music-onboarding-toast {
+      position: fixed;
+      right: max(1rem, env(safe-area-inset-right));
+      bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 3.75rem);
+      z-index: 60;
+      display: flex;
+      width: min(22rem, calc(100vw - 2rem));
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 0.75rem 0.7rem 0.9rem;
+      border: 1px solid rgba(125, 211, 252, 0.42);
+      border-radius: 1rem;
+      background: rgba(30, 27, 75, 0.96);
+      color: #eef2ff;
+      box-shadow: 0 12px 32px rgba(2, 6, 23, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1.45;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(0.5rem);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .music-onboarding-toast.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .music-onboarding-close {
+      display: grid;
+      width: 1.8rem;
+      height: 1.8rem;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 9999px;
+      color: #c7d2fe;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -1249,45 +1392,46 @@
   <!-- Floating Navigation Bar -->
   <header class="fixed top-4 inset-x-0 z-40 max-w-6xl mx-auto px-4">
     <nav class="glass-nav border border-emerald-100/80 rounded-full px-6 py-3.5 flex items-center justify-between">
-      <a href="#home" class="flex items-center gap-3 group">
+      <a href="#home" class="flex items-center gap-3 group" aria-label="Home" title="Home">
         <div class="w-9 h-9 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow-md shadow-brand-600/20 group-hover:scale-105 transition-transform">
           JD
         </div>
+        <span class="mobile-home-label" aria-hidden="true">Home</span>
         <span class="brand-name font-bold text-slate-100 text-base">Jake B. Dasmariñas</span>
       </a>
 
       <div class="nav-links flex items-center gap-2 sm:gap-4 text-xs sm:text-sm font-semibold text-slate-300">
-        <a href="#home" aria-label="Home" title="Home" class="nav-link px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
+        <a href="#home" aria-label="Home" title="Home" data-tooltip="Home" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
           <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6"/></svg>
           <span class="nav-label">Home</span>
         </a>
-        <a href="#about" aria-label="About" title="About" class="nav-link px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
+        <a href="#about" aria-label="About" title="About" data-tooltip="About & background" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
           <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 21a8 8 0 0 0-16 0m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
           <span class="nav-label">About</span>
         </a>
-        <a href="#services" aria-label="Services" title="Services" class="nav-link px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
+        <a href="#services" aria-label="Services" title="Services" data-tooltip="Services offered" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
           <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7h18v13H3zM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-13 5h18m-11 0v2h4v-2"/></svg>
           <span class="nav-label">Services</span>
         </a>
-        <a href="#projects" aria-label="Projects" title="Projects" class="nav-link px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
+        <a href="#projects" aria-label="Projects" title="Projects" data-tooltip="Featured projects" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
           <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v16H4zM8 9l-2 3 2 3m8-6 2 3-2 3m-3-5-2 4"/></svg>
           <span class="nav-label">Projects</span>
         </a>
-        <a href="#contact" aria-label="Contact" title="Contact" class="nav-link px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
+        <a href="#contact" aria-label="Contact" title="Contact" data-tooltip="Get in touch" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
           <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h18v14H3zM3 7l9 6 9-6"/></svg>
           <span class="nav-label">Contact</span>
         </a>
       </div>
 
-      <a href="#contact" aria-label="Let's Talk" title="Let's Talk" class="mobile-contact cta-button focus-ring inline-flex items-center gap-2 px-5 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-md shadow-brand-600/20">
+      <a href="#contact" aria-label="Let's Talk" title="Let's Talk" data-tooltip="Get in touch" class="mobile-contact cta-button focus-ring tooltip-target inline-flex items-center gap-2 px-5 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-md shadow-brand-600/20">
         <span class="mobile-contact-label">Let's Talk</span>
         <svg class="mobile-contact-arrow w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </a>
     </nav>
     <div class="mt-2 flex justify-center">
       <div class="view-mode-toggle" role="group" aria-label="Portfolio view mode">
-        <button class="view-mode-button" type="button" data-view-mode="scroll" aria-pressed="true">Scroll Mode</button>
-        <button class="view-mode-button" type="button" data-view-mode="overview" aria-pressed="false">Overview Mode</button>
+        <button class="view-mode-button tooltip-target" type="button" data-view-mode="scroll" data-tooltip="Use the full scrolling portfolio" title="Use the full scrolling portfolio" aria-pressed="true">Scroll Mode</button>
+        <button class="view-mode-button tooltip-target" type="button" data-view-mode="overview" data-tooltip="Browse portfolio sections as cards" title="Browse portfolio sections as cards" aria-pressed="false">Overview Mode</button>
       </div>
     </div>
   </header>
@@ -1760,13 +1904,14 @@
   </footer>
 
   <aside id="audioWidget" class="audio-widget" data-state="off" aria-label="Background music player">
-    <button id="audioToggle" class="audio-toggle focus-ring" type="button" aria-label="Play background music" aria-pressed="false" aria-describedby="audioTooltip">
+    <button id="audioToggle" class="audio-toggle focus-ring" type="button" aria-label="Play Background Music" title="Play Background Music" aria-pressed="false" aria-describedby="audioTooltip">
       <span class="audio-toggle-icon" aria-hidden="true">
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 18V5l12-2v13M9 18c0 1.1-1.3 2-3 2s-3-.9-3-2 1.3-2 3-2 3 .9 3 2Zm12-2c0 1.1-1.3 2-3 2s-3-.9-3-2 1.3-2 3-2 3 .9 3 2Z"/></svg>
       </span>
       <span class="audio-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
     </button>
     <div id="audioTooltip" class="audio-tooltip">
+      <p class="mb-2 text-xs font-bold text-sky-200">Tap the vinyl to play or pause background music.</p>
       <p class="audio-credit">
         BGM: <a href="https://www.youtube.com/watch?v=ox7Wt6fsm_A" target="_blank" rel="noopener noreferrer">“Katawaredoki - Kimi no Na wa (Your Name) Piano Cover” by Torby Brand</a>. Copyright belongs to the respective rights holders.
       </p>
@@ -1777,13 +1922,17 @@
       <p id="audioStateLabel" class="mt-2 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-indigo-200" aria-live="polite">Music off</p>
     </div>
   </aside>
+  <div id="musicOnboardingToast" class="music-onboarding-toast" role="status" aria-live="polite" aria-hidden="true">
+    <span>🎵 Tip: Tap the vinyl icon at the bottom right for background music!</span>
+    <button id="musicOnboardingClose" class="music-onboarding-close focus-ring tooltip-target" type="button" aria-label="Dismiss music tip" title="Dismiss music tip" data-tooltip="Dismiss music tip" data-tooltip-position="bottom">×</button>
+  </div>
   <div id="audioPlayerHost" class="audio-player-host" aria-hidden="true"></div>
 
   <div id="overviewSectionModal" class="overview-modal fixed inset-0 z-[45] items-center justify-center bg-slate-950/75 p-3 backdrop-blur-md sm:p-6" aria-hidden="true" hidden>
     <section class="overview-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="overviewDialogTitle" tabindex="-1" inert>
       <div class="mb-3 flex items-center justify-between gap-4">
         <h2 id="overviewDialogTitle" class="text-sm font-bold uppercase tracking-[0.16em] text-sky-200">Section</h2>
-        <button id="overviewDialogClose" class="focus-ring grid h-10 w-10 shrink-0 place-items-center rounded-full border border-indigo-200/25 bg-indigo-900/70 text-indigo-100 transition hover:bg-indigo-800" type="button" aria-label="Close section">
+        <button id="overviewDialogClose" class="focus-ring tooltip-target grid h-10 w-10 shrink-0 place-items-center rounded-full border border-indigo-200/25 bg-indigo-900/70 text-indigo-100 transition hover:bg-indigo-800" type="button" aria-label="Close section" title="Close section" data-tooltip="Close section" data-tooltip-position="bottom">
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
         </button>
       </div>
@@ -1794,7 +1943,7 @@
   <!-- My Journey modal overlay -->
   <div id="journeyModal" class="journey-modal-overlay fixed inset-0 z-[70] hidden flex items-center justify-center bg-slate-950/80 p-4 opacity-0 backdrop-blur-md" aria-hidden="true">
     <section class="journey-carousel-card relative max-h-[92dvh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-emerald-400/20 p-4 text-white sm:p-7" role="dialog" aria-modal="true" aria-labelledby="journeyModalHeading" aria-describedby="journeyDescription" tabindex="-1" inert>
-      <button id="closeJourneyModal" type="button" class="focus-ring absolute right-4 top-4 z-10 rounded-full bg-slate-800 p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white sm:right-5 sm:top-5" aria-label="Close modal">
+      <button id="closeJourneyModal" type="button" class="focus-ring tooltip-target absolute right-4 top-4 z-10 rounded-full bg-slate-800 p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white sm:right-5 sm:top-5" aria-label="Close modal" title="Close modal" data-tooltip="Close modal" data-tooltip-position="bottom">
         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
       </button>
 
@@ -1811,7 +1960,7 @@
       </div>
 
       <div class="journey-carousel-layout grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-2 sm:grid-cols-[3.25rem_minmax(0,1fr)_3.25rem] sm:gap-4">
-        <button id="journeyPrevious" type="button" class="journey-carousel-arrow focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Previous milestone">
+        <button id="journeyPrevious" type="button" class="journey-carousel-arrow tooltip-target focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Previous Chapter" title="Previous Chapter" data-tooltip="Previous Chapter">
           <span aria-hidden="true">‹</span>
         </button>
 
@@ -1834,7 +1983,7 @@
           </div>
         </article>
 
-        <button id="journeyNext" type="button" class="journey-carousel-arrow focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Next milestone">
+        <button id="journeyNext" type="button" class="journey-carousel-arrow tooltip-target focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Next Chapter" title="Next Chapter" data-tooltip="Next Chapter">
           <span aria-hidden="true">›</span>
         </button>
       </div>
@@ -1884,10 +2033,10 @@
       </div>
 
       <div class="mt-5 flex items-center justify-center gap-4" role="group" aria-label="Choose a career milestone">
-        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="0" aria-label="2017–2019, McDonald's Crew Trainer" aria-current="step"></button>
-        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="1" aria-label="2019–2020, Healthcare CSR" aria-current="false"></button>
-        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="2" aria-label="2020–2025, Accenture Real-Time Analyst" aria-current="false"></button>
-        <button type="button" class="journey-dot h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="3" aria-label="2026, Virtual Assistant and CRM Specialist" aria-current="false"></button>
+        <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="0" aria-label="2017–2019, McDonald's Crew Trainer" title="2017–2019 · McDonald's Crew Trainer" data-tooltip="2017–2019 · McDonald's Crew Trainer" aria-current="step"></button>
+        <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="1" aria-label="2019–2020, Healthcare CSR" title="2019–2020 · Healthcare CSR" data-tooltip="2019–2020 · Healthcare CSR" aria-current="false"></button>
+        <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="2" aria-label="2020–2025, Accenture Real-Time Analyst" title="2020–2025 · Accenture Real-Time Analyst" data-tooltip="2020–2025 · Accenture Real-Time Analyst" aria-current="false"></button>
+        <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="3" aria-label="2026, Virtual Assistant and CRM Specialist" title="2026 · Virtual Assistant and CRM Specialist" data-tooltip="2026 · Virtual Assistant and CRM Specialist" aria-current="false"></button>
       </div>
     </section>
   </div>
@@ -1898,7 +2047,7 @@
   <aside id="drawer" class="drawer-panel fixed top-0 right-0 bottom-0 w-full max-w-lg z-50 shadow-2xl translate-x-full p-6 overflow-y-auto space-y-6 bg-[#f8fafc] text-slate-800 border-l border-slate-200" role="dialog" aria-modal="true" aria-labelledby="drawer-tag" aria-hidden="true" inert>
     <div class="flex items-center justify-between pb-4 border-b border-slate-200">
       <span class="title-label text-xs font-bold uppercase" id="drawer-tag">Project Details</span>
-      <button id="drawer-close" onclick="closeDrawer()" aria-label="Close project details" class="focus-ring p-2 rounded-full hover:bg-slate-200/70 text-slate-500 hover:text-slate-900 transition-colors">
+      <button id="drawer-close" onclick="closeDrawer()" aria-label="Close project details" title="Close project details" data-tooltip="Close project details" data-tooltip-position="bottom" class="focus-ring tooltip-target p-2 rounded-full hover:bg-slate-200/70 text-slate-500 hover:text-slate-900 transition-colors">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
@@ -2615,11 +2764,16 @@
     const audioStateLabel = document.getElementById('audioStateLabel');
     const audioPlayerHost = document.getElementById('audioPlayerHost');
     const audioVolume = document.getElementById('audioVolume');
+    const musicOnboardingToast = document.getElementById('musicOnboardingToast');
+    const musicOnboardingClose = document.getElementById('musicOnboardingClose');
+    const musicTipStorageKey = 'portfolio-music-tip-dismissed';
     let youtubeApiPromise = null;
     let youtubePlayer = null;
     let audioRequestId = 0;
     let audioLoopTimer = null;
     let audioFadeInStartedAt = null;
+    let musicTipShowTimer = null;
+    let musicTipHideTimer = null;
     const audioLoopStart = 8;
     const audioLoopEnd = 201;
     const audioFadeSeconds = 2;
@@ -2650,9 +2804,48 @@
     function setAudioState(state, message) {
       audioWidget.dataset.state = state;
       audioToggle.setAttribute('aria-pressed', String(state === 'playing' || state === 'loading'));
-      audioToggle.setAttribute('aria-label', state === 'playing' ? 'Turn background music off' : 'Play background music');
+      const tooltip = state === 'playing' || state === 'loading' ? 'Turn background music off' : 'Play Background Music';
+      audioToggle.setAttribute('aria-label', tooltip);
+      audioToggle.setAttribute('title', tooltip);
+      audioToggle.dataset.tooltip = tooltip;
       audioStateLabel.textContent = message;
     }
+
+    function hideMusicOnboardingTip(persistDismissal = false) {
+      window.clearTimeout(musicTipShowTimer);
+      window.clearTimeout(musicTipHideTimer);
+      musicOnboardingToast.classList.remove('is-visible');
+      musicOnboardingToast.setAttribute('aria-hidden', 'true');
+      audioWidget.dataset.discovered = 'true';
+      if (!persistDismissal) return;
+      try {
+        window.localStorage.setItem(musicTipStorageKey, 'true');
+      } catch (error) {
+        console.warn('Unable to save the music tip dismissal:', error);
+      }
+    }
+
+    let musicTipWasDismissed = false;
+    try {
+      musicTipWasDismissed = window.localStorage.getItem(musicTipStorageKey) === 'true';
+    } catch (error) {
+      console.warn('Unable to read the music tip preference:', error);
+    }
+
+    if (!musicTipWasDismissed) {
+      musicTipShowTimer = window.setTimeout(() => {
+        musicTipShowTimer = null;
+        musicOnboardingToast.classList.add('is-visible');
+        musicOnboardingToast.setAttribute('aria-hidden', 'false');
+        musicTipHideTimer = window.setTimeout(() => hideMusicOnboardingTip(), 6500);
+      }, 2000);
+    } else {
+      audioWidget.dataset.discovered = 'true';
+    }
+
+    audioWidget.addEventListener('pointerdown', () => hideMusicOnboardingTip(true), { passive: true });
+    audioWidget.addEventListener('focusin', () => hideMusicOnboardingTip(true));
+    musicOnboardingClose.addEventListener('click', () => hideMusicOnboardingTip(true));
 
     function loadYouTubeIframeApi() {
       if (window.YT?.Player) return Promise.resolve(window.YT);
