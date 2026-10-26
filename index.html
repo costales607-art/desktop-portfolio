@@ -55,12 +55,6 @@
       scroll-margin-top: 6rem;
     }
 
-    /* GPU Performance Optimization Overrides */
-    .glass-nav, .section-surface, .dark-panel, .audio-widget, .overview-dialog-panel {
-      transform: translateZ(0);
-      will-change: transform;
-    }
-
     /* Top & Bottom Viewport Smooth Scroll Fade Overlays */
     body::before {
       content: "";
@@ -84,10 +78,6 @@
       background: linear-gradient(to top, #0b1026 0%, rgba(11, 16, 38, 0) 100%);
       pointer-events: none;
       z-index: 35;
-    }
-
-    .section-appear {
-      animation: section-appear 0.35s ease-out both;
     }
 
     @keyframes hero-enter {
@@ -153,11 +143,6 @@
       display: block;
     }
 
-    @keyframes section-appear {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .glass-nav {
       background: rgba(30, 27, 75, 0.78);
       backdrop-filter: blur(12px);
@@ -213,10 +198,6 @@
     .tooltip-target:focus-within::after {
       opacity: 1;
       transform: translate(-50%, 0);
-    }
-
-    [data-view-mode] {
-      position: relative;
     }
 
     .nav-link:hover {
@@ -451,6 +432,7 @@
     }
 
     .journey-carousel-card {
+      overflow-x: hidden;
       border-color: rgba(165, 180, 252, 0.25);
       background:
         linear-gradient(to bottom, rgba(2, 6, 23, 0.38), transparent 1.6rem),
@@ -464,7 +446,7 @@
       min-width: 0;
       opacity: 1;
       transform: translateX(0);
-      transition: opacity 0.3s ease, transform 0.3s var(--ease-out), filter 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s var(--ease-out);
     }
 
     .journey-slide > * {
@@ -474,7 +456,6 @@
     .journey-slide.is-changing {
       opacity: 0;
       transform: translateX(0.75rem);
-      filter: blur(5px);
     }
 
     .journey-slide.is-changing > * {
@@ -570,10 +551,54 @@
     .journey-figure-motion {
       position: absolute;
       top: 50%;
-      left: 5%;
+      left: 0%;
       transform: translate(-50%, -50%);
       transition: left 0.8s linear;
-      will-change: transform;
+    }
+
+    .journey-animation-figure {
+      transition: opacity 0.18s ease, transform 0.24s var(--ease-out);
+    }
+
+    .journey-animation-track.is-transitioning .journey-animation-figure {
+      opacity: 0;
+      transform: translateX(1rem) scale(0.82);
+    }
+
+    .journey-action-label {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.55rem;
+      z-index: 2;
+      max-width: calc(100% - 1rem);
+      color: #cbd5e1;
+      font-size: 0.62rem;
+      line-height: 1.25;
+      text-align: right;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .journey-description {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(125, 211, 252, 0.5) transparent;
+    }
+
+    .journey-description::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .journey-description::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .journey-description::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: rgba(125, 211, 252, 0.5);
+    }
+
+    .journey-animation-track.is-showing-action .journey-action-label {
+      opacity: 1;
     }
 
     .journey-figure-motion::before {
@@ -715,26 +740,94 @@
       outline-offset: 4px;
     }
 
+    #journeyPrevious,
+    #journeySlide,
+    #journeyNext {
+      grid-row: 1;
+    }
+
+    #journeyPrevious { grid-column: 1; }
+    #journeySlide { grid-column: 2; }
+    #journeyNext { grid-column: 3; }
+
+    #journeyAnimationTrack {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
     @media (max-width: 480px) {
       .journey-carousel-layout {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+        gap: 0.5rem;
+      }
+
+      #journeyAnimationTrack {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        margin-top: 0;
       }
 
       #journeySlide {
         grid-column: 1 / -1;
-        grid-row: 1;
+        grid-row: 2;
       }
 
       #journeyPrevious {
         grid-column: 1;
-        grid-row: 2;
+        grid-row: 3;
         justify-self: end;
       }
 
       #journeyNext {
         grid-column: 2;
-        grid-row: 2;
+        grid-row: 3;
         justify-self: start;
+      }
+
+      .journey-description {
+        max-height: 7rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+    }
+
+    @media (max-width: 480px) and (max-height: 700px) {
+      .journey-modal-instructions {
+        display: none;
+      }
+
+      #journeyVisualHeader {
+        min-height: 5.25rem;
+        padding: 0.75rem;
+      }
+
+      #journeySlide > div:last-child {
+        padding: 0.75rem;
+      }
+
+      #journeySlide #journeyTitle {
+        margin-top: 0.5rem;
+        font-size: 1.125rem;
+        line-height: 1.25;
+      }
+
+      #journeySlide #journeyDescription {
+        max-height: 4.25rem;
+        margin-top: 0.5rem;
+      }
+
+      #journeyAnimationTrack {
+        height: 4.5rem;
+      }
+
+      .journey-carousel-card [aria-label="Choose a career milestone"] {
+        margin-top: 0.5rem;
+      }
+
+      .journey-description {
+        max-height: 4.75rem;
       }
     }
 
@@ -900,7 +993,7 @@
 
       header nav.glass-nav {
         display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: auto minmax(0, 1fr);
         gap: 0;
         padding: 0.375rem 0.5rem;
       }
@@ -934,21 +1027,18 @@
 
       .glass-nav .nav-links {
         display: grid;
-        grid-column: 2 / -1;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-column: 2;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         justify-items: center;
         min-width: 0;
         width: 100%;
         overflow: visible;
       }
 
-      .glass-nav .nav-links a[href="#home"] {
-        display: none;
-      }
-
       .glass-nav .nav-links .nav-link {
         position: relative;
-        width: 2.75rem;
+        width: 100%;
+        max-width: 2.75rem;
         height: 2.75rem;
         justify-content: center;
         padding: 0;
@@ -1003,144 +1093,6 @@
       opacity: 0.68;
     }
 
-    .view-mode-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2rem;
-      padding: 0.22rem;
-      border: 1px solid rgba(165, 180, 252, 0.44);
-      border-radius: 9999px;
-      background: rgba(30, 27, 75, 0.82);
-      box-shadow: 0 8px 24px rgba(30, 27, 75, 0.18);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    .view-mode-button {
-      min-height: 2rem;
-      padding: 0.4rem 0.75rem;
-      border-radius: 9999px;
-      color: #c7d2fe;
-      font-size: 0.68rem;
-      font-weight: 700;
-      white-space: nowrap;
-      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .view-mode-button[aria-pressed="true"] {
-      background: linear-gradient(120deg, #6366f1, #0ea5e9);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.22);
-    }
-
-    .overview-dashboard {
-      display: none;
-    }
-
-    main.is-overview {
-      min-height: 70vh;
-      padding-top: 9.5rem;
-    }
-
-    main.is-overview > section:not(#overviewDashboard) {
-      display: none;
-    }
-
-    main.is-overview > #overviewDashboard {
-      display: block;
-      animation: section-appear 0.4s var(--ease-out) both;
-    }
-
-    #portfolioMain:not(.is-overview) > #home {
-      margin-top: 0;
-    }
-
-    /* Redesigned Bento-Style Overview Cards */
-    .overview-card {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(165, 180, 252, 0.32);
-      background: linear-gradient(145deg, rgba(49, 46, 129, 0.9), rgba(30, 27, 75, 0.94));
-      color: #eef2ff;
-      text-align: left;
-      box-shadow: 0 18px 40px rgba(30, 27, 75, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      transition: transform 0.3s var(--ease-out), border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .overview-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(125, 211, 252, 0.65);
-      box-shadow: 0 24px 48px rgba(30, 27, 75, 0.24), 0 0 24px rgba(56, 189, 248, 0.15);
-    }
-
-    .overview-card-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.18;
-      transition: transform 0.5s var(--ease-out), opacity 0.3s ease;
-    }
-
-    .overview-card:hover .overview-card-bg {
-      transform: scale(1.05);
-      opacity: 0.28;
-    }
-
-    .overview-card-icon {
-      display: grid;
-      width: 2.5rem;
-      height: 2.5rem;
-      place-items: center;
-      border: 1px solid rgba(125, 211, 252, 0.32);
-      border-radius: 0.8rem;
-      background: rgba(56, 189, 248, 0.12);
-      color: #bae6fd;
-    }
-
-    .overview-modal[hidden] {
-      display: none;
-    }
-
-    .overview-modal {
-      display: flex;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.28s ease, visibility 0.28s ease;
-    }
-
-    .overview-modal.is-open {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .overview-dialog-panel {
-      width: min(68rem, 100%);
-      max-height: min(92dvh, 60rem);
-      overflow-y: auto;
-      border: 1px solid rgba(165, 180, 252, 0.3);
-      border-radius: 1.5rem;
-      background: rgba(30, 27, 75, 0.94);
-      padding: clamp(0.75rem, 2.5vw, 1.5rem);
-      box-shadow: 0 30px 90px rgba(15, 23, 42, 0.5);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      transform: translateY(0.75rem) scale(0.99);
-      transition: transform 0.3s var(--ease-out);
-    }
-
-    .overview-modal.is-open .overview-dialog-panel {
-      transform: translateY(0) scale(1);
-    }
-
-    #overviewDialogContent > section {
-      width: 100%;
-      max-width: 100%;
-      max-height: calc(min(92dvh, 60rem) - 6rem);
-      overflow-y: auto;
-    }
-
     #contact .dark-panel {
       border-color: rgba(165, 180, 252, 0.32);
       background:
@@ -1154,7 +1106,7 @@
       color: #f1f5f9;
     }
 
-    #portfolioMain:not(.is-overview) #contact .dark-panel h2.title-label {
+    #contact .dark-panel h2.title-label {
       color: #fff;
     }
 
@@ -1401,9 +1353,9 @@
       </a>
 
       <div class="nav-links flex items-center gap-2 sm:gap-4 text-xs sm:text-sm font-semibold text-slate-300">
-        <a href="#home" aria-label="Home" title="Home" data-tooltip="Home" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
-          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6"/></svg>
-          <span class="nav-label">Home</span>
+        <a href="#faq" aria-label="FAQ" title="FAQ" data-tooltip="Frequently asked questions" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8.2 9a3.8 3.8 0 0 1 7.4 1.2c0 2.3-3.6 3.1-3.6 5m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          <span class="nav-label">FAQ</span>
         </a>
         <a href="#about" aria-label="About" title="About" data-tooltip="About & background" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
           <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 21a8 8 0 0 0-16 0m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
@@ -1428,101 +1380,10 @@
         <svg class="mobile-contact-arrow w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </a>
     </nav>
-    <div class="mt-2 flex justify-center">
-      <div class="view-mode-toggle" role="group" aria-label="Portfolio view mode">
-        <button class="view-mode-button tooltip-target" type="button" data-view-mode="scroll" data-tooltip="Use the full scrolling portfolio" title="Use the full scrolling portfolio" aria-pressed="true">Scroll Mode</button>
-        <button class="view-mode-button tooltip-target" type="button" data-view-mode="overview" data-tooltip="Browse portfolio sections as cards" title="Browse portfolio sections as cards" aria-pressed="false">Overview Mode</button>
-      </div>
-    </div>
   </header>
 
   <!-- Main Container -->
   <main id="portfolioMain" class="max-w-6xl mx-auto px-4 sm:px-6 pt-36 sm:pt-32 pb-20 space-y-16 flex-grow w-full">
-
-    <!-- REDESIGNED BENTO GRID OVERVIEW DASHBOARD -->
-    <section id="overviewDashboard" class="overview-dashboard section-surface space-y-6" aria-labelledby="overviewHeading">
-      <div>
-        <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-500">Portfolio Overview</p>
-        <h1 id="overviewHeading" class="mt-1 text-3xl font-extrabold text-indigo-950 sm:text-4xl">Explore by Chapter</h1>
-        <p class="mt-1 text-sm text-slate-600 sm:text-base">Click any section to open an interactive modal without scrolling.</p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <!-- Projects (Spans 2 columns) -->
-        <button type="button" class="overview-card focus-ring md:col-span-2 rounded-2xl p-6 flex flex-col justify-between min-h-[14rem]" data-overview-target="projects">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85" alt="Analytics and workflows" class="overview-card-bg" onerror="this.style.display='none'">
-          <div class="flex justify-between items-start z-10">
-            <span class="overview-card-icon" aria-hidden="true">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v16H4zM8 9l-2 3 2 3m8-6 2 3-2 3m-3-5-2 4"/></svg>
-            </span>
-            <span class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold">4 Case Studies</span>
-          </div>
-          <div class="mt-6 z-10">
-            <span class="block text-2xl font-extrabold text-white">Featured Projects</span>
-            <span class="mt-1 block text-sm text-indigo-100/80">GoHighLevel architectures, Drive OCR pipelines, and Slack integrations.</span>
-          </div>
-        </button>
-
-        <!-- Services (1 column) -->
-        <button type="button" class="overview-card focus-ring rounded-2xl p-6 flex flex-col justify-between min-h-[14rem]" data-overview-target="services">
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85" alt="Data Services" class="overview-card-bg" onerror="this.style.display='none'">
-          <div class="flex justify-between items-start z-10">
-            <span class="overview-card-icon" aria-hidden="true">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7h18v13H3zM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-13 5h18m-11 0v2h4v-2"/></svg>
-            </span>
-            <span class="px-3 py-1 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs font-bold">Services</span>
-          </div>
-          <div class="mt-6 z-10">
-            <span class="block text-xl font-extrabold text-white">Services Offered</span>
-            <span class="mt-1 block text-sm text-indigo-100/80">CRM setup, Apps Script engines & Webhooks.</span>
-          </div>
-        </button>
-
-        <!-- Home (1 column) -->
-        <button type="button" class="overview-card focus-ring rounded-2xl p-6 flex flex-col justify-between min-h-[13rem]" data-overview-target="home">
-          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1000&q=85" alt="Code displayed on a computer screen" class="overview-card-bg" onerror="this.style.display='none'">
-          <div class="flex justify-between items-start z-10">
-            <span class="overview-card-icon" aria-hidden="true">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6"/></svg>
-            </span>
-          </div>
-          <div class="mt-6 z-10">
-            <span class="block text-xl font-extrabold text-white">Home Terminal</span>
-            <span class="mt-1 block text-sm text-indigo-100/80">Introduction and simulated GHL automation terminal.</span>
-          </div>
-        </button>
-
-        <!-- About (1 column) -->
-        <button type="button" class="overview-card focus-ring rounded-2xl p-6 flex flex-col justify-between min-h-[13rem]" data-overview-target="about">
-          <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85" alt="Professionals collaborating at work" class="overview-card-bg" onerror="this.style.display='none'">
-          <div class="flex justify-between items-start z-10">
-            <span class="overview-card-icon" aria-hidden="true">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 21a8 8 0 0 0-16 0m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
-            </span>
-            <span class="px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-bold">Timeline</span>
-          </div>
-          <div class="mt-6 z-10">
-            <span class="block text-xl font-extrabold text-white">About & Background</span>
-            <span class="mt-1 block text-sm text-indigo-100/80">Career timeline, principles, and tech capabilities.</span>
-          </div>
-        </button>
-
-        <!-- Contact (1 column) -->
-        <button type="button" class="overview-card focus-ring rounded-2xl p-6 flex flex-col justify-between min-h-[13rem]" data-overview-target="contact">
-          <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1000&q=85" alt="Business professionals discussing a project" class="overview-card-bg" onerror="this.style.display='none'">
-          <div class="flex justify-between items-start z-10">
-            <span class="overview-card-icon" aria-hidden="true">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h18v14H3zM3 7l9 6 9-6"/></svg>
-            </span>
-            <span class="px-3 py-1 rounded-full bg-emerald-400/20 border border-emerald-300/30 text-emerald-300 text-xs font-bold">Hire Me</span>
-          </div>
-          <div class="mt-6 z-10">
-            <span class="block text-xl font-extrabold text-white">Get in Touch</span>
-            <span class="mt-1 block text-sm text-indigo-100/80">Direct email contacts and GHL project consultations.</span>
-          </div>
-        </button>
-      </div>
-    </section>
 
     <!-- HOME HERO SECTION -->
     <section id="home" class="pt-2">
@@ -1932,33 +1793,21 @@
   <audio id="chapterNarration3" src="audio/chapter3.mp4" preload="metadata"></audio>
   <audio id="chapterNarration4" src="audio/chapter4.mp4" preload="metadata"></audio>
 
-  <div id="overviewSectionModal" class="overview-modal fixed inset-0 z-[45] items-center justify-center bg-slate-950/75 p-3 backdrop-blur-md sm:p-6" aria-hidden="true" hidden>
-    <section class="overview-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="overviewDialogTitle" tabindex="-1" inert>
-      <div class="mb-3 flex items-center justify-between gap-4">
-        <h2 id="overviewDialogTitle" class="text-sm font-bold uppercase tracking-[0.16em] text-sky-200">Section</h2>
-        <button id="overviewDialogClose" class="focus-ring tooltip-target grid h-10 w-10 shrink-0 place-items-center rounded-full border border-indigo-200/25 bg-indigo-900/70 text-indigo-100 transition hover:bg-indigo-800" type="button" aria-label="Close section" title="Close section" data-tooltip="Close section" data-tooltip-position="bottom">
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-      <div id="overviewDialogContent"></div>
-    </section>
-  </div>
-
   <!-- My Journey modal overlay -->
-  <div id="journeyModal" class="journey-modal-overlay fixed inset-0 z-[70] hidden flex items-center justify-center bg-slate-950/80 p-4 opacity-0 backdrop-blur-md" aria-hidden="true">
-    <section class="journey-carousel-card relative max-h-[92dvh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-emerald-400/20 p-4 text-white sm:p-7" role="dialog" aria-modal="true" aria-labelledby="journeyModalHeading" aria-describedby="journeyDescription" tabindex="-1" inert>
-      <button id="closeJourneyModal" type="button" class="focus-ring tooltip-target absolute right-4 top-4 z-10 rounded-full bg-slate-800 p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white sm:right-5 sm:top-5" aria-label="Close modal" title="Close modal" data-tooltip="Close modal" data-tooltip-position="bottom">
+  <div id="journeyModal" class="journey-modal-overlay fixed inset-0 z-[70] hidden flex items-center justify-center bg-slate-950/80 p-2 opacity-0 backdrop-blur-sm sm:p-4" aria-hidden="true">
+    <section class="journey-carousel-card relative max-h-[96dvh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-emerald-400/20 p-3 text-white sm:p-7" role="dialog" aria-modal="true" aria-labelledby="journeyModalHeading" aria-describedby="journeyDescription" tabindex="-1" inert>
+      <button id="closeJourneyModal" type="button" class="focus-ring absolute right-4 top-4 z-10 rounded-full bg-slate-800 p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white sm:right-5 sm:top-5" aria-label="Close modal" title="Close modal">
         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
       </button>
 
-      <div class="mb-5 space-y-2 pr-10 text-center sm:px-10">
+      <div class="mb-3 space-y-1.5 pr-10 text-center sm:mb-5 sm:space-y-2 sm:px-10">
         <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Interactive Career Timeline</span>
         <h2 id="journeyModalHeading" class="text-2xl font-extrabold text-white sm:text-3xl">My Journey</h2>
-        <p class="text-sm text-slate-400">Use the arrows, dots, or keyboard to explore each chapter.</p>
+        <p class="journey-modal-instructions text-sm text-slate-400">Choose a chapter with arrows or dots.</p>
         <div class="flex justify-center pt-2">
-          <button id="toggleNarrationBtn" type="button" class="focus-ring inline-flex items-center gap-2 rounded-full border border-indigo-300/30 bg-indigo-900/60 px-4 py-2 text-xs font-bold text-indigo-100 transition hover:bg-indigo-800" aria-pressed="false">
+          <button id="toggleNarrationBtn" type="button" role="switch" class="focus-ring inline-flex items-center gap-2 rounded-full border border-indigo-300/30 bg-indigo-900/60 px-4 py-2 text-xs font-bold text-indigo-100 transition hover:bg-indigo-800" aria-checked="false" aria-label="Narration off">
             <span id="narrationIcon" aria-hidden="true">🔊</span>
-            <span id="narrationLabel">Narrate Story</span>
+            <span id="narrationLabel">Narration Off</span>
           </button>
         </div>
       </div>
@@ -1983,16 +1832,16 @@
             </div>
             <h3 id="journeyTitle" class="mt-3 text-xl font-extrabold text-white sm:text-2xl">McDonald's Crew Trainer</h3>
             <p id="journeySubtitle" class="mt-1 text-sm font-semibold text-emerald-200">Early foundation · Grit & Discipline</p>
-            <p id="journeyDescription" class="mt-3 min-h-16 text-sm leading-relaxed text-slate-300 sm:text-base">I used to wonder how people survived being a working student. There were days I’d fall asleep in the crew room right after a shift—closing my eyes in the morning and waking up when it was already night. It tested every ounce of my physical and mental strength. But looking back, McDonald’s didn't just employ me; it molded me. It built the grit, courage, and resilience that define who I am today.</p>
+            <p id="journeyDescription" class="journey-description mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">I used to wonder how people survived being a working student. There were days I’d fall asleep in the crew room right after a shift—closing my eyes in the morning and waking up when it was already night. It tested every ounce of my physical and mental strength. But looking back, McDonald’s didn't just employ me; it molded me. It built the grit, courage, and resilience that define who I am today.</p>
           </div>
         </article>
 
         <button id="journeyNext" type="button" class="journey-carousel-arrow tooltip-target focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Next Chapter" title="Next Chapter" data-tooltip="Next Chapter">
           <span aria-hidden="true">›</span>
         </button>
-      </div>
 
-      <div id="journeyAnimationTrack" class="journey-animation-track mt-4 h-24 rounded-2xl border border-slate-700/80 sm:h-28" data-vehicle="walk" role="img" aria-label="Animated walking figure traveling along a road">
+      <div id="journeyAnimationTrack" class="journey-animation-track mt-4 h-20 rounded-2xl border border-slate-700/80 sm:h-28" data-vehicle="walk" role="group" aria-label="Animated walking figure traveling along a road">
+        <span id="journeyActionLabel" class="journey-action-label" aria-live="polite"></span>
         <div class="journey-motion-path" aria-hidden="true">
           <div id="journeyFigureMotion" class="journey-figure-motion">
             <div class="journey-animation-figure">
@@ -2014,6 +1863,7 @@
               <g class="vehicle-motorcycle vehicle-motorcycle-body">
                 <g>
                   <circle cx="59" cy="10" r="5" fill="currentColor" stroke="none"/>
+                  <path d="M54 9a5 5 0 0 1 10 0v2H54Z" fill="#a5f3fc" stroke="none"/>
                   <path d="m57 17-8 10 12 6 8-8m-18 2-10 2" stroke-width="4"/>
                 </g>
                 <g class="vehicle-wheel"><circle cx="30" cy="48" r="11" stroke-width="3"/><path d="M30 37v22m-11-11h22m-19-8 16 16m0-16L22 56" stroke-width="1"/></g>
@@ -2025,6 +1875,8 @@
                   <path d="m17 42 7-13a8 8 0 0 1 7-5h39a8 8 0 0 1 7 5l7 13v11H17V42Z" fill="#064e3b" stroke-width="2"/>
                   <path d="m29 29-5 12h50l-5-12a4 4 0 0 0-4-3H33a4 4 0 0 0-4 3Z" fill="#0f172a" stroke-width="2"/>
                   <path d="M18 42h66" stroke-width="2"/>
+                  <circle cx="51" cy="31" r="3" fill="currentColor" stroke="none"/>
+                  <path d="M46 40v-3a5 5 0 0 1 10 0v3" stroke-width="2"/>
                   <g class="vehicle-wheel"><circle cx="32" cy="52" r="7" fill="#0f172a" stroke-width="3"/><path d="M32 46v12m-6-6h12" stroke-width="1"/></g>
                   <g class="vehicle-wheel"><circle cx="70" cy="52" r="7" fill="#0f172a" stroke-width="3"/><path d="M70 46v12m-6-6h12" stroke-width="1"/></g>
                 </g>
@@ -2035,8 +1887,9 @@
           </div>
         </div>
       </div>
+      </div>
 
-      <div class="mt-5 flex items-center justify-center gap-4" role="group" aria-label="Choose a career milestone">
+      <div class="mt-3 flex items-center justify-center gap-4 sm:mt-5" role="group" aria-label="Choose a career milestone">
         <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="0" aria-label="2017–2019, McDonald's Crew Trainer" title="2017–2019 · McDonald's Crew Trainer" data-tooltip="2017–2019 · McDonald's Crew Trainer" aria-current="step"></button>
         <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="1" aria-label="2019–2020, Healthcare CSR" title="2019–2020 · Healthcare CSR" data-tooltip="2019–2020 · Healthcare CSR" aria-current="false"></button>
         <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="2" aria-label="2020–2025, Accenture Real-Time Analyst" title="2020–2025 · Accenture Real-Time Analyst" data-tooltip="2020–2025 · Accenture Real-Time Analyst" aria-current="false"></button>
@@ -2135,6 +1988,7 @@
     let networkScale = 1;
     let networkFrame = null;
     let networkVisible = false;
+    let networkLastFrame = 0;
 
     function resizeNetworkCanvas() {
       const bounds = heroCard.getBoundingClientRect();
@@ -2188,9 +2042,14 @@
       });
     }
 
-    function animateNetwork() {
+    function animateNetwork(timestamp) {
       networkFrame = null;
       if (!networkVisible || document.hidden || networkMotion.matches) return;
+      if (timestamp - networkLastFrame < 33) {
+        scheduleNetworkFrame();
+        return;
+      }
+      networkLastFrame = timestamp;
       renderNetwork();
       networkFrame = window.requestAnimationFrame(animateNetwork);
     }
@@ -2279,6 +2138,13 @@
       twilightFrame = window.requestAnimationFrame(animateTwilight);
     }
 
+    function pauseTwilightFrame() {
+      if (twilightFrame !== null) {
+        window.cancelAnimationFrame(twilightFrame);
+        twilightFrame = null;
+      }
+    }
+
     function animateTwilight(timestamp) {
       twilightFrame = null;
       if (document.hidden || twilightMotion.matches) return;
@@ -2294,6 +2160,15 @@
 
     window.addEventListener('resize', resizeTwilightCanvas);
     resizeTwilightCanvas();
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        pauseNetworkFrame();
+        pauseTwilightFrame();
+        return;
+      }
+      scheduleNetworkFrame();
+      scheduleTwilightFrame();
+    });
 
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
       link.addEventListener('click', (e) => {
@@ -2304,22 +2179,15 @@
         if (!target) return;
 
         e.preventDefault();
-        if (
-          document.getElementById('portfolioMain').classList.contains('is-overview') &&
-          target.parentElement === document.getElementById('portfolioMain')
-        ) {
-          openOverviewSection(targetId, link);
-          history.pushState(null, '', `#${targetId}`);
-          return;
-        }
-
         const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
         target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
         history.pushState(null, '', `#${targetId}`);
-
-        target.classList.remove('section-appear');
-        void target.offsetWidth;
-        target.classList.add('section-appear');
+        if (scrollBehavior === 'smooth' && typeof target.animate === 'function') {
+          target.animate(
+            [{ opacity: 0.82, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }],
+            { duration: 350, easing: 'ease-out' }
+          );
+        }
       });
     });
 
@@ -2479,7 +2347,9 @@
     let lastFocusedJourneyTrigger = null;
     let journeyModalCloseTimer = null;
     let journeySlideTimer = null;
+    let journeyActionTimer = null;
     let activeJourneyIndex = 0;
+    let displayedJourneyIndex = 0;
     const journeyNarrationButton = document.getElementById('toggleNarrationBtn');
     const journeyNarrationLabel = document.getElementById('narrationLabel');
     const journeyNarrationIcon = document.getElementById('narrationIcon');
@@ -2494,8 +2364,9 @@
     let activeNarrationAudio = null;
 
     function updateNarrationControl() {
-      journeyNarrationButton.setAttribute('aria-pressed', String(isNarrating));
-      journeyNarrationLabel.textContent = isNarrating ? 'Stop Narration' : 'Narrate Story';
+      journeyNarrationButton.setAttribute('aria-checked', String(isNarrating));
+      journeyNarrationButton.setAttribute('aria-label', `Narration ${isNarrating ? 'on' : 'off'}`);
+      journeyNarrationLabel.textContent = `Narration ${isNarrating ? 'On' : 'Off'}`;
       journeyNarrationIcon.textContent = isNarrating ? '⏹️' : '🔊';
     }
 
@@ -2523,7 +2394,6 @@
       if (activeNarrationAudio !== audio) return;
       activeNarrationAudio = null;
       narrationDucking = false;
-      isNarrating = false;
       updateNarrationControl();
       applyBackgroundMusicVolume();
     }
@@ -2582,6 +2452,12 @@
 
       stopNarration();
       window.clearTimeout(journeySlideTimer);
+      window.clearTimeout(journeyActionTimer);
+      const previousJourneyIndex = displayedJourneyIndex;
+      const journeyAnimationTrack = document.getElementById('journeyAnimationTrack');
+      const journeyActionLabel = document.getElementById('journeyActionLabel');
+      journeyAnimationTrack.classList.add('is-transitioning');
+      journeyAnimationTrack.classList.remove('is-showing-action');
       activeJourneyIndex = index;
       journeySlide.dataset.direction = String(direction);
       journeySlide.classList.add('is-changing');
@@ -2596,14 +2472,37 @@
         document.getElementById('journeyVehicleIcon').dataset.vehicle = milestone.vehicle;
         document.getElementById('journeyVehicleLabel').textContent = milestone.mode;
         document.getElementById('journeyFigureMotion').style.left = milestone.position;
-        const journeyAnimationTrack = document.getElementById('journeyAnimationTrack');
         journeyAnimationTrack.dataset.vehicle = milestone.vehicle;
         journeyAnimationTrack.setAttribute('aria-label', `Animated ${milestone.mode.toLowerCase()} figure traveling along a road`);
+        const forwardActions = [
+          'He starts out walking.',
+          'A bicycle arrives; he gets on and pedals forward.',
+          'He gets off the bicycle, puts on a helmet, and rides away on a motorcycle.',
+          'He parks the motorcycle, removes his helmet, and gets into a car.'
+        ];
+        const reverseActions = [
+          'He leaves the bicycle behind and continues on foot.',
+          'He leaves the bicycle behind and continues on foot.',
+          'He gets off the motorcycle and returns to his bicycle.',
+          'He leaves the car and returns to the motorcycle.'
+        ];
+        journeyActionLabel.textContent = index === previousJourneyIndex + 1
+          ? forwardActions[index]
+          : index === previousJourneyIndex - 1
+            ? reverseActions[index]
+            : `The journey moves to the ${milestone.mode.toLowerCase()} chapter.`;
+        journeyAnimationTrack.classList.add('is-showing-action');
         journeyDots.forEach((dot, dotIndex) => {
           dot.setAttribute('aria-current', dotIndex === index ? 'step' : 'false');
         });
+        displayedJourneyIndex = index;
         journeySlide.classList.remove('is-changing');
         journeySlideTimer = null;
+        requestAnimationFrame(() => journeyAnimationTrack.classList.remove('is-transitioning'));
+        journeyActionTimer = window.setTimeout(() => {
+          journeyAnimationTrack.classList.remove('is-showing-action');
+          journeyActionTimer = null;
+        }, 2400);
         if (isNarrating) playChapterNarration(index);
       }, 220);
     }
@@ -2616,6 +2515,7 @@
     function openJourneyModal() {
       lastFocusedJourneyTrigger = document.activeElement;
       window.clearTimeout(journeyModalCloseTimer);
+      if (activeJourneyIndex !== 0 || displayedJourneyIndex !== 0) updateJourneyStep(0, -1);
       journeyModal.classList.remove('hidden');
       journeyModal.setAttribute('aria-hidden', 'false');
       journeyModalPanel.inert = false;
@@ -2627,6 +2527,11 @@
     function closeJourneyModal() {
       stopNarration(true);
       if (journeyModal.classList.contains('hidden') || journeyModal.classList.contains('opacity-0')) return;
+      window.clearTimeout(journeySlideTimer);
+      window.clearTimeout(journeyActionTimer);
+      journeySlideTimer = null;
+      journeyActionTimer = null;
+      document.getElementById('journeyAnimationTrack').classList.remove('is-transitioning', 'is-showing-action');
       journeyModal.classList.add('opacity-0');
       journeyModal.setAttribute('aria-hidden', 'true');
       journeyModalPanel.inert = true;
@@ -2634,7 +2539,7 @@
       journeyModalCloseTimer = window.setTimeout(() => {
         journeyModal.classList.add('hidden');
         journeyModalCloseTimer = null;
-        if (document.getElementById('drawer').inert && overviewSectionModal.hidden) {
+        if (document.getElementById('drawer').inert) {
           document.body.classList.remove('overflow-hidden');
         }
       }, 300);
@@ -2650,7 +2555,7 @@
       }
       isNarrating = true;
       updateNarrationControl();
-      playChapterNarration(activeJourneyIndex);
+      if (journeySlideTimer === null) playChapterNarration(activeJourneyIndex);
     });
     document.getElementById('journeyPrevious').addEventListener('click', () => moveJourney(-1));
     document.getElementById('journeyNext').addEventListener('click', () => moveJourney(1));
@@ -2749,7 +2654,7 @@
       drawer.classList.add('translate-x-full');
       drawer.inert = true;
       drawer.setAttribute('aria-hidden', 'true');
-      if (overviewSectionModal.hidden && journeyModal.classList.contains('hidden')) {
+      if (journeyModal.classList.contains('hidden')) {
         document.body.classList.remove('overflow-hidden');
       }
       if (lastFocusedProject instanceof HTMLElement) lastFocusedProject.focus();
@@ -3001,107 +2906,6 @@
       if (youtubePlayer?.setVolume) {
         youtubePlayer.setVolume(getAudioVolume(youtubePlayer));
       }
-    });
-
-    const overviewModal = document.getElementById('overviewSectionModal');
-    const overviewDialog = overviewModal.querySelector('[role="dialog"]');
-    const overviewDialogContent = document.getElementById('overviewDialogContent');
-    const portfolioMain = document.getElementById('portfolioMain');
-    const viewModeButtons = Array.from(document.querySelectorAll('[data-view-mode]'));
-    let activeOverviewSection = null;
-    let overviewPlaceholder = null;
-    let overviewReturnFocus = null;
-    let overviewCloseTimer = null;
-
-    function restoreOverviewSection() {
-      if (activeOverviewSection && overviewPlaceholder?.parentNode) {
-        overviewPlaceholder.parentNode.insertBefore(activeOverviewSection, overviewPlaceholder);
-        overviewPlaceholder.remove();
-      }
-      activeOverviewSection = null;
-      overviewPlaceholder = null;
-      overviewDialogContent.replaceChildren();
-    }
-
-    function closeOverviewSection(restoreImmediately = false) {
-      if (overviewModal.hidden) return;
-
-      window.clearTimeout(overviewCloseTimer);
-      overviewModal.classList.remove('is-open');
-      overviewModal.setAttribute('aria-hidden', 'true');
-      overviewDialog.inert = true;
-      if (overviewReturnFocus instanceof HTMLElement) overviewReturnFocus.focus();
-
-      if (restoreImmediately) {
-        overviewModal.hidden = true;
-        restoreOverviewSection();
-        if (document.getElementById('drawer').inert && journeyModal.classList.contains('hidden')) {
-          document.body.classList.remove('overflow-hidden');
-        }
-        return;
-      }
-
-      overviewCloseTimer = window.setTimeout(() => {
-        overviewModal.hidden = true;
-        restoreOverviewSection();
-        overviewCloseTimer = null;
-        if (document.getElementById('drawer').inert && journeyModal.classList.contains('hidden')) {
-          document.body.classList.remove('overflow-hidden');
-        }
-      }, 300);
-    }
-
-    function openOverviewSection(sectionId, trigger) {
-      const section = document.getElementById(sectionId);
-      if (!section || !portfolioMain.contains(section) || sectionId === 'overviewDashboard') return;
-
-      if (!overviewModal.hidden) closeOverviewSection(true);
-      overviewReturnFocus = trigger instanceof HTMLElement ? trigger : document.activeElement;
-      overviewPlaceholder = document.createComment(`Return ${sectionId} to portfolio`);
-      section.parentNode.insertBefore(overviewPlaceholder, section);
-      activeOverviewSection = section;
-      overviewDialogContent.append(section);
-      document.getElementById('overviewDialogTitle').textContent =
-        document.querySelector(`[data-overview-target="${sectionId}"]`)?.querySelector('span.block.text-xl, span.block.text-2xl')?.textContent ||
-        section.querySelector('h1, h2')?.textContent?.trim() ||
-        sectionId;
-
-      window.clearTimeout(overviewCloseTimer);
-      overviewModal.hidden = false;
-      overviewModal.setAttribute('aria-hidden', 'false');
-      overviewDialog.inert = false;
-      document.body.classList.add('overflow-hidden');
-      requestAnimationFrame(() => overviewModal.classList.add('is-open'));
-      document.getElementById('overviewDialogClose').focus();
-    }
-
-    function setViewMode(mode) {
-      const overview = mode === 'overview';
-      if (!overview && !overviewModal.hidden) closeOverviewSection(true);
-      portfolioMain.classList.toggle('is-overview', overview);
-      viewModeButtons.forEach((button) => {
-        button.setAttribute('aria-pressed', String(button.dataset.viewMode === mode));
-      });
-      const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-      window.scrollTo({ top: 0, behavior: scrollBehavior });
-    }
-
-    viewModeButtons.forEach((button) => {
-      button.addEventListener('click', () => setViewMode(button.dataset.viewMode));
-    });
-
-    document.querySelectorAll('[data-overview-target]').forEach((button) => {
-      button.addEventListener('click', () => {
-        openOverviewSection(button.dataset.overviewTarget, button);
-      });
-    });
-
-    document.getElementById('overviewDialogClose').addEventListener('click', () => {
-      closeOverviewSection();
-    });
-
-    overviewModal.addEventListener('click', (event) => {
-      if (event.target === overviewModal) closeOverviewSection();
     });
 
     /* SCROLL REVEAL OBSERVER */
