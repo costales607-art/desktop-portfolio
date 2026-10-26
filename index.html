@@ -2825,7 +2825,7 @@
           console.warn('Unable to read background music playback time:', error);
         }
       }
-      return Math.round(narrationDucking ? Math.min(volume, 12) : volume);
+      return Math.round(narrationDucking ? volume * 0.98 : volume);
     }
 
     function setAudioState(state, message) {
