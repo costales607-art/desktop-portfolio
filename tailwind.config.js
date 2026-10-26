@@ -1,1 +1,0 @@
-module.exports = { content: ["./*.html"], theme: { extend: { fontFamily: { sans: [Plus Jakarta Sans, sans-serif] }, colors: { brand: { 50: "#eef2ff", 100: "#e0e7ff", 500: "#818cf8", 600: "#6366f1", 700: "#4f46e5", 800: "#4338ca", 900: "#3730a3" } } } } }, plugins: [] };
