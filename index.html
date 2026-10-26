@@ -1927,6 +1927,10 @@
     <button id="musicOnboardingClose" class="music-onboarding-close focus-ring tooltip-target" type="button" aria-label="Dismiss music tip" title="Dismiss music tip" data-tooltip="Dismiss music tip" data-tooltip-position="bottom">×</button>
   </div>
   <div id="audioPlayerHost" class="audio-player-host" aria-hidden="true"></div>
+  <audio id="chapterNarration1" src="Chapter1.mp4" preload="metadata"></audio>
+  <audio id="chapterNarration2" src="Chapter2.mp4" preload="metadata"></audio>
+  <audio id="chapterNarration3" src="Chapter3.mp4" preload="metadata"></audio>
+  <audio id="chapterNarration4" src="Chapter4.mp4" preload="metadata"></audio>
 
   <div id="overviewSectionModal" class="overview-modal fixed inset-0 z-[45] items-center justify-center bg-slate-950/75 p-3 backdrop-blur-md sm:p-6" aria-hidden="true" hidden>
     <section class="overview-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="overviewDialogTitle" tabindex="-1" inert>
@@ -2479,10 +2483,15 @@
     const journeyNarrationButton = document.getElementById('toggleNarrationBtn');
     const journeyNarrationLabel = document.getElementById('narrationLabel');
     const journeyNarrationIcon = document.getElementById('narrationIcon');
-    const journeySpeech = window.speechSynthesis || null;
+    const chapterNarrations = careerMilestones.map((milestone, index) => {
+      const audio = document.getElementById(`chapterNarration${index + 1}`);
+      audio.preload = 'metadata';
+      audio.dataset.chapter = milestone.period;
+      return audio;
+    });
     let isNarrating = false;
     let narrationDucking = false;
-    let narrationRequestId = 0;
+    let activeNarrationAudio = null;
 
     function updateNarrationControl() {
       journeyNarrationButton.setAttribute('aria-pressed', String(isNarrating));
@@ -2497,8 +2506,11 @@
     }
 
     function stopNarration(disableNarration = false) {
-      narrationRequestId += 1;
-      journeySpeech?.cancel();
+      chapterNarrations.forEach((audio) => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+      activeNarrationAudio = null;
       narrationDucking = false;
       if (disableNarration) {
         isNarrating = false;
@@ -2507,42 +2519,45 @@
       applyBackgroundMusicVolume();
     }
 
-    function speakMilestoneStory(text) {
-      if (!journeySpeech || typeof window.SpeechSynthesisUtterance !== 'function' || !isNarrating) return;
+    function handleNarrationEnded(audio) {
+      if (activeNarrationAudio !== audio) return;
+      activeNarrationAudio = null;
+      narrationDucking = false;
+      isNarrating = false;
+      updateNarrationControl();
+      applyBackgroundMusicVolume();
+    }
 
-      journeySpeech.cancel();
-      const requestId = ++narrationRequestId;
-      const utterance = new window.SpeechSynthesisUtterance(text);
-      utterance.rate = 0.89;
-      utterance.pitch = 0.85;
-      const voices = journeySpeech.getVoices();
-      const englishVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith('en'));
-      const selectedVoice = englishVoices.find((voice) => /natural|daniel|google|oliver/i.test(voice.name)) ||
-        englishVoices.find((voice) => voice.default) ||
-        englishVoices[0];
-      if (selectedVoice) utterance.voice = selectedVoice;
+    function handleNarrationError(audio) {
+      if (activeNarrationAudio !== audio) return;
+      console.error(`Journey narration could not be played: ${audio.currentSrc || audio.src}`, audio.error);
+      activeNarrationAudio = null;
+      narrationDucking = false;
+      isNarrating = false;
+      updateNarrationControl();
+      journeyNarrationLabel.textContent = 'Narration unavailable';
+      applyBackgroundMusicVolume();
+    }
 
+    function playChapterNarration(index) {
+      const audio = chapterNarrations[index];
+      if (!audio || !isNarrating) return;
+
+      stopNarration();
+      activeNarrationAudio = audio;
       narrationDucking = true;
       applyBackgroundMusicVolume();
-      utterance.onend = () => {
-        if (requestId !== narrationRequestId) return;
-        narrationDucking = false;
-        applyBackgroundMusicVolume();
-      };
-      utterance.onerror = (event) => {
-        if (requestId !== narrationRequestId || event.error === 'canceled' || event.error === 'interrupted') return;
-        console.error('Journey narration failed:', event.error);
-        narrationDucking = false;
-        applyBackgroundMusicVolume();
-      };
-      try {
-        journeySpeech.speak(utterance);
-      } catch (error) {
-        console.error('Unable to start journey narration:', error);
-        narrationDucking = false;
-        applyBackgroundMusicVolume();
-      }
+      audio.play().catch((error) => {
+        if (activeNarrationAudio !== audio) return;
+        console.error(`Unable to start journey narration: ${audio.currentSrc || audio.src}`, error);
+        handleNarrationError(audio);
+      });
     }
+
+    chapterNarrations.forEach((audio) => {
+      audio.addEventListener('ended', () => handleNarrationEnded(audio));
+      audio.addEventListener('error', () => handleNarrationError(audio));
+    });
 
     function updateJourneyStep(index, direction = 1) {
       const milestone = careerMilestones[index];
@@ -2572,7 +2587,7 @@
         });
         journeySlide.classList.remove('is-changing');
         journeySlideTimer = null;
-        if (isNarrating) speakMilestoneStory(milestone.description);
+        if (isNarrating) playChapterNarration(index);
       }, 220);
     }
 
@@ -2612,18 +2627,13 @@
     document.getElementById('heroJourneyBtn').addEventListener('click', openJourneyModal);
     document.getElementById('closeJourneyModal').addEventListener('click', closeJourneyModal);
     journeyNarrationButton.addEventListener('click', () => {
-      if (!journeySpeech || typeof window.SpeechSynthesisUtterance !== 'function') {
-        console.error('Journey narration is not supported by this browser.');
-        journeyNarrationLabel.textContent = 'Narration unavailable';
-        return;
-      }
       if (isNarrating) {
         stopNarration(true);
         return;
       }
       isNarrating = true;
       updateNarrationControl();
-      speakMilestoneStory(careerMilestones[activeJourneyIndex].description);
+      playChapterNarration(activeJourneyIndex);
     });
     document.getElementById('journeyPrevious').addEventListener('click', () => moveJourney(-1));
     document.getElementById('journeyNext').addEventListener('click', () => moveJourney(1));
