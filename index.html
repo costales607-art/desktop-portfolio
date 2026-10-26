@@ -1927,10 +1927,10 @@
     <button id="musicOnboardingClose" class="music-onboarding-close focus-ring tooltip-target" type="button" aria-label="Dismiss music tip" title="Dismiss music tip" data-tooltip="Dismiss music tip" data-tooltip-position="bottom">×</button>
   </div>
   <div id="audioPlayerHost" class="audio-player-host" aria-hidden="true"></div>
-  <audio id="chapterNarration1" src="Chapter1.mp4" preload="metadata"></audio>
-  <audio id="chapterNarration2" src="Chapter2.mp4" preload="metadata"></audio>
-  <audio id="chapterNarration3" src="Chapter3.mp4" preload="metadata"></audio>
-  <audio id="chapterNarration4" src="Chapter4.mp4" preload="metadata"></audio>
+  <audio id="chapterNarration1" src="audio/chapter1.mp4" preload="metadata"></audio>
+  <audio id="chapterNarration2" src="audio/chapter2.mp4" preload="metadata"></audio>
+  <audio id="chapterNarration3" src="audio/chapter3.mp4" preload="metadata"></audio>
+  <audio id="chapterNarration4" src="audio/chapter4.mp4" preload="metadata"></audio>
 
   <div id="overviewSectionModal" class="overview-modal fixed inset-0 z-[45] items-center justify-center bg-slate-950/75 p-3 backdrop-blur-md sm:p-6" aria-hidden="true" hidden>
     <section class="overview-dialog-panel" role="dialog" aria-modal="true" aria-labelledby="overviewDialogTitle" tabindex="-1" inert>
@@ -2539,6 +2539,19 @@
       applyBackgroundMusicVolume();
     }
 
+    function handleNarrationInterruption(audio, error) {
+      if (activeNarrationAudio !== audio) return;
+      console.warn(`Journey narration playback was interrupted: ${audio.currentSrc || audio.src}`, error);
+      audio.pause();
+      audio.currentTime = 0;
+      activeNarrationAudio = null;
+      narrationDucking = false;
+      isNarrating = false;
+      updateNarrationControl();
+      journeyNarrationLabel.textContent = 'Tap to retry narration';
+      applyBackgroundMusicVolume();
+    }
+
     function playChapterNarration(index) {
       const audio = chapterNarrations[index];
       if (!audio || !isNarrating) return;
@@ -2549,6 +2562,10 @@
       applyBackgroundMusicVolume();
       audio.play().catch((error) => {
         if (activeNarrationAudio !== audio) return;
+        if (error.name === 'AbortError' || error.name === 'NotAllowedError') {
+          handleNarrationInterruption(audio, error);
+          return;
+        }
         console.error(`Unable to start journey narration: ${audio.currentSrc || audio.src}`, error);
         handleNarrationError(audio);
       });
