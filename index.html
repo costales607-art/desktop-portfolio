@@ -1,3022 +1,532 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jake B. Dasmariñas — CRM Automation & Systems Specialist</title>
-  <meta name="description" content="CRM Automation and Systems Specialist (and Virtual Assistant) building reliable GoHighLevel workflows, Apps Script tools, and business integrations.">
-  <link rel="icon" type="image/jpeg" href="profile.jpg">
-
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jake B. Dasmariñas | CRM Automation & Systems Specialist</title>
+  <meta name="description" content="I build the GoHighLevel, ClickUp and Apps Script systems that replace manual handoffs, so teams can run without chasing tasks.">
+  <meta property="og:title" content="Jake B. Dasmariñas | CRM Automation & Systems Specialist">
+  <meta property="og:description" content="Systems that run themselves: GoHighLevel, ClickUp, Google Apps Script and Slack automation.">
+  <script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#818cf8',
-              600: '#6366f1',
-              700: '#4f46e5',
-              800: '#4338ca',
-              900: '#3730a3',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --ink: #0f172a;
-      --forest: #1e1b4b;
-      --emerald: #6366f1;
-      --mint: #eef2ff;
-      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-      --shadow-card: 0 14px 36px rgba(30, 27, 75, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.86);
-      --shadow-card-hover: 0 26px 52px rgba(30, 27, 75, 0.16), 0 8px 22px rgba(56, 189, 248, 0.12);
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    section {
-      scroll-margin-top: 6rem;
-    }
-
-    /* Top & Bottom Viewport Smooth Scroll Fade Overlays */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5rem;
-      background: linear-gradient(to bottom, #0b1026 0%, rgba(11, 16, 38, 0) 100%);
-      pointer-events: none;
-      z-index: 35;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 5rem;
-      background: linear-gradient(to top, #0b1026 0%, rgba(11, 16, 38, 0) 100%);
-      pointer-events: none;
-      z-index: 35;
-    }
-
-    @keyframes hero-enter {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    header {
-      animation: hero-enter 0.55s var(--ease-out) 0.08s both;
-    }
-
-    .hero-content > * {
-      animation: hero-enter 0.55s var(--ease-out) both;
-    }
-
-    .hero-content > :nth-child(1) { animation-delay: 0.12s; }
-    .hero-content > :nth-child(2) { animation-delay: 0.2s; }
-    .hero-content > :nth-child(3) { animation-delay: 0.28s; }
-    .hero-content > :nth-child(4) { animation-delay: 0.36s; }
-    .hero-content > :nth-child(5) { animation-delay: 0.44s; }
-    .hero-content > :nth-child(6) { animation-delay: 0.52s; }
-
-    .workflow-preview {
-      animation: hero-enter 0.55s var(--ease-out) 0.58s both;
-    }
-
-    .journey-hero-cta {
-      box-shadow: 0 10px 28px rgba(99, 102, 241, 0.24);
-    }
-
-    .copy-toast {
-      opacity: 0;
-      pointer-events: none;
-      transform: translate(-50%, 0.5rem);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .copy-toast.is-visible {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
-
-    .copy-toast[data-state="error"] {
-      border-color: #fecaca;
-      background: #fff1f2;
-      color: #9f1239;
-    }
-
-    .copy-toast[data-state="error"] .toast-success-icon {
-      display: none;
-    }
-
-    .copy-toast .toast-error-icon {
-      display: none;
-    }
-
-    .copy-toast[data-state="error"] .toast-error-icon {
-      display: block;
-    }
-
-    .glass-nav {
-      background: rgba(30, 27, 75, 0.78);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 16px 42px rgba(2, 6, 23, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-    }
-
-    .nav-link {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      white-space: nowrap;
-      transition: color 0.25s var(--ease-out), background-color 0.25s var(--ease-out), transform 0.25s var(--ease-out);
-    }
-
-    .tooltip-target {
-      position: relative;
-    }
-
-    .tooltip-target::after {
-      position: absolute;
-      z-index: 90;
-      left: 50%;
-      bottom: calc(100% + 0.55rem);
-      width: max-content;
-      max-width: min(15rem, calc(100vw - 2rem));
-      padding: 0.4rem 0.65rem;
-      border: 1px solid rgba(165, 180, 252, 0.38);
-      border-radius: 0.65rem;
-      background: rgba(30, 27, 75, 0.96);
-      color: #eef2ff;
-      content: attr(data-tooltip);
-      font-size: 0.68rem;
-      font-weight: 700;
-      line-height: 1.35;
-      text-align: center;
-      white-space: normal;
-      box-shadow: 0 8px 24px rgba(2, 6, 23, 0.32);
-      opacity: 0;
-      pointer-events: none;
-      transform: translate(-50%, 0.25rem);
-      transition: opacity 0.16s ease, transform 0.16s ease;
-    }
-
-    .tooltip-target[data-tooltip-position="bottom"]::after {
-      top: calc(100% + 0.55rem);
-      bottom: auto;
-    }
-
-    .tooltip-target:hover::after,
-    .tooltip-target:focus::after,
-    .tooltip-target:focus-visible::after,
-    .tooltip-target:focus-within::after {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
-
-    .nav-link:hover {
-      transform: translateY(-1px);
-    }
-
-    .nav-link svg {
-      display: none;
-    }
-
-    .nav-links {
-      scrollbar-width: none;
-    }
-
-    .brand-name {
-      display: inline;
-    }
-
-    .mobile-home-label {
-      display: none;
-    }
-
-    .mobile-contact {
-      flex-shrink: 0;
-      white-space: nowrap;
-    }
-
-    .mobile-contact-chat {
-      display: none;
-    }
-
-    .nav-links::-webkit-scrollbar {
-      display: none;
-    }
-
-    .card-hover-effect {
-      transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), border-color 0.35s var(--ease-out), background-color 0.35s var(--ease-out);
-    }
-
-    .card-hover-effect:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-card-hover);
-      border-color: rgba(99, 102, 241, 0.34);
-    }
-
-    body {
-      color: #e0e7ff;
-      background-color: #0b1026;
-      background-image:
-        radial-gradient(ellipse at 10% 3%, rgba(99, 102, 241, 0.26), transparent 34rem),
-        radial-gradient(ellipse at 91% 22%, rgba(14, 165, 233, 0.16), transparent 32rem),
-        radial-gradient(ellipse at 47% 94%, rgba(190, 24, 93, 0.12), transparent 36rem),
-        linear-gradient(145deg, #0b1026 0%, #17143d 48%, #21152f 100%);
-    }
-
-    .section-surface {
-      border-color: rgba(129, 140, 248, 0.18);
-      background: linear-gradient(145deg, rgba(238, 242, 255, 0.94), rgba(226, 232, 255, 0.9));
-      border-radius: 1.75rem;
-      padding: clamp(1.25rem, 3vw, 2rem);
-      box-shadow: 0 24px 58px rgba(30, 27, 75, 0.065), inset 0 1px 0 rgba(255, 255, 255, 0.88);
-    }
-
-    .ambient-glow-top {
-      background: radial-gradient(circle, rgba(165, 180, 252, 0.2), transparent 70%);
-    }
-
-    .ambient-glow-bottom {
-      background: radial-gradient(circle, rgba(186, 230, 253, 0.2), transparent 70%);
-    }
-
-    .audio-widget::before,
-    .audio-widget::after {
-      position: absolute;
-      inset: -0.25rem;
-      z-index: -1;
-      border: 1px solid rgba(125, 211, 252, 0.72);
-      border-radius: inherit;
-      content: "";
-      pointer-events: none;
-      animation: audio-attention-pulse 2.4s ease-out infinite;
-    }
-
-    .audio-widget::after {
-      animation-delay: 1.2s;
-    }
-
-    .audio-widget[data-discovered="true"]::before,
-    .audio-widget[data-discovered="true"]::after {
-      display: none;
-    }
-
-    @keyframes audio-attention-pulse {
-      0% { opacity: 0.7; transform: scale(0.92); }
-      100% { opacity: 0; transform: scale(1.45); }
-    }
-
-    .dark-panel {
-      border-color: rgba(129, 140, 248, 0.2);
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.84), rgba(245, 246, 255, 0.78));
-      box-shadow: var(--shadow-card);
-      color: #334155;
-    }
-
-    .project-card {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-    }
-
-    .project-card::after {
-      position: absolute;
-      inset: 0.5rem;
-      border: 1px solid rgba(16, 185, 129, 0.24);
-      border-radius: 1rem;
-      content: "";
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.35s var(--ease-out);
-    }
-
-    .project-card:hover::after,
-    .project-card:focus-visible::after {
-      opacity: 1;
-    }
-
-    .title-label {
-      display: inline-flex;
-      align-self: flex-start;
-      align-items: center;
-      max-width: 100%;
-      padding: 0.5rem 0.75rem;
-      border: 1px solid rgba(165, 180, 252, 0.38);
-      border-radius: 0.625rem;
-      background:
-        radial-gradient(circle at top right, rgba(56, 189, 248, 0.2), transparent 58%),
-        linear-gradient(135deg, #1e1b4b 0%, #312e81 58%, #4338ca 100%);
-      color: #f0fdf4;
-      line-height: 1.35;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 5px 14px rgba(2, 44, 34, 0.12);
-    }
-
-    .project-hint {
-      display: inline-flex;
-      align-items: center;
-      max-width: 100%;
-      padding: 0.65rem 0.9rem;
-      border: 1px solid #bbf7d0;
-      border-left: 4px solid #059669;
-      border-radius: 0.75rem;
-      background: linear-gradient(100deg, #ecfdf5, #f0fdfa);
-      color: #065f46;
-      font-weight: 700;
-      line-height: 1.45;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    }
-
-    .dark-panel .chip {
-      background: #ecfdf5;
-      border-color: #d1fae5;
-      color: #065f46;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-      transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
-    }
-
-    .dark-panel .chip:hover {
-      background: #d1fae5;
-      border-color: #a7f3d0;
-      transform: translateY(-1px);
-    }
-
-    .hero-atmosphere::before {
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(199, 210, 254, 0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(199, 210, 254, 0.055) 1px, transparent 1px);
-      background-size: 42px 42px;
-      content: "";
-      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent 90%);
-      pointer-events: none;
-    }
-
-    .hero-atmosphere::after {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 95% 5%, rgba(56, 189, 248, 0.22), transparent 42%),
-        radial-gradient(ellipse at 5% 100%, rgba(251, 146, 120, 0.16), transparent 35%);
-      content: "";
-      pointer-events: none;
-    }
-
-    .hero-accent {
-      background: linear-gradient(105deg, #ffffff 4%, #c4b5fd 48%, #7dd3fc 82%, #fda4af 100%);
-      background-clip: text;
-      color: transparent;
-      font-family: "DM Serif Display", Georgia, serif;
-      font-style: italic;
-      -webkit-background-clip: text;
-    }
-
-    .cta-button {
-      transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), background-color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(16, 185, 129, 0.22);
-    }
-
-    .hero-proof {
-      border-top: 1px solid rgba(226, 232, 240, 0.18);
-      animation: hero-enter 0.55s var(--ease-out) 0.62s both;
-    }
-
-    .hero-proof-stat + .hero-proof-stat {
-      border-left: 1px solid rgba(226, 232, 240, 0.18);
-    }
-
-    .hero-tech-stack {
-      border-left: 1px solid rgba(226, 232, 240, 0.18);
-    }
-
-    .hero-tech-badge {
-      border: 1px solid rgba(125, 211, 252, 0.24);
-      background: rgba(129, 140, 248, 0.1);
-      color: #e0e7ff;
-    }
-
-    .journey-modal-overlay[hidden] {
-      display: none;
-    }
-
-    .journey-modal-overlay {
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .journey-carousel-card {
-      overflow-x: hidden;
-      border-color: rgba(165, 180, 252, 0.25);
-      background:
-        linear-gradient(to bottom, rgba(2, 6, 23, 0.38), transparent 1.6rem),
-        linear-gradient(to top, rgba(2, 6, 23, 0.32), transparent 1.4rem),
-        radial-gradient(ellipse at 50% 0, rgba(56, 189, 248, 0.13), transparent 28rem),
-        #1e1b4b;
-      box-shadow: 0 30px 90px rgba(2, 6, 23, 0.55), inset 0 0 90px rgba(2, 6, 23, 0.16);
-    }
-
-    .journey-slide {
-      min-width: 0;
-      opacity: 1;
-      transform: translateX(0);
-      transition: opacity 0.3s ease, transform 0.3s var(--ease-out);
-    }
-
-    .journey-slide > * {
-      transition: transform 0.3s var(--ease-out);
-    }
-
-    .journey-slide.is-changing {
-      opacity: 0;
-      transform: translateX(0.75rem);
-    }
-
-    .journey-slide.is-changing > * {
-      transform: translateY(0.4rem);
-    }
-
-    .journey-slide.is-changing[data-direction="-1"] {
-      transform: translateX(-0.75rem);
-    }
-
-    .journey-visual-header {
-      background:
-        radial-gradient(circle at 75% 20%, rgba(255, 255, 255, 0.18), transparent 12rem),
-        linear-gradient(125deg, #1e293b, #064e3b);
-    }
-
-    .journey-visual-header[data-theme="mcdonalds"] {
-      background: radial-gradient(circle at 78% 25%, rgba(251, 191, 36, 0.42), transparent 10rem), linear-gradient(125deg, #7f1d1d, #dc2626 58%, #991b1b);
-    }
-
-    .journey-visual-header[data-theme="healthcare"] {
-      background: radial-gradient(circle at 78% 25%, rgba(103, 232, 249, 0.38), transparent 10rem), linear-gradient(125deg, #164e63, #0f766e 58%, #155e75);
-    }
-
-    .journey-visual-header[data-theme="accenture"] {
-      background: radial-gradient(circle at 78% 25%, rgba(196, 181, 253, 0.35), transparent 10rem), linear-gradient(125deg, #312e81, #4338ca 58%, #1e1b4b);
-    }
-
-    .journey-visual-header[data-theme="automation"] {
-      background: radial-gradient(circle at 78% 25%, rgba(56, 189, 248, 0.36), transparent 10rem), linear-gradient(125deg, #1e1b4b, #3730a3 58%, #312e81);
-    }
-
-    .journey-animation-track {
-      position: relative;
-      overflow: hidden;
-      border-color: rgba(165, 180, 252, 0.2);
-      background:
-        radial-gradient(ellipse at 50% 45%, rgba(56, 189, 248, 0.12), transparent 62%),
-        linear-gradient(180deg, transparent 0 35%, rgba(49, 46, 129, 0.92) 35% 88%, transparent 88%);
-      box-shadow: inset 0 0 34px rgba(56, 189, 248, 0.08);
-    }
-
-    .journey-animation-track::before,
-    .journey-animation-track::after {
-      position: absolute;
-      top: 62%;
-      right: 0;
-      left: 0;
-      height: 1px;
-      content: "";
-      pointer-events: none;
-    }
-
-    .journey-animation-track::before {
-      right: auto;
-      width: 200%;
-      background: repeating-linear-gradient(90deg, rgba(125, 211, 252, 0.9) 0 1.25rem, transparent 1.25rem 2.25rem);
-      animation: road-dashes 0.75s linear infinite;
-    }
-
-    .journey-animation-track[data-vehicle="motorcycle"]::after {
-      top: 48%;
-      left: 62%;
-      width: 4rem;
-      height: 1.25rem;
-      background: repeating-linear-gradient(180deg, transparent 0 0.3rem, rgba(226, 232, 240, 0.65) 0.3rem 0.4rem, transparent 0.4rem 0.7rem);
-      animation: speed-lines 0.55s linear infinite;
-      mask-image: linear-gradient(90deg, transparent, #000);
-    }
-
-    .journey-motion-path {
-      position: absolute;
-      inset: 0 3rem;
-      pointer-events: none;
-    }
-
-    .journey-motion-path::after {
-      position: absolute;
-      top: 62%;
-      right: 0;
-      left: 0;
-      height: 2px;
-      content: "";
-      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.65), rgba(167, 139, 250, 0.6), transparent);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.42);
-      animation: journey-road-glow 3.6s ease-in-out infinite alternate;
-    }
-
-    @keyframes journey-road-glow {
-      to { opacity: 0.42; }
-    }
-
-    .journey-figure-motion {
-      position: absolute;
-      top: 50%;
-      left: 0%;
-      transform: translate(-50%, -50%);
-      transition: left 0.8s linear;
-    }
-
-    .journey-animation-figure {
-      transition: opacity 0.18s ease, transform 0.24s var(--ease-out);
-    }
-
-    .journey-animation-track.is-transitioning .journey-animation-figure {
-      opacity: 0;
-      transform: translateX(1rem) scale(0.82);
-    }
-
-    .journey-action-label {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.55rem;
-      z-index: 2;
-      max-width: calc(100% - 1rem);
-      color: #cbd5e1;
-      font-size: 0.62rem;
-      line-height: 1.25;
-      text-align: right;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-
-    .journey-description {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(125, 211, 252, 0.5) transparent;
-    }
-
-    .journey-description::-webkit-scrollbar {
-      width: 3px;
-    }
-
-    .journey-description::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .journey-description::-webkit-scrollbar-thumb {
-      border-radius: 999px;
-      background: rgba(125, 211, 252, 0.5);
-    }
-
-    .journey-animation-track.is-showing-action .journey-action-label {
-      opacity: 1;
-    }
-
-    .journey-figure-motion::before {
-      position: absolute;
-      top: 64%;
-      right: 62%;
-      width: clamp(2rem, 7vw, 5rem);
-      height: 0.25rem;
-      content: "";
-      border-radius: 999px;
-      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.7));
-      filter: blur(3px);
-      opacity: 0.75;
-    }
-
-    .journey-animation-figure {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      justify-items: center;
-      gap: 0.1rem;
-      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.34));
-    }
-
-    .journey-animation-figure > span {
-      white-space: nowrap;
-    }
-
-    .journey-vehicle-graphic {
-      width: 6rem;
-      height: 3.5rem;
-      flex: 0 0 auto;
-      overflow: visible;
-      color: #bae6fd;
-    }
-
-    @keyframes walkCycle {
-      from { transform: rotate(-28deg); }
-      to { transform: rotate(28deg); }
-    }
-
-    @keyframes pedalCycle {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes motorRumble {
-      from { transform: translate(0, 0); }
-      to { transform: translate(1px, -1px); }
-    }
-
-    @keyframes spinWheels {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes carBounce {
-      from { transform: translateY(0); }
-      to { transform: translateY(-1.5px); }
-    }
-
-    @keyframes road-dashes {
-      to { transform: translateX(-2.25rem); }
-    }
-
-    @keyframes speed-lines {
-      from { transform: translateX(1.5rem); opacity: 0; }
-      35% { opacity: 0.85; }
-      to { transform: translateX(-2.5rem); opacity: 0; }
-    }
-
-    .journey-vehicle-graphic .vehicle-walk,
-    .journey-vehicle-graphic .vehicle-bicycle,
-    .journey-vehicle-graphic .vehicle-motorcycle,
-    .journey-vehicle-graphic .vehicle-car {
-      display: none;
-    }
-
-    .journey-vehicle-graphic[data-vehicle="walk"] .vehicle-walk,
-    .journey-vehicle-graphic[data-vehicle="bicycle"] .vehicle-bicycle,
-    .journey-vehicle-graphic[data-vehicle="motorcycle"] .vehicle-motorcycle,
-    .journey-vehicle-graphic[data-vehicle="car"] .vehicle-car {
-      display: initial;
-    }
-
-    .vehicle-limb {
-      transform-box: fill-box;
-      transform-origin: top center;
-      animation: walkCycle 0.34s ease-in-out infinite alternate;
-    }
-
-    .vehicle-leg-back {
-      animation-delay: -0.17s;
-    }
-
-    .vehicle-wheel {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: spinWheels 0.7s linear infinite;
-    }
-
-    .vehicle-pedals {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: pedalCycle 0.45s linear infinite;
-    }
-
-    #journeyVehicleIcon .vehicle-pedals {
-      transform-box: view-box;
-      transform-origin: 51px 42px;
-    }
-
-    .vehicle-motorcycle-body {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: motorRumble 0.08s linear infinite alternate;
-    }
-
-    .vehicle-chassis {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: carBounce 0.24s ease-in-out infinite alternate;
-    }
-
-    .journey-dot[aria-current="step"] {
-      background: #38bdf8;
-      box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.15), 0 0 18px rgba(56, 189, 248, 0.38);
-    }
-
-    .journey-carousel-arrow {
-      border-color: rgba(125, 211, 252, 0.34);
-      color: #bae6fd;
-      background: rgba(49, 46, 129, 0.72);
-    }
-
-    .journey-carousel-arrow:focus-visible,
-    .journey-dot:focus-visible,
-    .focus-ring:focus-visible,
-    .nav-link:focus-visible {
-      outline: 3px solid rgba(56, 189, 248, 0.9);
-      outline-offset: 4px;
-    }
-
-    #journeyPrevious,
-    #journeySlide,
-    #journeyNext {
-      grid-row: 1;
-    }
-
-    #journeyPrevious { grid-column: 1; }
-    #journeySlide { grid-column: 2; }
-    #journeyNext { grid-column: 3; }
-
-    #journeyAnimationTrack {
-      grid-column: 2;
-      grid-row: 2;
-    }
-
-    @media (max-width: 480px) {
-      .journey-carousel-layout {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        align-items: start;
-        gap: 0.5rem;
-      }
-
-      #journeyAnimationTrack {
-        grid-column: 1 / -1;
-        grid-row: 1;
-        margin-top: 0;
-      }
-
-      #journeySlide {
-        grid-column: 1 / -1;
-        grid-row: 2;
-      }
-
-      #journeyPrevious {
-        grid-column: 1;
-        grid-row: 3;
-        justify-self: end;
-      }
-
-      #journeyNext {
-        grid-column: 2;
-        grid-row: 3;
-        justify-self: start;
-      }
-
-      .journey-description {
-        max-height: 7rem;
-        overflow-x: hidden;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-      }
-    }
-
-    @media (max-width: 480px) and (max-height: 700px) {
-      .journey-modal-instructions {
-        display: none;
-      }
-
-      #journeyVisualHeader {
-        min-height: 5.25rem;
-        padding: 0.75rem;
-      }
-
-      #journeySlide > div:last-child {
-        padding: 0.75rem;
-      }
-
-      #journeySlide #journeyTitle {
-        margin-top: 0.5rem;
-        font-size: 1.125rem;
-        line-height: 1.25;
-      }
-
-      #journeySlide #journeyDescription {
-        max-height: 4.25rem;
-        margin-top: 0.5rem;
-      }
-
-      #journeyAnimationTrack {
-        height: 4.5rem;
-      }
-
-      .journey-carousel-card [aria-label="Choose a career milestone"] {
-        margin-top: 0.5rem;
-      }
-
-      .journey-description {
-        max-height: 4.75rem;
-      }
-    }
-
-    .workflow-preview {
-      display: flex;
-      flex-direction: column;
-      border: 1px solid rgba(165, 180, 252, 0.24);
-      background: linear-gradient(155deg, rgba(30, 27, 75, 0.98), rgba(49, 46, 129, 0.96));
-      box-shadow: 0 24px 60px rgba(30, 27, 75, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    }
-
-    .automation-progress {
-      height: 3px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: rgba(148, 163, 184, 0.2);
-    }
-
-    .automation-progress-fill {
-      width: 100%;
-      height: 100%;
-      transform: scaleX(0);
-      transform-origin: left;
-      background: linear-gradient(90deg, #34d399, #a7f3d0);
-    }
-
-    .workflow-preview.is-running .automation-progress-fill {
-      animation: automation-progress 4.5s linear infinite;
-    }
-
-    @keyframes automation-progress {
-      to { transform: scaleX(1); }
-    }
-
-    .hero-network-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      opacity: 0.48;
-    }
-
-    .automation-node {
-      border: 1px solid rgba(148, 163, 184, 0.16);
-      background: rgba(15, 23, 42, 0.62);
-      transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .automation-node.is-active {
-      border-color: rgba(52, 211, 153, 0.58);
-      background: rgba(6, 78, 59, 0.48);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
-    }
-
-    .automation-node[data-state="processing"] {
-      border-color: rgba(251, 191, 36, 0.45);
-      background: rgba(120, 53, 15, 0.2);
-      box-shadow: 0 0 20px rgba(251, 191, 36, 0.08);
-    }
-
-    .automation-node[data-state="success"] {
-      border-color: rgba(52, 211, 153, 0.58);
-      background: rgba(6, 78, 59, 0.48);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
-    }
-
-    .automation-node[data-state="active"] [id$="-status"],
-    .automation-node[data-state="success"] [id$="-status"] {
-      color: #a7f3d0;
-    }
-
-    .automation-node[data-state="processing"] [id$="-status"] {
-      color: #fde68a;
-    }
-
-    .automation-typing-dots::after {
-      content: "...";
-      display: inline-block;
-      width: 0;
-      max-width: 3ch;
-      overflow: hidden;
-      vertical-align: bottom;
-      animation: typing-dots 1s steps(4, end) infinite;
-    }
-
-    @keyframes typing-dots {
-      to { width: 3ch; }
-    }
-
-    .hero-layout {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    @media (min-width: 1024px) {
-      .hero-layout {
-        grid-template-columns: minmax(0, 1.1fr) minmax(19rem, 0.9fr);
-        row-gap: 1.5rem;
-        align-items: stretch;
-      }
-
-      .hero-layout > .hero-proof {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        align-items: center;
-        column-gap: 2rem;
-        margin-top: 0;
-        padding-top: 1.25rem;
-      }
-    }
-
-    @media (max-width: 1023px) {
-      .hero-tech-stack {
-        border-left: 0;
-        border-top: 1px solid rgba(226, 232, 240, 0.18);
-        padding-top: 1rem;
-      }
-    }
-
-    .cta-button svg {
-      transition: transform 0.3s var(--ease-out);
-    }
-
-    .cta-button:hover svg {
-      transform: translateX(3px);
-    }
-
-    .faq-item.active .faq-answer {
-      max-height: 320px;
-      opacity: 1;
-      padding-top: 1rem;
-    }
-
-    .faq-item.active .faq-icon {
-      transform: rotate(45deg);
-    }
-
-    .faq-answer {
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: max-height 0.42s var(--ease-out), opacity 0.28s ease, padding-top 0.3s var(--ease-out);
-      padding-top: 0;
-    }
-
-    .faq-icon {
-      transition: transform 0.35s var(--ease-out), background-color 0.25s var(--ease-out);
-    }
-
-    .drawer-panel {
-      transition: transform 0.48s var(--ease-out);
-    }
-
-    .drawer-overlay {
-      transition: opacity 0.35s var(--ease-out);
-    }
-
-    @media (max-width: 767px) {
-      section {
-        scroll-margin-top: 6rem;
-      }
-
-      header nav.glass-nav {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
-        gap: 0;
-        padding: 0.375rem 0.5rem;
-      }
-
-      .glass-nav > a:first-child {
-        min-width: 2.75rem;
-        min-height: 3.25rem;
-        flex-direction: column;
-        gap: 0.15rem;
-        justify-self: center;
-        justify-content: center;
-      }
-
-      .glass-nav > a:first-child > div {
-        width: 2rem;
-        height: 2rem;
-      }
-
-      .glass-nav .brand-name,
-      .glass-nav .mobile-contact {
-        display: none;
-      }
-
-      .glass-nav .mobile-home-label {
-        display: block;
-        color: #c7d2fe;
-        font-size: 0.54rem;
-        font-weight: 700;
-        line-height: 1;
-      }
-
-      .glass-nav .nav-links {
-        display: grid;
-        grid-column: 2;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        justify-items: center;
-        min-width: 0;
-        width: 100%;
-        overflow: visible;
-      }
-
-      .glass-nav .nav-links .nav-link {
-        position: relative;
-        width: 100%;
-        max-width: 2.75rem;
-        height: 2.75rem;
-        justify-content: center;
-        padding: 0;
-      }
-
-      .glass-nav .nav-link svg {
-        display: block;
-        width: 1.25rem;
-        height: 1.25rem;
-      }
-
-      .glass-nav .nav-label {
-        position: absolute;
-        top: calc(100% - 0.1rem);
-        left: 50%;
-        width: auto;
-        height: auto;
-        margin: 0;
-        overflow: visible;
-        clip-path: none;
-        color: #c7d2fe;
-        font-size: 0.54rem;
-        font-weight: 700;
-        line-height: 1;
-        transform: translateX(-50%);
-        white-space: nowrap;
-        border: 0;
-      }
-
-      .glass-nav .nav-link {
-        height: 3.25rem;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-
-      .section-surface {
-        border-radius: 1.25rem;
-      }
-    }
-
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #eef2ff; }
-    ::-webkit-scrollbar-thumb { background: #818cf8; border-radius: 999px; }
-
-    #twilight-stars {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      opacity: 0.68;
-    }
-
-    #contact .dark-panel {
-      border-color: rgba(165, 180, 252, 0.32);
-      background:
-        radial-gradient(ellipse at 80% 0, rgba(56, 189, 248, 0.18), transparent 28rem),
-        linear-gradient(145deg, #1e1b4b, #312e81);
-      color: #f8fafc;
-    }
-
-    #contact .dark-panel h2,
-    #contact .dark-panel p {
-      color: #f1f5f9;
-    }
-
-    #contact .dark-panel h2.title-label {
-      color: #fff;
-    }
-
-    #contact .dark-panel > div:first-child {
-      border-color: rgba(125, 211, 252, 0.3);
-      background: rgba(56, 189, 248, 0.14);
-      color: #e0f2fe;
-    }
-
-    #contact .dark-panel > div a {
-      border-color: rgba(191, 219, 254, 0.44);
-      color: #f8fafc;
-    }
-
-    #contact .dark-panel > div a:hover {
-      background: rgba(255, 255, 255, 0.12);
-    }
-
-    .audio-widget {
-      position: fixed;
-      right: max(1rem, env(safe-area-inset-right));
-      bottom: max(1rem, env(safe-area-inset-bottom));
-      z-index: 55;
-      width: 3rem;
-      height: 3rem;
-      border: 1px solid rgba(165, 180, 252, 0.5);
-      border-radius: 9999px;
-      background: rgba(30, 27, 75, 0.82);
-      color: #eef2ff;
-      box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.08), 0 8px 28px rgba(30, 27, 75, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      isolation: isolate;
-    }
-
-    .audio-toggle {
-      position: relative;
-      display: grid;
-      width: 100%;
-      height: 100%;
-      place-items: center;
-      border-radius: 9999px;
-      color: inherit;
-      transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
-    }
-
-    .audio-toggle:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 26px rgba(56, 189, 248, 0.28);
-    }
-
-    .audio-toggle-icon {
-      display: grid;
-      width: 2.2rem;
-      height: 2.2rem;
-      place-items: center;
-      border: 1px solid rgba(125, 211, 252, 0.46);
-      border-radius: 9999px;
-      background:
-        radial-gradient(circle at center, rgba(186, 230, 253, 0.2) 0 9%, transparent 10%),
-        repeating-radial-gradient(circle at center, rgba(199, 210, 254, 0.22) 0 1px, transparent 1px 5px),
-        #312e81;
-      color: #bae6fd;
-      box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.18);
-    }
-
-    .audio-widget[data-state="playing"] .audio-toggle-icon {
-      animation: spinSlow 8s linear infinite;
-    }
-
-    @keyframes spinSlow {
-      to { transform: rotate(360deg); }
-    }
-
-    .audio-wave {
-      position: absolute;
-      top: -0.55rem;
-      left: 50%;
-      display: flex;
-      height: 0.65rem;
-      align-items: flex-end;
-      gap: 2px;
-      opacity: 0;
-      transform: translateX(-50%);
-      transition: opacity 0.2s ease;
-    }
-
-    .audio-wave span {
-      width: 3px;
-      height: 4px;
-      border-radius: 999px;
-      background: #7dd3fc;
-    }
-
-    .audio-widget[data-state="playing"] .audio-wave {
-      opacity: 1;
-    }
-
-    .audio-widget[data-state="playing"] .audio-wave span {
-      animation: audio-wave 0.5s ease-in-out infinite alternate;
-    }
-
-    .audio-wave span:nth-child(2) { animation-delay: -0.3s; }
-    .audio-wave span:nth-child(3) { animation-delay: -0.18s; }
-    .audio-wave span:nth-child(4) { animation-delay: -0.36s; }
-
-    @keyframes audio-wave {
-      to { height: 10px; }
-    }
-
-    .audio-tooltip {
-      position: absolute;
-      right: 0;
-      bottom: calc(100% + 0.65rem);
-      width: min(18rem, calc(100vw - 2rem));
-      padding: 0.9rem 1rem;
-      border: 1px solid rgba(165, 180, 252, 0.42);
-      border-radius: 1rem;
-      background: rgba(30, 27, 75, 0.94);
-      color: #eef2ff;
-      box-shadow: 0 16px 42px rgba(30, 27, 75, 0.28);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(0.35rem);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .audio-widget:hover .audio-tooltip,
-    .audio-widget:focus-within .audio-tooltip {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .audio-credit {
-      color: #c7d2fe;
-      font-size: 0.65rem;
-      line-height: 1.45;
-    }
-
-    .audio-volume {
-      width: 100%;
-      accent-color: #38bdf8;
-    }
-
-    .audio-player-host {
-      position: fixed;
-      left: -220px;
-      bottom: -220px;
-      width: 200px;
-      height: 200px;
-      overflow: hidden;
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    .music-onboarding-toast {
-      position: fixed;
-      right: max(1rem, env(safe-area-inset-right));
-      bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 3.75rem);
-      z-index: 60;
-      display: flex;
-      width: min(22rem, calc(100vw - 2rem));
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.7rem 0.75rem 0.7rem 0.9rem;
-      border: 1px solid rgba(125, 211, 252, 0.42);
-      border-radius: 1rem;
-      background: rgba(30, 27, 75, 0.96);
-      color: #eef2ff;
-      box-shadow: 0 12px 32px rgba(2, 6, 23, 0.4);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      font-size: 0.72rem;
-      font-weight: 700;
-      line-height: 1.45;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(0.5rem);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-
-    .music-onboarding-toast.is-visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .music-onboarding-close {
-      display: grid;
-      width: 1.8rem;
-      height: 1.8rem;
-      flex: 0 0 auto;
-      place-items: center;
-      border-radius: 9999px;
-      color: #c7d2fe;
-      font-size: 1.2rem;
-      line-height: 1;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
-        animation-delay: 0ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    .scroll-reveal {
-      opacity: 0;
-      transform: translateY(18px) scale(0.985);
-      transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
-    }
-
-    .scroll-reveal.is-revealed {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+    :root, [data-theme="light"] { --bg:#f7f6f2; --panel:#ffffff; --side:#ffffff; --line:#e1ddd3; --text:#111111; --muted:#494949; --accent:#047857; --tint:#ecfdf5; --spark:4,120,87; --shadow:rgba(0,0,0,.10); }
+    [data-theme="dark"] { --bg:#0f1218; --panel:#171b23; --side:#151922; --line:#2a3040; --text:#f2f4f8; --muted:#b4bcc9; --accent:#34d399; --tint:#10261f; --spark:52,211,153; --shadow:rgba(0,0,0,.45); }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; line-height:1.7; font-size:17px; -webkit-font-smoothing:antialiased; transition:background .3s,color .3s; }
+    a { color:inherit; }
+    .mono { font-family:'JetBrains Mono',monospace; font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+    svg.i { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex:none; }
+
+    /* ---------- layout ---------- */
+    .app { display:flex; min-height:100vh; }
+    aside { width:284px; flex:none; position:sticky; top:0; height:100vh; padding:16px; transition:margin .3s; z-index:30; }
+    .side { height:100%; background:var(--side); border:1px solid var(--line); border-radius:22px; padding:18px; display:flex; flex-direction:column; overflow-y:auto; box-shadow:0 10px 30px var(--shadow); }
+    .app.collapsed aside { margin-left:-284px; }
+    main { flex:1; min-width:0; }
+    .wrap { max-width:1060px; margin:0 auto; padding:0 24px; }
+
+    /* ---------- sidebar ---------- */
+    .clock { text-align:center; font-size:.82rem; color:var(--muted); }
+    .clock b { color:var(--text); font-weight:500; }
+    .me { text-align:center; margin:16px 0 14px; }
+    .me .ph { width:104px; height:104px; margin:0 auto 12px; border-radius:50%; padding:4px; background:var(--accent); }
+    .me .ph img { width:100%; height:100%; border-radius:50%; object-fit:cover; display:block; border:3px solid var(--side); }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .me h1 { font-size:1.15rem; font-weight:800; letter-spacing:-.01em; line-height:1.2; }
+    .me p { color:var(--muted); font-size:.86rem; margin-top:4px; }
+    .status { display:inline-flex; align-items:center; gap:8px; margin-top:10px; padding:4px 12px; border-radius:999px; background:var(--tint); color:var(--accent); font-size:.8rem; font-weight:500; }
+    .status i { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(var(--spark),.6)} 70%{box-shadow:0 0 0 8px rgba(var(--spark),0)} 100%{box-shadow:0 0 0 0 rgba(var(--spark),0)} }
+    .quick { display:flex; justify-content:center; gap:10px; margin:6px 0 14px; padding:10px; border:1px solid var(--line); border-radius:14px; }
+    .quick a { width:38px; height:38px; display:grid; place-items:center; border-radius:10px; color:var(--muted); transition:.2s; }
+    .quick a:hover { background:var(--tint); color:var(--accent); transform:translateY(-2px); }
+    .menu-h { margin:14px 8px 6px; }
+    nav a.item { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; text-decoration:none; color:var(--muted); font-weight:500; font-size:.95rem; transition:.2s; }
+    nav a.item:hover { background:var(--tint); color:var(--text); }
+    nav a.item.active { background:var(--tint); color:var(--accent); }
+    nav a.item em { margin-left:auto; font-style:normal; font-size:.75rem; background:var(--accent); color:#fff; border-radius:999px; padding:1px 9px; }
+    .theme { margin-top:auto; padding-top:14px; border-top:1px solid var(--line); display:flex; align-items:center; gap:12px; color:var(--muted); font-weight:500; font-size:.95rem; }
+    .switch { margin-left:auto; width:46px; height:26px; border-radius:999px; background:var(--line); border:0; position:relative; cursor:pointer; transition:.25s; }
+    .switch::after { content:''; position:absolute; top:3px; left:3px; width:20px; height:20px; border-radius:50%; background:#fff; transition:.25s; box-shadow:0 1px 3px rgba(0,0,0,.3); }
+    [data-theme="dark"] .switch { background:var(--accent); } [data-theme="dark"] .switch::after { left:23px; }
+    .toggle-side { position:fixed; top:20px; left:20px; z-index:40; width:42px; height:42px; border-radius:12px; border:1px solid var(--line); background:var(--panel); color:var(--text); cursor:pointer; display:none; place-items:center; box-shadow:0 6px 16px var(--shadow); }
+    .app.collapsed .toggle-side, .toggle-side.always { display:grid; }
+    .topbar { display:none; position:fixed; top:0; left:0; right:0; height:68px; z-index:35; align-items:center; justify-content:space-between; padding:0 16px 0 72px; background:var(--bg); border-bottom:1px solid var(--line); }
+    .topbar .btn { padding:9px 20px; }
+    .collapse { position:absolute; top:30px; right:-4px; display:none; }
+
+    /* ---------- hero ---------- */
+    .hero { position:relative; min-height:100vh; display:grid; place-items:center; text-align:center; overflow:hidden; isolation:isolate; }
+    #fx { position:absolute; inset:0; width:100%; height:100%; z-index:-1; }
+    .hero .wrap { padding-top:70px; padding-bottom:70px; }
+    .hero h2.big { font-size:clamp(1.7rem,7.2vw,6rem); line-height:1; letter-spacing:-.035em; }
+    .line { display:block; overflow:hidden; padding:.06em 0; }
+    .line > span { display:block; transform:translateY(110%); animation:rise .9s cubic-bezier(.2,.8,.2,1) forwards; }
+    .line.thin > span { font-weight:300; animation-delay:.1s; } .line.bold > span { font-weight:800; animation-delay:.28s; }
+    @keyframes rise { to { transform:none; } }
+    .type { margin:28px 0 8px; font-family:'JetBrains Mono',monospace; font-size:clamp(.95rem,2vw,1.2rem); color:var(--accent); min-height:1.8em; }
+    .type::after { content:none; }
+    @keyframes blink { 50% { opacity:0; } }
+    .hero p.lead { max-width:640px; margin:0 auto 32px; color:var(--muted); font-size:1.15rem; }
+    .fade { opacity:0; transform:translateY(14px); animation:fadeUp .8s .7s forwards; }
+    .fade.d2 { animation-delay:.95s; }
+    @keyframes fadeUp { to { opacity:1; transform:none; } }
+    .cta { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:999px; background:var(--text); color:var(--bg); font-weight:500; font-size:.95rem; text-decoration:none; border:1px solid var(--text); transition:.25s; position:relative; overflow:hidden; }
+    .btn:hover { opacity:.85; }
+    .btn.ghost { background:transparent; color:var(--text); border-color:var(--line); }
+    .btn.ghost:hover { border-color:var(--text); }
+    .link { color:var(--muted); font-weight:500; text-decoration:underline; text-underline-offset:4px; align-self:center; }
+    .link:hover { color:var(--text); }
+    .small { margin-top:18px; }
+    .scroll { position:absolute; bottom:26px; left:50%; width:26px; height:42px; border:2px solid var(--muted); border-radius:14px; transform:translateX(-50%); opacity:.6; }
+    .scroll::after { content:''; position:absolute; top:7px; left:50%; width:4px; height:8px; margin-left:-2px; border-radius:3px; background:var(--muted); animation:wheel 1.6s infinite; }
+    @keyframes wheel { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(14px)} }
+
+    /* ---------- marquee ---------- */
+    .marq { overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:18px 0; background:var(--panel); -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); }
+    .track { display:flex; gap:48px; width:max-content; animation:slide 30s linear infinite; }
+    .track span { font-weight:500; color:var(--muted); white-space:nowrap; display:flex; align-items:center; gap:48px; }
+    .track span::after { content:'✦'; color:var(--accent); }
+    @keyframes slide { to { transform:translateX(-50%); } }
+
+    /* ---------- sections ---------- */
+    section { padding:130px 0; border-bottom:1px solid var(--line); }
+    h2.t { font-size:clamp(1.6rem,5vw,3.8rem); line-height:1.02; letter-spacing:-.03em; margin:14px 0 46px; }
+    h2.t .thin { font-weight:300; } h2.t .bold { font-weight:800; }
+    .rv { transition:opacity .8s, transform .8s; }
+    .js .rv { opacity:0; transform:translateY(28px); }
+    .js .rv.in { opacity:1; transform:none; }
+
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .stat { background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:26px 22px; transition:.3s; }
+    .stat:hover { border-color:var(--accent); }
+    .stat b { display:block; font-size:clamp(2rem,4vw,3rem); font-weight:800; letter-spacing:-.03em; color:var(--accent); }
+    .stat span { color:var(--muted); font-size:.95rem; }
+
+    .flow { display:flex; flex-wrap:wrap; gap:12px; align-items:stretch; }
+    .node { flex:1 1 150px; border:1px solid var(--line); border-radius:16px; padding:20px; background:var(--panel); transition:.35s; }
+    .node small { display:block; color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:.74rem; letter-spacing:.1em; margin-bottom:10px; }
+    .node strong { font-weight:500; }
+    .node.on { border-color:var(--accent); background:var(--tint); transform:translateY(-6px); box-shadow:0 12px 24px var(--shadow); }
+    .node.on small { color:var(--accent); }
+    .arrow { align-self:center; color:var(--line); font-size:1.5rem; transition:.3s; }
+    .arrow.lit { color:var(--accent); transform:translateX(4px); }
+    .bar { height:4px; border-radius:4px; background:var(--line); margin-top:22px; overflow:hidden; }
+    .bar i { display:block; height:100%; width:0; background:var(--accent); transition:width .5s; }
+
+    .sub { color:var(--muted); font-size:1.15rem; max-width:620px; margin:-26px 0 40px; }
+    .work { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:22px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:18px; overflow:hidden; cursor:pointer; text-align:left; color:inherit; font:inherit; transition:transform .3s, box-shadow .3s, border-color .3s; }
+    .card:hover { border-color:var(--accent); transform:translateY(-8px); box-shadow:0 18px 34px var(--shadow); }
+    .card .im { overflow:hidden; border-bottom:1px solid var(--line); }
+    .card img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; transition:transform .6s; }
+    .card:hover img { transform:scale(1.07); }
+    .extra { display:none; } .work.all .extra { display:block; }
+    .morewrap { text-align:center; margin-top:34px; } .morewrap[hidden] { display:none; }
+    .card div.tx { padding:20px 22px 24px; }
+    .chip { display:inline-block; font-size:.78rem; font-weight:500; color:var(--accent); background:var(--tint); border-radius:999px; padding:2px 12px; }
+    .card h3 { font-size:1.3rem; font-weight:800; letter-spacing:-.02em; margin:12px 0 6px; line-height:1.25; }
+    .card p.ln { color:var(--muted); font-size:1rem; line-height:1.5; }
+    .card .more { display:inline-block; margin-top:12px; color:var(--accent); font-weight:500; font-size:.92rem; }
+    dialog { margin:auto; width:min(680px,92vw); max-height:88vh; overflow:auto; background:var(--panel); color:var(--text); border:1px solid var(--line); border-radius:20px; padding:0; }
+    dialog[open] { animation:pop .35s cubic-bezier(.2,.8,.2,1); }
+    @keyframes pop { from { opacity:0; transform:translateY(20px) scale(.96); } }
+    dialog::backdrop { background:rgba(0,0,0,.6); backdrop-filter:blur(3px); }
+    dialog img { width:100%; display:block; }
+    .dlg { padding:28px; }
+    .dlg h3 { font-size:1.5rem; letter-spacing:-.02em; margin:8px 0 18px; }
+    .dlg p { color:var(--muted); margin-bottom:14px; }
+    .dlg p b { display:block; font-family:'JetBrains Mono',monospace; font-size:.76rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:2px; color:var(--accent); font-weight:500; }
+    .tags { display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start; align-content:flex-start; margin-top:16px; }
+    .tags span { border:1px solid var(--line); background:var(--bg); border-radius:999px; padding:4px 14px; font-size:.86rem; color:var(--text); line-height:1.6; transition:.2s; }
+    .tags span:hover { border-color:var(--accent); color:var(--accent); }
+    .close { position:sticky; top:0; float:right; margin:14px; background:var(--text); color:var(--bg); border:0; border-radius:999px; width:36px; height:36px; cursor:pointer; font-size:1.1rem; z-index:2; }
+
+    .svcs { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+    .svc { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:30px 28px; transition:.3s; }
+    .svc:hover { border-color:var(--accent); }
+    .svc .n { display:grid; place-items:center; width:48px; height:48px; border-radius:14px; background:var(--tint); color:var(--accent); font-family:'JetBrains Mono',monospace; font-weight:500; margin-bottom:18px; }
+    .svc h3 { font-size:1.5rem; font-weight:800; letter-spacing:-.02em; margin-bottom:8px; line-height:1.2; }
+    .svc p { color:var(--muted); font-size:1.05rem; line-height:1.55; }
+    .svc .tags { margin-top:18px; }
+
+    .about { display:grid; grid-template-columns:300px 1fr; gap:52px; align-items:start; }
+    .about .pic { border-radius:20px; overflow:hidden; border:1px solid var(--line); }
+    .about .pic img { width:100%; display:block; transition:transform .6s; } .about .pic:hover img { transform:scale(1.05); }
+    .about p { color:var(--text); font-size:1.25rem; line-height:1.55; margin-bottom:18px; }
+    .about p.mono { font-size:.8rem; color:var(--muted); }
+    .facts { display:flex; flex-wrap:wrap; gap:10px; margin:6px 0 22px; }
+    .facts span { background:var(--tint); color:var(--accent); font-weight:500; font-size:.95rem; padding:6px 16px; border-radius:999px; }
+    .path { list-style:none; margin-top:26px; border-top:1px solid var(--line); }
+    .path li { display:flex; gap:20px; padding:14px 0; border-bottom:1px solid var(--line); transition:.3s; }
+    .path li:hover { padding-left:10px; color:var(--accent); }
+    .path li span:first-child { font-family:'JetBrains Mono',monospace; color:var(--accent); width:32px; }
+    .path li.now { font-weight:500; }
+
+    details { border-top:1px solid var(--line); padding:22px 0; }
+    details:last-of-type { border-bottom:1px solid var(--line); }
+    summary { cursor:pointer; list-style:none; font-size:1.18rem; font-weight:500; display:flex; justify-content:space-between; gap:20px; }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:'+'; color:var(--accent); font-size:1.5rem; line-height:1; transition:transform .3s; }
+    details[open] summary::after { transform:rotate(45deg); }
+    details p { color:var(--muted); margin-top:14px; max-width:720px; font-size:1.05rem; }
+
+    .contact { text-align:center; }
+    .contact h2.t { margin-bottom:24px; }
+    .contact p.s { color:var(--muted); max-width:560px; margin:0 auto 32px; font-size:1.1rem; }
+    .mail { display:inline-block; margin-top:26px; color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:.9rem; }
+    footer { padding:34px 0; color:var(--muted); font-size:.9rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+    @media (max-width:980px) {
+      aside { position:fixed; left:0; top:0; margin-left:-300px; } .app.open aside { margin-left:0; }
+      .toggle-side { display:grid; top:13px; left:14px; }
+      .topbar { display:flex; }
+      main { padding-top:68px; }
+      .app.collapsed aside { margin-left:-300px; }
+      .stats { grid-template-columns:1fr 1fr; }
+      .svcs { grid-template-columns:1fr; }
+      .about { grid-template-columns:1fr; } .about .pic { max-width:260px; }
+      section { padding:80px 0; } .arrow { display:none; }
+    }
+    @media (prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *,*::before,*::after { animation:none!important; transition:none!important; } .line>span,.fade,.js .rv { opacity:1!important; transform:none!important; } }
   </style>
 </head>
-<body class="bg-[#0b1026] text-slate-800 font-sans antialiased selection:bg-indigo-200 selection:text-indigo-950 min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+<body>
+<div class="app" id="app">
 
-  <canvas id="twilight-stars" aria-hidden="true"></canvas>
+  <div class="topbar"><strong>Jake B. Dasmariñas</strong><a class="btn" href="#contact">Contact</a></div>
+  <button class="toggle-side" id="toggleSide" aria-label="Toggle menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
 
-  <!-- Ambient Animated Background Glows -->
-  <div class="ambient-glow-top fixed top-0 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none -z-10"></div>
-  <div class="ambient-glow-bottom fixed bottom-10 right-1/4 w-[600px] h-[600px] rounded-full pointer-events-none -z-10"></div>
-
-  <!-- Floating Navigation Bar -->
-  <header class="fixed top-4 inset-x-0 z-40 max-w-6xl mx-auto px-4">
-    <nav class="glass-nav border border-emerald-100/80 rounded-full px-6 py-3.5 flex items-center justify-between">
-      <a href="#home" class="flex items-center gap-3 group" aria-label="Home" title="Home">
-        <div class="w-9 h-9 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow-md shadow-brand-600/20 group-hover:scale-105 transition-transform">
-          JD
-        </div>
-        <span class="mobile-home-label" aria-hidden="true">Home</span>
-        <span class="brand-name font-bold text-slate-100 text-base">Jake B. Dasmariñas</span>
-      </a>
-
-      <div class="nav-links flex items-center gap-2 sm:gap-4 text-xs sm:text-sm font-semibold text-slate-300">
-        <a href="#faq" aria-label="FAQ" title="FAQ" data-tooltip="Frequently asked questions" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
-          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8.2 9a3.8 3.8 0 0 1 7.4 1.2c0 2.3-3.6 3.1-3.6 5m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-          <span class="nav-label">FAQ</span>
-        </a>
-        <a href="#about" aria-label="About" title="About" data-tooltip="About & background" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
-          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 21a8 8 0 0 0-16 0m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
-          <span class="nav-label">About</span>
-        </a>
-        <a href="#services" aria-label="Services" title="Services" data-tooltip="Services offered" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
-          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7h18v13H3zM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-13 5h18m-11 0v2h4v-2"/></svg>
-          <span class="nav-label">Services</span>
-        </a>
-        <a href="#projects" aria-label="Projects" title="Projects" data-tooltip="Featured projects" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
-          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v16H4zM8 9l-2 3 2 3m8-6 2 3-2 3m-3-5-2 4"/></svg>
-          <span class="nav-label">Projects</span>
-        </a>
-        <a href="#contact" aria-label="Contact" title="Contact" data-tooltip="Get in touch" class="nav-link tooltip-target px-3 py-1.5 rounded-full hover:text-brand-700 hover:bg-brand-50">
-          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h18v14H3zM3 7l9 6 9-6"/></svg>
-          <span class="nav-label">Contact</span>
-        </a>
+  <aside>
+    <div class="side">
+      <div class="clock"><b id="clock">--:--</b> in the Philippines</div>
+      <div class="me">
+        <div class="ph"><img src="profile.jpg" alt="Jake B. Dasmariñas"></div>
+        <h1>Jake B. Dasmariñas</h1>
+        <p>CRM Automation & Systems Specialist</p>
+        <span class="status"><i></i>Taking on GHL projects</span>
       </div>
+      <div class="quick">
+        <a href="mailto:costales607@gmail.com" aria-label="Email" title="Email"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
+        <a href="Jake_Dasmarinas_Resume.pdf" download aria-label="Download resume" title="Download resume"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg></a>
+        <a href="#work" aria-label="Work" title="Work"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/></svg></a>
+      </div>
+      <nav id="menu">
+        <div class="mono menu-h">Menu</div>
+        <a class="item active" href="#top"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Home</a>
+        <a class="item" href="#work"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/></svg>Work<em>8</em></a>
+        <a class="item" href="#services"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>Services</a>
+        <a class="item" href="#about"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>About</a>
+        <a class="item" href="#faq"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.5-2.5 2-2.5 3.5M12 17h.01"/></svg>FAQ</a>
+        <div class="mono menu-h">General</div>
+        <a class="item" href="#contact"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Contact</a>
+        <a class="item" href="Jake_Dasmarinas_Resume.pdf" download><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>Resume</a>
+      </nav>
+      <div class="theme">
+        <svg class="i" viewBox="0 0 24 24" id="themeIcon"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+        <span id="themeLabel">Dark mode</span>
+        <button class="switch" id="themeSwitch" role="switch" aria-label="Toggle dark mode" aria-checked="false"></button>
+      </div>
+    </div>
+  </aside>
 
-      <a href="#contact" aria-label="Let's Talk" title="Let's Talk" data-tooltip="Get in touch" class="mobile-contact cta-button focus-ring tooltip-target inline-flex items-center gap-2 px-5 py-2 rounded-full bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-md shadow-brand-600/20">
-        <span class="mobile-contact-label">Let's Talk</span>
-        <svg class="mobile-contact-arrow w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-      </a>
-    </nav>
-  </header>
+  <main id="top">
 
-  <!-- Main Container -->
-  <main id="portfolioMain" class="max-w-6xl mx-auto px-4 sm:px-6 pt-36 sm:pt-32 pb-20 space-y-16 flex-grow w-full">
-
-    <!-- HOME HERO SECTION -->
-    <section id="home" class="pt-2">
-      <div class="relative overflow-hidden rounded-[2rem] border border-indigo-200/15 bg-gradient-to-br from-indigo-950 via-slate-900 to-violet-950 p-8 sm:p-14 shadow-[0_30px_80px_rgba(30,27,75,0.28)]">
-        <div class="hero-atmosphere absolute inset-0"></div>
-        <canvas id="hero-network" class="hero-network-canvas" aria-hidden="true"></canvas>
-        <div class="hero-layout relative z-10 grid gap-10 lg:gap-12">
-        <div class="hero-content flex min-w-0 max-w-3xl flex-col gap-6 lg:max-w-none">
-          <p class="text-emerald-300 text-xs font-bold uppercase">CRM Automation &amp; Systems Specialist · Virtual Assistant</p>
-          <div class="flex flex-wrap items-center gap-2">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-300/20 text-emerald-200 text-xs font-bold">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>GoHighLevel · ClickUp · Apps Script</span>
-            </div>
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-300/25 text-emerald-100 text-xs font-bold">
-              <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse shadow-[0_0_10px_rgba(110,231,183,0.9)]"></span>
-              <span>Available for Hire</span>
-            </div>
-          </div>
-
-          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
-            I turn repetitive CRM work into <span class="hero-accent">reliable workflows.</span>
-          </h1>
-
-          <p class="text-slate-200 text-base sm:text-lg leading-relaxed max-w-2xl">
-            As a CRM Automation and Systems Specialist, I build GoHighLevel architecture, ClickUp-connected request and billing systems, multi-tenant Apps Script workflows, and API integrations that reduce repetitive handoffs. I learn new platforms fast and ship systems teams can run on their own.
-          </p>
-
-          <div class="hero-ctas mt-auto flex flex-wrap items-center gap-4 pt-4">
-            <a href="#projects" class="cta-button focus-ring inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-400 hover:bg-emerald-300 text-slate-950 text-sm font-bold shadow-lg shadow-emerald-500/25">
-              View Work
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg>
-            </a>
-            <a href="Jake_Dasmarinas_Resume.pdf" download class="cta-button focus-ring inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-white/15 text-white text-sm font-bold border border-white/15">
-              Download Resume
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
-            </a>
-            <a href="#about" class="cta-button focus-ring px-6 py-3 rounded-full bg-white/10 hover:bg-white/15 text-white text-sm font-bold border border-white/15">
-              Background & Experience
-            </a>
-            <button id="heroJourneyBtn" type="button" class="journey-hero-cta cta-button focus-ring inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-bold text-white transition-transform hover:scale-105">
-              <span aria-hidden="true">✨</span>
-              <span>Experience My Story</span>
-            </button>
-          </div>
-
+    <div class="hero">
+      <canvas id="fx" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <h2 class="big">
+          <span class="line thin"><span>Systems that</span></span>
+          <span class="line bold"><span>run themselves.</span></span>
+        </h2>
+        <div class="type fade">GoHighLevel · ClickUp · Apps Script · Slack</div>
+        <p class="lead fade">I'm a CRM automation and systems specialist. I build the systems that replace manual handoffs, so teams can spend their time on work only people can do.</p>
+        <div class="cta fade d2">
+          <a class="btn" href="mailto:costales607@gmail.com?subject=Let%27s%20talk">Email me</a>
+          <a class="btn ghost" href="#work">See the work →</a>
         </div>
+        <p class="fade d2 small"><a class="link" href="Jake_Dasmarinas_Resume.pdf" download>or download my resume</a></p>
+      </div>
+      <div class="scroll" aria-hidden="true"></div>
+    </div>
 
-        <aside class="workflow-preview min-w-0 rounded-2xl p-4 sm:p-5" aria-label="Illustrative automation terminal">
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <p class="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-emerald-300">Live automation</p>
-              <h2 class="mt-1 text-lg font-bold text-white">Workflow terminal</h2>
-            </div>
-            <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-2.5 py-1 text-[0.65rem] font-semibold text-emerald-200">
-              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              Simulated
-            </span>
-          </div>
 
-          <div class="mt-4 overflow-hidden rounded-xl border border-slate-500/20 bg-slate-950/70">
-            <div class="flex items-center gap-1.5 border-b border-slate-500/20 px-3 py-2.5" aria-hidden="true">
-              <span class="h-2 w-2 rounded-full bg-rose-400/80"></span>
-              <span class="h-2 w-2 rounded-full bg-amber-300/80"></span>
-              <span class="h-2 w-2 rounded-full bg-emerald-400/80"></span>
-              <span class="ml-2 font-mono text-[0.65rem] text-slate-500">live_automation_node.js</span>
-            </div>
-
-            <ol class="space-y-2 p-3 font-mono" aria-label="Sample automation steps">
-              <li id="automation-trigger" class="automation-node rounded-lg p-3" data-state="waiting">
-                <div class="flex items-start justify-between gap-3">
-                  <span class="text-[0.65rem] font-bold text-emerald-300">[TRIGGER]</span>
-                  <span id="automation-trigger-status" class="text-[0.6rem] font-bold text-slate-500">WAITING</span>
-                </div>
-                <p class="mt-1 text-xs leading-relaxed text-slate-200">GoHighLevel Contact Created</p>
-                <p id="automation-trigger-detail" class="mt-1 text-[0.65rem] text-slate-500">Listening for contact event</p>
-              </li>
-
-              <li id="automation-process" class="automation-node rounded-lg p-3" data-state="waiting">
-                <div class="flex items-start justify-between gap-3">
-                  <span class="text-[0.65rem] font-bold text-amber-200">[PROCESS]</span>
-                  <span id="automation-process-status" class="text-[0.6rem] font-bold text-slate-500">WAITING</span>
-                </div>
-                <p class="mt-1 text-xs leading-relaxed text-slate-200">Apps Script OCR &amp; Data Sanitization</p>
-                <p id="automation-process-detail" class="mt-1 text-[0.65rem] text-slate-500">Waiting for trigger</p>
-              </li>
-
-              <li id="automation-action" class="automation-node rounded-lg p-3" data-state="waiting">
-                <div class="flex items-start justify-between gap-3">
-                  <span class="text-[0.65rem] font-bold text-sky-200">[ACTION]</span>
-                  <span id="automation-action-status" class="text-[0.6rem] font-bold text-slate-500">QUEUED</span>
-                </div>
-                <p class="mt-1 text-xs leading-relaxed text-slate-200">Slack Webhook Alert Routed</p>
-                <p id="automation-action-detail" class="mt-1 text-[0.65rem] text-slate-500">Queued for #leads</p>
-              </li>
-            </ol>
-          </div>
-
-          <p id="automation-terminal-status" class="mt-3 font-mono text-[0.65rem] text-slate-500" aria-live="off">Demo mode · No external services connected</p>
-          <div class="mt-auto pt-4" aria-hidden="true">
-            <div class="automation-progress">
-              <div class="automation-progress-fill"></div>
-            </div>
-          </div>
-        </aside>
-
-        <div class="hero-proof mt-2 pt-6 grid grid-cols-1 gap-5 lg:gap-8">
-          <div class="grid grid-cols-3">
-            <div class="hero-proof-stat pr-3 text-center sm:text-left">
-              <p class="text-2xl sm:text-3xl font-extrabold text-white">60+</p>
-              <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">Slack channels routed</p>
-            </div>
-            <div class="hero-proof-stat px-3 text-center">
-              <p class="text-2xl sm:text-3xl font-extrabold text-white">90+</p>
-              <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">CSV columns cleaned</p>
-            </div>
-            <div class="hero-proof-stat pl-3 text-center sm:text-right">
-              <p class="text-2xl sm:text-3xl font-extrabold text-white">20–25</p>
-              <p class="mt-1 text-[0.68rem] sm:text-xs font-medium leading-snug text-slate-300">CRM fields structured</p>
-            </div>
-          </div>
-
-          <div class="hero-tech-stack min-w-0 pt-4 lg:pl-8 lg:pt-0">
-            <p class="mb-3 text-center text-[0.65rem] font-bold uppercase tracking-wider text-emerald-200/80 lg:text-left">Core tech stack</p>
-            <div class="grid grid-cols-2 items-center gap-2 sm:grid-cols-4">
-              <span class="hero-tech-badge flex min-h-10 items-center justify-center rounded-xl px-2 py-2 text-center text-xs font-semibold">GoHighLevel</span>
-              <span class="hero-tech-badge flex min-h-10 items-center justify-center rounded-xl px-2 py-2 text-center text-xs font-semibold">Apps Script</span>
-              <span class="hero-tech-badge flex min-h-10 items-center justify-center whitespace-nowrap rounded-xl px-2 py-2 text-center text-xs font-semibold">Slack Webhooks</span>
-              <span class="hero-tech-badge flex min-h-10 items-center justify-center rounded-xl px-2 py-2 text-center text-xs font-semibold">ClickUp</span>
-            </div>
-          </div>
-        </div>
+    <section>
+      <div class="wrap">
+        <div class="stats">
+          <div class="stat rv"><b>60+</b><span>Slack channels routed by webhook</span></div>
+          <div class="stat rv"><b>15 min</b><span>from order receipt to CRM contact</span></div>
+          <div class="stat rv"><b>90+ → 25</b><span>messy CSV columns cut to CRM-ready fields</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT & EXPERIENCE SECTION -->
-    <section id="about" class="space-y-6 section-surface">
-      <div class="flex flex-wrap items-end justify-between gap-4">
-        <div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">About & Background</h2>
-        <p class="text-slate-600 text-base font-medium">Career evolution, technical capabilities, and principles</p>
+    <section>
+      <div class="wrap">
+        <span class="mono rv">Live automation</span>
+        <h2 class="t rv"><span class="thin">From receipt to</span><br><span class="bold">CRM, untouched.</span></h2>
+        <div class="flow rv" id="flow">
+          <div class="node"><small>01 · TRIGGER</small><strong>Receipt lands in Gmail</strong></div><span class="arrow">→</span>
+          <div class="node"><small>02 · READ</small><strong>Drive OCR extracts the order</strong></div><span class="arrow">→</span>
+          <div class="node"><small>03 · MATCH</small><strong>Routes to the right client account</strong></div><span class="arrow">→</span>
+          <div class="node"><small>04 · SYNC</small><strong>GoHighLevel contact + won opportunity</strong></div><span class="arrow">→</span>
+          <div class="node"><small>05 · ALERT</small><strong>Team notified in Slack</strong></div>
         </div>
-        <button id="openJourneyBtn" type="button" class="focus-ring inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-2.5 text-xs font-bold text-emerald-800 shadow-md transition hover:-translate-y-0.5 hover:bg-emerald-500/20 hover:shadow-lg">
-          <span aria-hidden="true">🚗</span>
-          <span>Interactive Journey</span>
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg>
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-
-        <!-- Profile Card -->
-        <div class="md:col-span-4 dark-panel rounded-2xl p-6 flex flex-col items-center text-center space-y-4 card-hover-effect h-full">
-          <div class="w-28 h-28 rounded-full ring-4 ring-emerald-100 overflow-hidden shadow-lg">
-            <img src="profile.jpg" alt="Jake B. Dasmariñas" class="w-full h-full object-cover" loading="lazy" decoding="async" onerror="this.src='https://via.placeholder.com/150'">
-          </div>
-          <div class="space-y-1">
-            <h3 class="title-label text-[1.2rem] font-bold">Jake B. Dasmariñas</h3>
-            <p class="text-emerald-800 text-sm font-semibold mt-0.5">CRM Automation & Systems Specialist · Virtual Assistant</p>
-          </div>
-          <p class="text-slate-600 text-base leading-relaxed">
-            A fast learner who became fully independent on GoHighLevel in just a few months, from A2P registration to ClickUp-connected billing systems. I build solutions that simplify day-to-day work for teams.
-          </p>
-        </div>
-
-        <!-- Principles & Skills Card -->
-        <div class="md:col-span-8 dark-panel rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6 card-hover-effect">
-          <div class="space-y-3">
-            <h3 class="title-label text-[1.35rem] font-bold">Purpose-Driven Execution</h3>
-            <p class="text-slate-600 text-base leading-relaxed">
-              My journey spans leadership as a crew chief, precision in healthcare operations, dynamic analytics in workforce management, and enterprise CRM workflow engineering. I approach technical challenges by analyzing edge cases first and building clean, resilient systems that run predictably.
-            </p>
-          </div>
-
-          <div>
-            <h4 class="title-label text-sm font-bold uppercase mb-3">Core Technical Capabilities</h4>
-            <div class="flex flex-wrap gap-2">
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">GoHighLevel CRM Setup</span>
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">Google Apps Script</span>
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">Slack Webhook Integrations</span>
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">A2P 10DLC Registration</span>
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">ClickUp Integration</span>
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">Marketing Billing System</span>
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">Salesforce API & Connectors</span>
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">Drive v3 OCR Engine</span>
-              <span class="chip px-3 py-1.5 rounded-lg border text-sm font-semibold">Dynamic Array Formulas</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Detailed Career History Timeline -->
-        <div class="md:col-span-12 dark-panel rounded-2xl p-6 sm:p-8 space-y-6">
-          <h3 class="title-label text-[1.35rem] font-bold">Career Evolution</h3>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="border-l-4 border-emerald-600 rounded-r-xl bg-emerald-50/80 pl-4 pr-3 py-3 space-y-2">
-              <div class="title-label text-sm font-bold uppercase">Current Focus</div>
-              <h4 class="text-lg font-bold text-slate-900">CRM Automation & Systems Specialist</h4>
-              <p class="text-base text-slate-600 leading-relaxed pt-1">Built the GoHighLevel foundation end to end: workflows, A2P registration and compliance, Slack webhook alerts, and multi-tenant order receipt automation. Integrated ClickUp into a marketing request and billing system, and support client onboarding.</p>
-            </div>
-
-            <div class="border-l-2 border-slate-300 pl-4 space-y-1">
-              <div class="text-sm font-bold text-slate-500 uppercase">Accenture</div>
-              <h4 class="text-lg font-bold text-slate-700">Real-Time Analyst (WFM) & Healthcare</h4>
-              <p class="text-base text-slate-500 leading-relaxed pt-1">Automated BCP crisis reporting trackers, regional attendance systems (US, SG, IN, BG, DUB, AU), and Salesforce-to-Sheet reporting connectors.</p>
-            </div>
-
-            <div class="border-l-2 border-slate-300 pl-4 space-y-1">
-              <div class="text-sm font-bold text-slate-500 uppercase">Early Foundation</div>
-              <h4 class="text-lg font-bold text-slate-700">Healthcare CSR & McDonald's Crew Chief</h4>
-              <p class="text-base text-slate-500 leading-relaxed pt-1">Promoted quickly to Crew Chief while working as a student. Managed healthcare claim authorizations, member status, and claims processing under high accuracy standards.</p>
-            </div>
-          </div>
-        </div>
-
+        <div class="bar"><i id="bar"></i></div>
       </div>
     </section>
 
-    <!-- SERVICES OFFERED SECTION -->
-    <section id="services" class="space-y-6 section-surface">
-      <div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Services Offered</h2>
-        <p class="text-slate-600 text-base font-medium">Core solutions provided for clients and business operations</p>
+    <section id="work">
+      <div class="wrap">
+        <span class="mono rv">Selected work</span>
+        <h2 class="t rv"><span class="thin">Builds you can</span><br><span class="bold">open right now.</span></h2>
+        <p class="sub rv">Three core builds first. Click any card to see the problem, what I built and the result.</p>
+        <div class="work" id="workGrid"></div>
+        <div class="morewrap" id="moreWrap"><button class="btn ghost" id="moreBtn" type="button">Show 5 more builds</button></div>
       </div>
+    </section>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Service 1 -->
-        <div class="dark-panel rounded-2xl p-6 space-y-3 card-hover-effect h-full flex flex-col">
-          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-brand-700 flex items-center justify-center font-bold">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          </div>
-          <h3 class="title-label text-[1.15rem] font-bold">GoHighLevel CRM & Technical Support</h3>
-          <p class="text-base text-slate-600 leading-relaxed">End-to-end sub-account configuration, pipeline creation, A2P 10DLC registration, custom values, smart lists, SMS deliverability troubleshooting, and client call support.</p>
-        </div>
-
-        <!-- Service 2 -->
-        <div class="dark-panel rounded-2xl p-6 space-y-3 card-hover-effect h-full flex flex-col">
-          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-brand-700 flex items-center justify-center font-bold">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-          </div>
-          <h3 class="title-label text-[1.15rem] font-bold">Workflow & Webhook Automation</h3>
-          <p class="text-base text-slate-600 leading-relaxed">Multi-channel routing, keyword SMS triggers, email sequences, Slack app notifications, and GoHighLevel to ClickUp request, billing and status-sync systems.</p>
-        </div>
-
-        <!-- Service 3 -->
-        <div class="dark-panel rounded-2xl p-6 space-y-3 card-hover-effect h-full flex flex-col">
-          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-brand-700 flex items-center justify-center font-bold">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          </div>
-          <h3 class="title-label text-[1.15rem] font-bold">Apps Script & Data Sanitization</h3>
-          <p class="text-base text-slate-600 leading-relaxed">Custom Google Apps Script development, raw CSV cleaning routines, dynamic LET formula architectures, and automated CRM migration pipelines.</p>
+    <section id="services">
+      <div class="wrap">
+        <span class="mono rv">Services</span>
+        <h2 class="t rv"><span class="thin">What I can</span><br><span class="bold">own for your team.</span></h2>
+        <p class="sub rv">Three things I can take off your plate.</p>
+        <div class="svcs">
+          <div class="svc rv"><span class="n">01</span>
+            <h3>CRM setup</h3>
+            <p>I set up GoHighLevel so new clients go live without hand-holding.</p>
+            <div class="tags"><span>GoHighLevel</span><span>A2P 10DLC</span><span>Pipelines</span></div></div>
+          <div class="svc rv"><span class="n">02</span>
+            <h3>Automation</h3>
+            <p>I connect your tools so work moves without anyone chasing it.</p>
+            <div class="tags"><span>Workflows</span><span>ClickUp</span><span>Slack</span><span>Apps Script</span></div></div>
+          <div class="svc rv"><span class="n">03</span>
+            <h3>Reporting</h3>
+            <p>I turn daily report-building into one refresh.</p>
+            <div class="tags"><span>Excel</span><span>Google Sheets</span><span>Salesforce</span></div></div>
         </div>
       </div>
     </section>
 
-    <!-- FEATURED PROJECTS SECTION -->
-    <section id="projects" class="space-y-6 section-surface">
-      <div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Featured Case Studies</h2>
-        <p class="project-hint text-base">Click any card below to open full architecture details</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projects-grid">
-
-        <!-- Case Study 1: Order Receipt System -->
-        <div data-project-index="0" role="button" tabindex="0" aria-label="Open case study: Multi-Tenant Order Receipt OCR Pipeline" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
-          <div class="h-56 rounded-xl bg-slate-100 overflow-hidden relative border border-slate-100">
-            <img src="images/projects/order-receipt-pipeline.svg" alt="Phone calculator and paperwork representing order receipt processing" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" onerror="projFallback(this)">
-          </div>
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-emerald-800 uppercase">Enterprise Architecture</span>
-            <h3 class="title-label text-[1.2rem] font-bold">Multi-Tenant Order Receipt OCR Pipeline</h3>
-            <p class="text-base text-slate-600 leading-relaxed">Automated Gmail PDF receipt extraction using Google Drive OCR, cross-referencing scraper data, and syncing GoHighLevel contacts & opportunities with rate-limit retry resilience.</p>
-          </div>
-        </div>
-
-        <!-- Case Study 2: Slack Webhook Channel Router -->
-        <div data-project-index="1" role="button" tabindex="0" aria-label="Open case study: GoHighLevel to Slack Webhook Alert Engine" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
-          <div class="h-56 rounded-xl bg-slate-100 overflow-hidden relative border border-slate-100">
-            <img src="images/projects/slack-webhook-alerts.svg" alt="Team collaborating around a laptop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" onerror="projFallback(this)">
-          </div>
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-emerald-800 uppercase">Integration & Webhooks</span>
-            <h3 class="title-label text-[1.2rem] font-bold">GoHighLevel to Slack Webhook Alert Engine</h3>
-            <p class="text-base text-slate-600 leading-relaxed">Configured custom webhook routing across 60+ individual Slack channels, instantly alerting assigned reps with message previews and direct links.</p>
-          </div>
-        </div>
-
-        <!-- Case Study 3: Data Migration Script -->
-        <div data-project-index="2" role="button" tabindex="0" aria-label="Open case study: Google Apps Script CRM Data Migration Tool" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
-          <div class="h-56 rounded-xl bg-slate-100 overflow-hidden relative border border-slate-100">
-            <img src="images/projects/csv-migration-tool.svg" alt="Professional reviewing data on a laptop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" onerror="projFallback(this)">
-          </div>
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-emerald-800 uppercase">Data Operations</span>
-            <h3 class="title-label text-[1.2rem] font-bold">Google Apps Script CRM Data Migration Tool</h3>
-            <p class="text-base text-slate-600 leading-relaxed">Transformed 90+ column messy raw CSV datasets into 20-25 structured GoHighLevel custom fields using automated Apps Script sanitization.</p>
-          </div>
-        </div>
-
-        <!-- Case Study 4: Salesforce CRM Auto-Sync -->
-        <div data-project-index="3" role="button" tabindex="0" aria-label="Open case study: Salesforce-to-Spreadsheet Live Connector" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
-          <div class="h-56 rounded-xl bg-slate-100 overflow-hidden relative border border-slate-100">
-            <img src="images/projects/salesforce-connector.svg" alt="Business analytics dashboard on a monitor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" onerror="projFallback(this)">
-          </div>
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-emerald-800 uppercase">Analytics & CRM</span>
-            <h3 class="title-label text-[1.2rem] font-bold">Salesforce-to-Spreadsheet Live Connector</h3>
-            <p class="text-base text-slate-600 leading-relaxed">Eliminated manual CRM report exports by establishing direct connector queries to auto-categorize urgent case categories across dynamic tabs.</p>
-          </div>
-        </div>
-
-        <div data-project-index="4" role="button" tabindex="0" aria-label="Open case study: Marketing Request & Billing System" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
-          <div class="h-56 rounded-xl overflow-hidden relative border border-slate-100">
-            <img src="images/projects/marketing-billing-system.svg" alt="Process Automation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" onerror="projFallback(this)">
-          </div>
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-emerald-800 uppercase">Process Automation</span>
-            <h3 class="title-label text-[1.2rem] font-bold">Marketing Request & Billing System</h3>
-            <p class="text-base text-slate-600 leading-relaxed">GoHighLevel survey intake with validation, ClickUp task creation, status sync, stage emails, fixed and hourly billing rules, and a 3-business-day SLA.</p>
-          </div>
-        </div>
-
-        <div data-project-index="5" role="button" tabindex="0" aria-label="Open case study: OrderIQ Beta Rollout & Onboarding Content" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
-          <div class="h-56 rounded-xl overflow-hidden relative border border-slate-100">
-            <img src="images/projects/orderiq-beta-rollout.svg" alt="Rollout & Enablement" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" onerror="projFallback(this)">
-          </div>
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-emerald-800 uppercase">Rollout & Enablement</span>
-            <h3 class="title-label text-[1.2rem] font-bold">OrderIQ Beta Rollout & Onboarding Content</h3>
-            <p class="text-base text-slate-600 leading-relaxed">Beta invite and acceptance emails and SMS, a rep invite smart list, and a Gmail auto-forwarding setup video for non-technical reps.</p>
-          </div>
-        </div>
-
-        <div data-project-index="6" role="button" tabindex="0" aria-label="Open case study: GHL SMS Opt-Out & Error-Limit Investigation" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
-          <div class="h-56 rounded-xl overflow-hidden relative border border-slate-100">
-            <img src="images/projects/sms-compliance.svg" alt="Compliance & Troubleshooting" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" onerror="projFallback(this)">
-          </div>
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-emerald-800 uppercase">Compliance & Troubleshooting</span>
-            <h3 class="title-label text-[1.2rem] font-bold">GHL SMS Opt-Out & Error-Limit Investigation</h3>
-            <p class="text-base text-slate-600 leading-relaxed">Diagnosed why a high-volume sub-account hit SMS pause limits and defined the send filters that keep campaigns compliant.</p>
-          </div>
-        </div>
-
-        <div data-project-index="7" role="button" tabindex="0" aria-label="Open case study: Live Client Onboarding for New GoHighLevel Subscribers" class="project-card group dark-panel rounded-2xl p-5 card-hover-effect cursor-pointer space-y-4 h-full flex flex-col">
-          <div class="h-56 rounded-xl overflow-hidden relative border border-slate-100">
-            <img src="images/projects/client-onboarding.svg" alt="Onboarding &amp; setup" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" onerror="projFallback(this)">
-          </div>
-          <div class="space-y-2">
-            <span class="text-sm font-bold text-emerald-800 uppercase">Onboarding &amp; setup</span>
-            <h3 class="title-label text-[1.2rem] font-bold">Live Client Onboarding for New GoHighLevel Subscribers</h3>
-            <p class="text-base text-slate-600 leading-relaxed">I walk each new client live from subscribed to up and running.</p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- FAQ ACCORDION SECTION -->
-    <section id="faq" class="space-y-6 section-surface">
-      <div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Frequently Asked Questions</h2>
-        <p class="text-slate-600 text-base font-medium">Quick clarity on the kind of work, systems, and support I provide.</p>
-      </div>
-
-      <div class="space-y-3">
-        <div class="faq-item active dark-panel rounded-2xl p-5 overflow-hidden">
-          <button aria-expanded="true" aria-controls="faq-answer-1" class="faq-question focus-ring w-full flex items-center justify-between gap-4 text-left">
-            <span class="title-label text-base font-bold">What types of automation work do you handle?</span>
-            <span class="faq-icon flex items-center justify-center w-7 h-7 rounded-full bg-emerald-50 text-brand-700 border border-emerald-100 text-xl leading-none">+</span>
-          </button>
-          <div id="faq-answer-1" class="faq-answer text-slate-600 text-base leading-relaxed">
-            <p>CRM setup, A2P registration, multi-step workflow automation, GoHighLevel to ClickUp request and billing systems, webhook routing, Google Apps Script tools, CRM cleanup, spreadsheet reporting, and operational process optimization for teams that need faster, more reliable execution.</p>
-          </div>
-        </div>
-
-        <div class="faq-item dark-panel rounded-2xl p-5 overflow-hidden">
-          <button aria-expanded="false" aria-controls="faq-answer-2" class="faq-question focus-ring w-full flex items-center justify-between gap-4 text-left">
-            <span class="title-label text-base font-bold">Can you work with existing GoHighLevel and CRM systems?</span>
-            <span class="faq-icon flex items-center justify-center w-7 h-7 rounded-full bg-emerald-50 text-brand-700 border border-emerald-100 text-xl leading-none">+</span>
-          </button>
-          <div id="faq-answer-2" class="faq-answer text-slate-600 text-base leading-relaxed">
-            <p>Yes. I help configure, troubleshoot, and improve current systems, including sub-account setup, smart lists, pipeline logic, contact flows, app integrations, and custom automation that aligns with an existing business process.</p>
-          </div>
-        </div>
-
-        <div class="faq-item dark-panel rounded-2xl p-5 overflow-hidden">
-          <button aria-expanded="false" aria-controls="faq-answer-3" class="faq-question focus-ring w-full flex items-center justify-between gap-4 text-left">
-            <span class="title-label text-base font-bold">Do you handle data migration and cleanup?</span>
-            <span class="faq-icon flex items-center justify-center w-7 h-7 rounded-full bg-emerald-50 text-brand-700 border border-emerald-100 text-xl leading-none">+</span>
-          </button>
-          <div id="faq-answer-3" class="faq-answer text-slate-600 text-base leading-relaxed">
-            <p>Absolutely. I build custom cleaning and migration routines for messy CSV exports, spreadsheet imports, contact cleanup, and structured data mapping into CRM fields to maintain accuracy and reduce manual work.</p>
-          </div>
-        </div>
-
-        <div class="faq-item dark-panel rounded-2xl p-5 overflow-hidden">
-          <button aria-expanded="false" aria-controls="faq-answer-4" class="faq-question focus-ring w-full flex items-center justify-between gap-4 text-left">
-            <span class="title-label text-base font-bold">How quickly can you learn a new platform?</span>
-            <span class="faq-icon flex items-center justify-center w-7 h-7 rounded-full bg-emerald-50 text-brand-700 border border-emerald-100 text-xl leading-none">+</span>
-          </button>
-          <div id="faq-answer-4" class="faq-answer text-slate-600 text-base leading-relaxed">
-            <p>Fast. In a few months I went from no agency experience to running GoHighLevel independently, including A2P registration, workflow architecture, and a ClickUp-connected billing system. I document what I build so teams can run it without me.</p>
+    <section id="about">
+      <div class="wrap">
+        <span class="mono rv">About</span>
+        <h2 class="t rv"><span class="thin">Hi, I'm</span> <span class="bold">Jake.</span></h2>
+        <div class="about">
+          <div class="pic rv"><img src="profile.jpg" alt="Jake B. Dasmariñas" loading="lazy"></div>
+          <div class="rv">
+            <p><strong>I build systems that keep a business moving when nobody is watching them.</strong></p>
+            <div class="facts"><span>Learns fast</span><span>Builds around edge cases</span><span>Documents what I build</span></div>
+            <p>In a few months I went from no agency experience to running GoHighLevel on my own, from A2P registration to a ClickUp billing system.</p>
+            <p class="mono">Based in the Philippines · GMT+8</p>
+            <ul class="path">
+              <li><span>01</span><span>Crew Trainer, McDonald's</span></li>
+              <li><span>02</span><span>Customer Service, medical insurance</span></li>
+              <li><span>03</span><span>Customer Service, disability insurance, Accenture</span></li>
+              <li><span>04</span><span>Real-Time Analyst, Accenture</span></li>
+              <li class="now"><span>05</span><span>System Improvement Specialist, AvidVS</span></li>
+              <li class="now"><span>06</span><span>CRM Support Specialist, 7 Figure CRM (client emails and calls)</span></li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="section-surface">
-      <div class="dark-panel rounded-2xl p-8 sm:p-12 text-center space-y-5">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-100 text-xs font-bold">
-        <span>Get in Touch</span>
-      </div>
-      <h2 class="title-label text-2xl sm:text-3xl font-extrabold">Let's Work Together</h2>
-      <p class="text-slate-600 text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
-        Have a CRM process that needs fixing? Email me about GoHighLevel, Apps Script, or webhook support.
-      </p>
-      <div class="pt-2 flex flex-wrap justify-center gap-3">
-        <button id="copy-email" type="button" class="focus-ring inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/25 transition-all hover:-translate-y-0.5">
-          <span>Copy Email</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-2M5 7h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/></svg>
-        </button>
-        <a id="open-email-app" href="#" class="focus-ring inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-emerald-200 text-emerald-900 hover:bg-emerald-50 font-bold text-sm transition-colors">
-          <span>Open Email App</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-        </a>
-      </div>
+    <!-- PROOF: add a "Proof" section here once real, permissioned quotes are available (name, role, date). Not shipped with invented text. -->
+
+    <section id="faq">
+      <div class="wrap">
+        <span class="mono rv">FAQ</span>
+        <h2 class="t rv"><span class="thin">Quick</span> <span class="bold">answers.</span></h2>
+        <div class="rv">
+          <details open><summary>What do you actually build?</summary><p>CRM setup, A2P registration, multi-step workflow automation, GoHighLevel to ClickUp request and billing systems, webhook routing, Google Apps Script tools, data cleanup and migration, and spreadsheet reporting.</p></details>
+          <details><summary>Can you work inside an existing GoHighLevel account?</summary><p>Yes. I configure, troubleshoot and improve live accounts: sub-account setup, smart lists, pipeline logic, integrations, and SMS deliverability problems such as opt-out and error-limit pauses.</p></details>
+          <details><summary>Do you handle data migration and cleanup?</summary><p>Yes. I build cleaning and mapping routines for messy CSV exports so contacts import into the right CRM fields without manual stripping.</p></details>
+          <details><summary>How quickly do you learn a new platform?</summary><p>Fast, and I document what I build. In a few months I became independent on GoHighLevel, including A2P registration and a ClickUp-connected billing system.</p></details>
+        </div>
       </div>
     </section>
 
+    <section class="contact" id="contact" style="border-bottom:0">
+      <div class="wrap">
+        <span class="mono rv">Contact</span>
+        <h2 class="t rv"><span class="thin">Tell me where</span><br><span class="bold">work gets stuck.</span></h2>
+        <p class="s rv">If your team is losing time to manual follow-up, copy-paste reporting or messy handoffs, send me the details and I'll reply with a plan.</p>
+        <p class="s rv" style="margin-top:-12px"><strong>In your first message, tell me:</strong> the tools you use, where work gets stuck, and how often it happens.</p>
+        <div class="cta rv">
+          <a class="btn" href="mailto:costales607@gmail.com?subject=Let%27s%20talk">Email me</a>
+          <a class="link" href="Jake_Dasmarinas_Resume.pdf" download>or download my resume</a>
+        </div>
+        <span class="mail">costales607@gmail.com</span>
+      </div>
+    </section>
+
+    <div class="wrap"><footer><span>© 2026 Jake B. Dasmariñas</span><span>Built by hand, no templates.</span></footer></div>
   </main>
+</div>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-200 bg-white/80 py-8 text-center text-sm font-medium text-slate-500 relative z-40">
-    <p>© 2026 Jake B. Dasmariñas. Built with purpose & clarity.</p>
-  </footer>
+<dialog id="dlg"></dialog>
 
-  <aside id="audioWidget" class="audio-widget" data-state="off" aria-label="Background music player">
-    <button id="audioToggle" class="audio-toggle focus-ring" type="button" aria-label="Play Background Music" title="Play Background Music" aria-pressed="false" aria-describedby="audioTooltip">
-      <span class="audio-toggle-icon" aria-hidden="true">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 18V5l12-2v13M9 18c0 1.1-1.3 2-3 2s-3-.9-3-2 1.3-2 3-2 3 .9 3 2Zm12-2c0 1.1-1.3 2-3 2s-3-.9-3-2 1.3-2 3-2 3 .9 3 2Z"/></svg>
-      </span>
-      <span class="audio-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
-    </button>
-    <div id="audioTooltip" class="audio-tooltip">
-      <p class="mb-2 text-xs font-bold text-sky-200">Tap the vinyl to play or pause background music.</p>
-      <p class="audio-credit">
-        BGM: <a href="https://www.youtube.com/watch?v=ox7Wt6fsm_A" target="_blank" rel="noopener noreferrer">“Katawaredoki - Kimi no Na wa (Your Name) Piano Cover” by Torby Brand</a>. Copyright belongs to the respective rights holders.
-      </p>
-      <label class="mt-3 flex items-center gap-3 text-xs font-semibold text-indigo-100" for="audioVolume">
-        <span>Volume</span>
-        <input id="audioVolume" class="audio-volume" type="range" min="0" max="100" value="45" aria-label="Background music volume">
-      </label>
-      <p id="audioStateLabel" class="mt-2 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-indigo-200" aria-live="polite">Music off</p>
-    </div>
-  </aside>
-  <div id="musicOnboardingToast" class="music-onboarding-toast" role="status" aria-live="polite" aria-hidden="true">
-    <span>🎵 Tip: Tap the vinyl icon at the bottom right for background music!</span>
-    <button id="musicOnboardingClose" class="music-onboarding-close focus-ring tooltip-target" type="button" aria-label="Dismiss music tip" title="Dismiss music tip" data-tooltip="Dismiss music tip" data-tooltip-position="bottom">×</button>
-  </div>
-  <div id="audioPlayerHost" class="audio-player-host" aria-hidden="true"></div>
-  <audio id="chapterNarration1" src="audio/chapter1.mp4" preload="metadata"></audio>
-  <audio id="chapterNarration2" src="audio/chapter2.mp4" preload="metadata"></audio>
-  <audio id="chapterNarration3" src="audio/chapter3.mp4" preload="metadata"></audio>
-  <audio id="chapterNarration4" src="audio/chapter4.mp4" preload="metadata"></audio>
+<script>
+(function () {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement, app = $('#app');
 
-  <!-- My Journey modal overlay -->
-  <div id="journeyModal" class="journey-modal-overlay fixed inset-0 z-[70] hidden flex items-center justify-center bg-slate-950/80 p-2 opacity-0 backdrop-blur-sm sm:p-4" aria-hidden="true">
-    <section class="journey-carousel-card relative max-h-[96dvh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-emerald-400/20 p-3 text-white sm:p-7" role="dialog" aria-modal="true" aria-labelledby="journeyModalHeading" aria-describedby="journeyDescription" tabindex="-1" inert>
-      <button id="closeJourneyModal" type="button" class="focus-ring absolute right-4 top-4 z-10 rounded-full bg-slate-800 p-2 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white sm:right-5 sm:top-5" aria-label="Close modal" title="Close modal">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
+  /* theme toggle */
+  const sw = $('#themeSwitch'), label = $('#themeLabel');
+  function setTheme(t, save) {
+    root.dataset.theme = t; sw.setAttribute('aria-checked', t === 'dark'); label.textContent = t === 'dark' ? 'Dark mode' : 'Light mode';
+    if (save) { try { localStorage.setItem('theme', t); } catch (e) {} }
+  }
+  setTheme(root.dataset.theme || 'light', false);
+  sw.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true));
 
-      <div class="mb-3 space-y-1.5 pr-10 text-center sm:mb-5 sm:space-y-2 sm:px-10">
-        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Interactive Career Timeline</span>
-        <h2 id="journeyModalHeading" class="text-2xl font-extrabold text-white sm:text-3xl">My Journey</h2>
-        <p class="journey-modal-instructions text-sm text-slate-400">Choose a chapter with arrows or dots.</p>
-        <div class="flex justify-center pt-2">
-          <button id="toggleNarrationBtn" type="button" role="switch" class="focus-ring inline-flex items-center gap-2 rounded-full border border-indigo-300/30 bg-indigo-900/60 px-4 py-2 text-xs font-bold text-indigo-100 transition hover:bg-indigo-800" aria-checked="false" aria-label="Narration off">
-            <span id="narrationIcon" aria-hidden="true">🔊</span>
-            <span id="narrationLabel">Narration Off</span>
-          </button>
-        </div>
-      </div>
+  /* sidebar open/close */
+  const mobile = () => matchMedia('(max-width:980px)').matches;
+  $('#toggleSide').addEventListener('click', () => {
+    if (mobile()) app.classList.toggle('open'); else app.classList.toggle('collapsed');
+  });
+  $$('#menu a, .quick a').forEach(a => a.addEventListener('click', () => app.classList.remove('open')));
 
-      <div class="journey-carousel-layout grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-2 sm:grid-cols-[3.25rem_minmax(0,1fr)_3.25rem] sm:gap-4">
-        <button id="journeyPrevious" type="button" class="journey-carousel-arrow tooltip-target focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Previous Chapter" title="Previous Chapter" data-tooltip="Previous Chapter">
-          <span aria-hidden="true">‹</span>
-        </button>
+  /* Philippines clock */
+  const clock = $('#clock');
+  const tick = () => { clock.textContent = new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Manila', hour: 'numeric', minute: '2-digit' }); };
+  tick(); setInterval(tick, 20000);
 
-        <article id="journeySlide" class="journey-slide min-w-0 overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-900/80 shadow-2xl" aria-live="polite" aria-atomic="true">
-          <div id="journeyVisualHeader" class="journey-visual-header flex min-h-28 items-end justify-between gap-3 p-4 sm:min-h-36 sm:p-6" data-theme="mcdonalds">
-            <div class="min-w-0">
-              <p class="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-white/70">Career chapter</p>
-              <h3 id="journeyTheme" class="mt-1 text-xl font-extrabold text-white sm:text-2xl">McDonald's</h3>
-            </div>
-            <span id="journeyHeaderIcon" class="shrink-0 text-4xl drop-shadow-lg sm:text-5xl" aria-hidden="true">🍟</span>
-          </div>
+  /* active menu item */
+  const links = $$('#menu a.item[href^="#"]');
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  ['top', 'work', 'services', 'about', 'faq', 'contact'].forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); });
 
-          <div class="p-4 sm:p-6">
-            <div class="flex flex-wrap items-center gap-2">
-              <span id="journeyPeriod" class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-200">2017–2019</span>
-            </div>
-            <h3 id="journeyTitle" class="mt-3 text-xl font-extrabold text-white sm:text-2xl">McDonald's Crew Trainer</h3>
-            <p id="journeySubtitle" class="mt-1 text-sm font-semibold text-emerald-200">Early foundation · Grit & Discipline</p>
-            <p id="journeyDescription" class="journey-description mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">I used to wonder how people survived being a working student. There were days I’d fall asleep in the crew room right after a shift—closing my eyes in the morning and waking up when it was already night. It tested every ounce of my physical and mental strength. But looking back, McDonald’s didn't just employ me; it molded me. It built the grit, courage, and resilience that define who I am today.</p>
-          </div>
-        </article>
+  /* scroll reveal + count up */
+  const rio = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in'); rio.unobserve(e.target);
+    const b = e.target.querySelector('b[data-n]'); if (b) count(b);
+  }), { threshold: .15 });
+  function count(el) {
+    const n = +el.dataset.n, s = el.dataset.s, t0 = performance.now(), d = 1400;
+    if (reduce) { el.textContent = n + s; return; }
+    (function f(t) { const p = Math.min(1, (t - t0) / d); el.textContent = Math.round(n * (1 - Math.pow(1 - p, 3))) + s; if (p < 1) requestAnimationFrame(f); })(t0);
+  }
+  $$('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 80 + 'ms'; rio.observe(el); });
 
-        <button id="journeyNext" type="button" class="journey-carousel-arrow tooltip-target focus-ring grid h-10 w-10 place-items-center rounded-full border border-emerald-300/25 bg-slate-800/80 text-2xl text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-500/15 sm:h-12 sm:w-12" aria-label="Next Chapter" title="Next Chapter" data-tooltip="Next Chapter">
-          <span aria-hidden="true">›</span>
-        </button>
+  /* automation flow */
+  const nodes = $$('#flow .node'), arrows = $$('#flow .arrow'), bar = $('#bar'); let k = 0;
+  const step = () => {
+    nodes.forEach((n, i) => n.classList.toggle('on', i === k));
+    arrows.forEach((a, i) => a.classList.toggle('lit', i < k));
+    bar.style.width = ((k + 1) / nodes.length * 100) + '%';
+    k = (k + 1) % nodes.length;
+  };
+  step(); if (!reduce) setInterval(step, 1500);
 
-      <div id="journeyAnimationTrack" class="journey-animation-track mt-4 h-20 rounded-2xl border border-slate-700/80 sm:h-28" data-vehicle="walk" role="group" aria-label="Animated walking figure traveling along a road">
-        <span id="journeyActionLabel" class="journey-action-label" aria-live="polite"></span>
-        <div class="journey-motion-path" aria-hidden="true">
-          <div id="journeyFigureMotion" class="journey-figure-motion">
-            <div class="journey-animation-figure">
-            <svg id="journeyVehicleIcon" class="journey-vehicle-graphic text-emerald-200" data-vehicle="walk" viewBox="0 0 130 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" aria-hidden="true">
-              <g class="vehicle-walk">
-                <circle cx="38" cy="12" r="6" fill="currentColor" stroke="none"/>
-                <path d="M38 20v17m0-12-10 8m10-8 10 7" stroke-width="4"/>
-                <g class="vehicle-limb"><path d="M38 37 29 51l-3 7" stroke-width="4"/></g>
-                <g class="vehicle-limb vehicle-leg-back"><path d="M38 37 47 49l7 4" stroke-width="4"/></g>
-              </g>
-              <g class="vehicle-bicycle">
-                <g class="vehicle-wheel"><circle cx="24" cy="48" r="12" stroke-width="2"/><path d="M24 36v24m-12-12h24m-20-8 16 16m0-16L16 56" stroke-width="1"/></g>
-                <g class="vehicle-wheel"><circle cx="77" cy="48" r="12" stroke-width="2"/><path d="M77 36v24m-12-12h24m-20-8 16 16m0-16L69 56" stroke-width="1"/></g>
-                <path d="m24 48 17-22 12 22H24l11-14h18l12-9m-12 9 14 14m-35-22h8" stroke-width="2"/>
-                <circle cx="45" cy="9" r="5" fill="currentColor" stroke="none"/>
-                <path d="m43 16-5 11 12 7m-11-7 11-5" stroke-width="3"/>
-                <g class="vehicle-pedals"><path d="M51 42v-8m0 8 7 5m-7-5-7 5" stroke-width="2"/></g>
-              </g>
-              <g class="vehicle-motorcycle vehicle-motorcycle-body">
-                <g>
-                  <circle cx="59" cy="10" r="5" fill="currentColor" stroke="none"/>
-                  <path d="M54 9a5 5 0 0 1 10 0v2H54Z" fill="#a5f3fc" stroke="none"/>
-                  <path d="m57 17-8 10 12 6 8-8m-18 2-10 2" stroke-width="4"/>
-                </g>
-                <g class="vehicle-wheel"><circle cx="30" cy="48" r="11" stroke-width="3"/><path d="M30 37v22m-11-11h22m-19-8 16 16m0-16L22 56" stroke-width="1"/></g>
-                <g class="vehicle-wheel"><circle cx="88" cy="48" r="11" stroke-width="3"/><path d="M88 37v22m-11-11h22m-19-8 16 16m0-16L80 56" stroke-width="1"/></g>
-                <path d="m30 48 15-15h22l9 15H56l-11-15m22 0 9-7h9" stroke-width="4"/>
-              </g>
-              <g class="vehicle-car">
-                <g class="vehicle-chassis">
-                  <path d="m17 42 7-13a8 8 0 0 1 7-5h39a8 8 0 0 1 7 5l7 13v11H17V42Z" fill="#064e3b" stroke-width="2"/>
-                  <path d="m29 29-5 12h50l-5-12a4 4 0 0 0-4-3H33a4 4 0 0 0-4 3Z" fill="#0f172a" stroke-width="2"/>
-                  <path d="M18 42h66" stroke-width="2"/>
-                  <circle cx="51" cy="31" r="3" fill="currentColor" stroke="none"/>
-                  <path d="M46 40v-3a5 5 0 0 1 10 0v3" stroke-width="2"/>
-                  <g class="vehicle-wheel"><circle cx="32" cy="52" r="7" fill="#0f172a" stroke-width="3"/><path d="M32 46v12m-6-6h12" stroke-width="1"/></g>
-                  <g class="vehicle-wheel"><circle cx="70" cy="52" r="7" fill="#0f172a" stroke-width="3"/><path d="M70 46v12m-6-6h12" stroke-width="1"/></g>
-                </g>
-              </g>
-            </svg>
-            <span id="journeyVehicleLabel" class="rounded-full border border-emerald-300/25 bg-slate-950/90 px-2.5 py-1 text-[0.65rem] font-bold text-emerald-200">On Foot</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+  /* work cards + dialog */
+  const projects = [
+    { t:"Multi-Tenant Order Receipt OCR Pipeline", c:"Enterprise architecture", img:"images/projects/order-receipt-pipeline.svg",
+      p:"Order receipts arrived as PDFs in Gmail and were keyed into each client's CRM by hand.",
+      b:"An Apps Script engine reads each receipt with Drive OCR, matches it to the right client account, and creates the contact and a won opportunity in GoHighLevel.",
+      r:"Orders sync automatically every 15 minutes, and duplicate opportunities are blocked by order number.",
+      s:["GoHighLevel API","Apps Script","Drive OCR","Slack Webhooks"] },
+    { t:"GoHighLevel to Slack Webhook Alert Engine", c:"Integration & webhooks", img:"images/projects/slack-webhook-alerts.svg",
+      p:"Reps had to keep checking the CRM to see new inbound messages.",
+      b:"Webhooks and a custom Slack app send each inbound message to the assigned rep's own channel, with a fallback to a main channel.",
+      r:"Every inbound text or email reaches the right rep in Slack, routed across 60+ channels.",
+      s:["GoHighLevel","Slack App API","Webhooks","JSON routing"] },
+    { t:"Google Apps Script CRM Data Migration Tool", c:"Data operations", img:"images/projects/csv-migration-tool.svg",
+      p:"Raw client CSV exports had 90+ messy columns and needed hours of manual stripping before import.",
+      b:"A Google Apps Script utility isolates the needed fields, removes blank columns and outputs an import-ready file.",
+      r:"90+ columns become 20–25 structured GoHighLevel fields, ready to import without manual cleanup.",
+      s:["Apps Script","JavaScript","CSV parsing","Custom fields"] },
+    { t:"Salesforce-to-Spreadsheet Live Connector", c:"Analytics & CRM", img:"images/projects/salesforce-connector.svg",
+      p:"Daily reporting meant exporting CRM data and copy-pasting it across several tabs.",
+      b:"A direct Salesforce-to-Sheets connector with dynamic formulas sorts urgent, unanswered and past-dated cases into dedicated views.",
+      r:"Manual report exports are gone, and urgent cases surface automatically.",
+      s:["Salesforce","Google Sheets","API connector","Dynamic formulas"] },
+    { t:"Marketing Request & Billing System", c:"Process automation", img:"images/projects/marketing-billing-system.svg",
+      p:"Marketing requests came in through scattered channels with no standard intake, pricing rules or deadline tracking.",
+      b:"A GoHighLevel survey with validation creates ClickUp tasks, syncs status back, sends stage emails and applies fixed or hourly billing rules.",
+      r:"Every request follows one tracked flow with a 3-business-day SLA and consistent invoices. Currently in active build.",
+      s:["GoHighLevel","ClickUp","Surveys","Invoicing","SLA tracking"] },
+    { t:"OrderIQ Beta Rollout & Onboarding Content", c:"Rollout & enablement", img:"images/projects/orderiq-beta-rollout.svg",
+      p:"Reps needed a clear way to hear about the beta, accept it and set up Gmail forwarding.",
+      b:"Invite and acceptance email and SMS templates, a smart list of invited reps, and a step-by-step forwarding video.",
+      r:"A repeatable invite-to-onboarding path that non-technical reps can follow on their own.",
+      s:["GHL templates","Smart lists","Email & SMS","Video"] },
+    { t:"GHL SMS Opt-Out & Error-Limit Investigation", c:"Compliance & troubleshooting", img:"images/projects/sms-compliance.svg",
+      p:"A high-volume sub-account had its bulk and workflow SMS paused for high opt-out and error rates.",
+      b:"Traced causes through audit logs and contact data, separated real opt-outs from carrier errors, and set a Valid Mobile send filter.",
+      r:"A documented root cause and a send filter that keeps future blasts away from bad numbers.",
+      s:["GoHighLevel","A2P 10DLC","Twilio errors","Smart lists"] },
+    { t:"Live Client Onboarding for New GoHighLevel Subscribers", c:"Onboarding & setup", img:"images/projects/client-onboarding.svg",
+      p:"Every new subscriber needed their GoHighLevel account configured and connected before their orders and messages could flow.",
+      b:"A live onboarding session with each new client that walks through sub-account setup, A2P registration, pipeline and fields, and email forwarding, backed by a master-sheet entry and a how-to video to refer back to.",
+      r:"Each new client is guided live from subscribed to up and running, with a repeatable path and a how-to video they can use afterwards.",
+      s:["GoHighLevel", "A2P 10DLC", "Pipelines & fields", "Live onboarding", "Gmail forwarding", "Google Sheets"] }
+  ];
+  const meta = [['Order Receipts to CRM','Receipts sync into the right CRM account on their own.'],['Slack Lead Alerts','New messages reach the right rep in Slack.'],['CSV Data Cleaner','Messy exports become import-ready files.'],['Salesforce Live Reports','Urgent cases surface automatically.'],['Request & Billing System','One tracked flow from request to invoice.'],['Beta Rollout Kit','Invite and onboard reps step by step.'],['SMS Compliance Fix','Find why texts get paused, and prevent it.'],['Live Client Onboarding','I walk each new client live from subscribed to up and running.']];
+  const order = [0, 1, 4, 2, 3, 5, 6, 7];
+  const P = order.map(i => projects[i]), M = order.map(i => meta[i]);
+  const grid = $('#workGrid'), dlg = $('#dlg');
+  grid.innerHTML = P.map((x, i) => `
+    <button class="card rv${i > 2 ? ' extra' : ''}" data-i="${i}" aria-label="Open ${x.t}">
+      <div class="im"><img src="${x.img}" alt="${x.c}" loading="lazy"></div>
+      <div class="tx"><span class="chip">${x.c}</span><h3>${M[i][0]}</h3><p class="ln">${M[i][1]}</p><span class="more">See details →</span></div>
+    </button>`).join('');
+  $$('#workGrid .rv').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 90 + 'ms'; rio.observe(el); });
+  grid.addEventListener('click', e => {
+    const b = e.target.closest('.card'); if (!b) return;
+    const x = P[b.dataset.i];
+    dlg.innerHTML = `<button class="close" aria-label="Close">×</button><img src="${x.img}" alt="${x.c}">
+      <div class="dlg"><span class="mono">${x.c}</span><h3>${x.t}</h3>
+      <p><b>Problem</b>${x.p}</p><p><b>What I built</b>${x.b}</p><p><b>Result</b>${x.r}</p>
+      <div class="tags">${x.s.map(t => `<span>${t}</span>`).join('')}</div></div>`;
+    dlg.showModal();
+  });
+  $('#moreBtn').addEventListener('click', () => {
+    grid.classList.add('all'); $('#moreWrap').hidden = true;
+    $$('#workGrid .extra').forEach(el => el.classList.add('in'));
+  });
+  dlg.addEventListener('click', e => { if (e.target === dlg || e.target.classList.contains('close')) dlg.close(); });
 
-      <div class="mt-3 flex items-center justify-center gap-4 sm:mt-5" role="group" aria-label="Choose a career milestone">
-        <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="0" aria-label="2017–2019, McDonald's Crew Trainer" title="2017–2019 · McDonald's Crew Trainer" data-tooltip="2017–2019 · McDonald's Crew Trainer" aria-current="step"></button>
-        <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="1" aria-label="2019–2020, Healthcare CSR" title="2019–2020 · Healthcare CSR" data-tooltip="2019–2020 · Healthcare CSR" aria-current="false"></button>
-        <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="2" aria-label="2020–2025, Accenture Real-Time Analyst" title="2020–2025 · Accenture Real-Time Analyst" data-tooltip="2020–2025 · Accenture Real-Time Analyst" aria-current="false"></button>
-        <button type="button" class="journey-dot tooltip-target h-2.5 w-2.5 rounded-full bg-slate-600 transition" data-index="3" aria-label="2026, Virtual Assistant and CRM Specialist" title="2026 · Virtual Assistant and CRM Specialist" data-tooltip="2026 · Virtual Assistant and CRM Specialist" aria-current="false"></button>
-      </div>
-    </section>
-  </div>
-
-  <!-- Slide-Over Drawer -->
-  <div id="drawer-overlay" class="drawer-overlay fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 opacity-0 pointer-events-none" aria-hidden="true" onclick="closeDrawer()"></div>
-
-  <aside id="drawer" class="drawer-panel fixed top-0 right-0 bottom-0 w-full max-w-lg z-50 shadow-2xl translate-x-full p-6 overflow-y-auto space-y-6 bg-[#f8fafc] text-slate-800 border-l border-slate-200" role="dialog" aria-modal="true" aria-labelledby="drawer-tag" aria-hidden="true" inert>
-    <div class="flex items-center justify-between pb-4 border-b border-slate-200">
-      <span class="title-label text-xs font-bold uppercase" id="drawer-tag">Project Details</span>
-      <button id="drawer-close" onclick="closeDrawer()" aria-label="Close project details" title="Close project details" data-tooltip="Close project details" data-tooltip-position="bottom" class="focus-ring tooltip-target p-2 rounded-full hover:bg-slate-200/70 text-slate-500 hover:text-slate-900 transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <div id="drawer-content" class="space-y-4"></div>
-  </aside>
-
-  <div id="copy-toast" class="copy-toast fixed bottom-6 left-1/2 z-[60] flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-5 py-3 text-sm font-semibold text-emerald-900 shadow-xl" role="status" aria-live="polite" data-state="success">
-    <svg class="toast-success-icon h-5 w-5 shrink-0 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m5 12 4 4L19 6"/></svg>
-    <svg class="toast-error-icon h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.4 0Z"/></svg>
-    <span id="copy-toast-message">Email copied to clipboard!</span>
-  </div>
-
-  <script>
-    /* GLOBAL CONSTANTS */
-    const CONTACT_EMAIL = 'costales607@gmail.com';
-
-    let lastFocusedProject = null;
-    let copyToastTimeout;
-
-    // Initialize mailto href dynamically
-    document.getElementById('open-email-app').setAttribute('href', `mailto:${CONTACT_EMAIL}`);
-
-    function showCopyToast(message, state) {
-      const toast = document.getElementById('copy-toast');
-      document.getElementById('copy-toast-message').textContent = message;
-      toast.dataset.state = state;
-      toast.classList.add('is-visible');
-      window.clearTimeout(copyToastTimeout);
-      copyToastTimeout = window.setTimeout(() => {
-        toast.classList.remove('is-visible');
-      }, 3200);
+  /* hero animated network background */
+  const cv = $('#fx'), ctx = cv.getContext('2d'); let W, H, pts = [], mouse = { x: -999, y: -999 }, visible = true;
+  function size() {
+    const r = cv.parentElement.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+    const n = Math.round(Math.min(90, W * H / 14000));
+    pts = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .45, vy: (Math.random() - .5) * .45 }));
+  }
+  function draw() {
+    if (!visible) return requestAnimationFrame(draw);
+    const col = getComputedStyle(root).getPropertyValue('--spark').trim();
+    ctx.clearRect(0, 0, W, H);
+    for (const p of pts) {
+      p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1;
+      const dx = p.x - mouse.x, dy = p.y - mouse.y, dd = dx * dx + dy * dy;
+      if (dd < 14000) { p.x += dx / 40; p.y += dy / 40; }
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, 7); ctx.fillStyle = `rgba(${col},.45)`; ctx.fill();
     }
-
-    async function copyContactEmail() {
-      try {
-        let copied = false;
-        if (navigator.clipboard?.writeText) {
-          try {
-            await navigator.clipboard.writeText(CONTACT_EMAIL);
-            copied = true;
-          } catch (error) {
-            console.warn('Clipboard API was unavailable; trying fallback:', error);
-          }
-        }
-
-        if (!copied) {
-          const emailField = document.createElement('textarea');
-          emailField.value = CONTACT_EMAIL;
-          emailField.setAttribute('readonly', '');
-          emailField.style.position = 'fixed';
-          emailField.style.opacity = '0';
-          document.body.append(emailField);
-          emailField.select();
-          try {
-            copied = document.execCommand('copy');
-          } finally {
-            emailField.remove();
-          }
-
-          if (!copied) throw new Error('Clipboard copy command rejected.');
-        }
-
-        showCopyToast('Email copied to clipboard!', 'success');
-      } catch (error) {
-        console.error('Unable to copy email:', error);
-        showCopyToast('Could not copy. Use Open Email App instead.', 'error');
-      }
+    for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+      const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < 130) { ctx.strokeStyle = `rgba(${col},${(1 - d / 130) * .2})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
     }
-
-    document.getElementById('copy-email').addEventListener('click', copyContactEmail);
-
-    /* OPTIMIZED CANVASES & FPS THROTTLING */
-    const networkCanvas = document.getElementById('hero-network');
-    const networkContext = networkCanvas.getContext('2d');
-    const networkMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const heroCard = networkCanvas.parentElement;
-    let networkNodes = [];
-    let networkWidth = 0;
-    let networkHeight = 0;
-    let networkScale = 1;
-    let networkFrame = null;
-    let networkVisible = false;
-    let networkLastFrame = 0;
-
-    function resizeNetworkCanvas() {
-      const bounds = heroCard.getBoundingClientRect();
-      networkWidth = bounds.width;
-      networkHeight = bounds.height;
-      networkScale = Math.min(window.devicePixelRatio || 1, 1);
-      networkCanvas.width = Math.round(networkWidth * networkScale);
-      networkCanvas.height = Math.round(networkHeight * networkScale);
-      networkContext.setTransform(networkScale, 0, 0, networkScale, 0, 0);
-      
-      const isMobile = window.innerWidth < 768;
-      const count = isMobile ? 8 : Math.min(14, Math.round(networkWidth / 80));
-
-      networkNodes = Array.from({ length: count }, () => ({
-        x: Math.random() * networkWidth,
-        y: Math.random() * networkHeight,
-        vx: (Math.random() - 0.5) * 0.2,
-        vy: (Math.random() - 0.5) * 0.2
-      }));
-      renderNetwork();
-      scheduleNetworkFrame();
-    }
-
-    function renderNetwork() {
-      networkContext.clearRect(0, 0, networkWidth, networkHeight);
-      const linkDistance = 140;
-
-      networkNodes.forEach((node, index) => {
-        node.x = (node.x + node.vx + networkWidth) % networkWidth;
-        node.y = (node.y + node.vy + networkHeight) % networkHeight;
-
-        for (let nextIndex = index + 1; nextIndex < networkNodes.length; nextIndex++) {
-          const nextNode = networkNodes[nextIndex];
-          const dx = node.x - nextNode.x;
-          const dy = node.y - nextNode.y;
-          const distance = Math.hypot(dx, dy);
-          if (distance >= linkDistance) continue;
-
-          networkContext.beginPath();
-          networkContext.moveTo(node.x, node.y);
-          networkContext.lineTo(nextNode.x, nextNode.y);
-          networkContext.strokeStyle = `rgba(125, 211, 252, ${(1 - distance / linkDistance) * 0.14})`;
-          networkContext.lineWidth = 1;
-          networkContext.stroke();
-        }
-
-        networkContext.beginPath();
-        networkContext.arc(node.x, node.y, 1.5, 0, Math.PI * 2);
-        networkContext.fillStyle = 'rgba(199, 210, 254, 0.55)';
-        networkContext.fill();
-      });
-    }
-
-    function animateNetwork(timestamp) {
-      networkFrame = null;
-      if (!networkVisible || document.hidden || networkMotion.matches) return;
-      if (timestamp - networkLastFrame < 50) {
-        scheduleNetworkFrame();
-        return;
-      }
-      networkLastFrame = timestamp;
-      renderNetwork();
-      networkFrame = window.requestAnimationFrame(animateNetwork);
-    }
-
-    function scheduleNetworkFrame() {
-      if (networkVisible && !document.hidden && !networkMotion.matches && networkFrame === null) {
-        networkFrame = window.requestAnimationFrame(animateNetwork);
-      }
-    }
-
-    function pauseNetworkFrame() {
-      if (networkFrame !== null) {
-        window.cancelAnimationFrame(networkFrame);
-        networkFrame = null;
-      }
-    }
-
-    if (networkContext) {
-      if ('ResizeObserver' in window) {
-        new ResizeObserver(resizeNetworkCanvas).observe(heroCard);
-      } else {
-        window.addEventListener('resize', resizeNetworkCanvas);
-      }
-
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver(([entry]) => {
-          networkVisible = entry.isIntersecting;
-          if (networkVisible) scheduleNetworkFrame();
-          else pauseNetworkFrame();
-        }).observe(heroCard);
-      } else {
-        networkVisible = true;
-      }
-    }
-
-    /* Static stars keep the background decorative without a continuous render loop. */
-    const twilightCanvas = document.getElementById('twilight-stars');
-    const twilightContext = twilightCanvas.getContext('2d');
-    let twilightWidth = 0;
-    let twilightHeight = 0;
-    let twilightStars = [];
-
-    function resizeTwilightCanvas() {
-      twilightWidth = window.innerWidth;
-      twilightHeight = window.innerHeight;
-      const scale = Math.min(window.devicePixelRatio || 1, 1);
-      twilightCanvas.width = Math.round(twilightWidth * scale);
-      twilightCanvas.height = Math.round(twilightHeight * scale);
-      twilightContext.setTransform(scale, 0, 0, scale, 0, 0);
-
-      const isMobile = twilightWidth < 768;
-      const starCount = isMobile ? 18 : Math.min(36, Math.round((twilightWidth * twilightHeight) / 32000));
-
-      twilightStars = Array.from({ length: starCount }, () => ({
-        x: Math.random() * twilightWidth,
-        y: Math.random() * twilightHeight,
-        radius: Math.random() * 1.1 + 0.3,
-        alpha: Math.random() * 0.45 + 0.15
-      }));
-      renderTwilight();
-    }
-
-    function renderTwilight() {
-      twilightContext.clearRect(0, 0, twilightWidth, twilightHeight);
-      twilightStars.forEach((star) => {
-        twilightContext.beginPath();
-        twilightContext.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        twilightContext.fillStyle = `rgba(199, 210, 254, ${star.alpha})`;
-        twilightContext.fill();
-      });
-    }
-
-    window.addEventListener('resize', resizeTwilightCanvas);
-    resizeTwilightCanvas();
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        pauseNetworkFrame();
-        return;
-      }
-      scheduleNetworkFrame();
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener('click', (e) => {
-        const targetId = link.getAttribute('href').slice(1);
-        if (!targetId) return;
-
-        const target = document.getElementById(targetId);
-        if (!target) return;
-
-        e.preventDefault();
-        const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-        target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
-        history.pushState(null, '', `#${targetId}`);
-        if (scrollBehavior === 'smooth' && typeof target.animate === 'function') {
-          target.animate(
-            [{ opacity: 0.82, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }],
-            { duration: 350, easing: 'ease-out' }
-          );
-        }
-      });
-    });
-
-    const automationSteps = {
-      trigger: document.getElementById('automation-trigger'),
-      process: document.getElementById('automation-process'),
-      action: document.getElementById('automation-action')
-    };
-    const automationTimers = { cycle: null, success: null };
-    const automationMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let automationPhase = 0;
-    let automationVisible = false;
-
-    function setAutomationStep(step, state, status, detail) {
-      step.dataset.state = state;
-      step.classList.toggle('is-active', state === 'active');
-      step.querySelector('[id$="-status"]').textContent = status;
-
-      const detailElement = step.querySelector('[id$="-detail"]');
-      detailElement.classList.toggle('automation-typing-dots', state === 'processing');
-      detailElement.textContent = detail;
-    }
-
-    function renderAutomationPhase(phase) {
-      automationPhase = phase;
-      setAutomationStep(automationSteps.trigger, phase === 0 ? 'active' : 'success', '200 OK', 'Contact created · response 200 OK');
-      setAutomationStep(
-        automationSteps.process,
-        phase === 1 ? 'processing' : phase === 2 ? 'success' : 'waiting',
-        phase === 1 ? 'RUNNING' : phase === 2 ? 'DONE' : 'WAITING',
-        phase === 1 ? 'Executing script' : phase === 2 ? 'OCR complete · fields sanitized' : 'Waiting for trigger'
-      );
-      setAutomationStep(
-        automationSteps.action,
-        phase === 2 ? 'active' : 'waiting',
-        phase === 2 ? 'QUEUED' : 'WAITING',
-        phase === 2 ? 'Queued for #leads' : 'Waiting for process'
-      );
-
-      const terminalStatus = document.getElementById('automation-terminal-status');
-      terminalStatus.textContent = phase === 0
-        ? '› contact.created · 200 OK'
-        : phase === 1
-          ? '› Apps Script: Executing script'
-          : '› Slack webhook: Queued for #leads';
-    }
-
-    function stopAutomationLoop() {
-      window.clearTimeout(automationTimers.cycle);
-      window.clearTimeout(automationTimers.success);
-      automationTimers.cycle = null;
-      automationTimers.success = null;
-      document.querySelector('.workflow-preview').classList.remove('is-running');
-    }
-
-    function advanceAutomation() {
-      automationPhase = (automationPhase + 1) % 3;
-      renderAutomationPhase(automationPhase);
-      restartAutomationProgress();
-
-      if (automationPhase === 2) scheduleAutomationSuccess();
-      automationTimers.cycle = window.setTimeout(advanceAutomation, 4500);
-    }
-
-    function restartAutomationProgress() {
-      const preview = document.querySelector('.workflow-preview');
-      preview.classList.remove('is-running');
-      void preview.offsetWidth;
-      preview.classList.add('is-running');
-    }
-
-    function scheduleAutomationSuccess() {
-      automationTimers.success = window.setTimeout(() => {
-        setAutomationStep(automationSteps.action, 'success', 'SUCCESS', 'SUCCESS [Sent to #leads]');
-        document.getElementById('automation-terminal-status').textContent = '› Slack webhook: SUCCESS [Sent to #leads]';
-        automationTimers.success = null;
-      }, 1000);
-    }
-
-    function syncAutomationLoop() {
-      stopAutomationLoop();
-      if (!automationVisible || document.hidden || automationMotion.matches) return;
-      restartAutomationProgress();
-      if (automationPhase === 2 && automationSteps.action.dataset.state === 'active') {
-        scheduleAutomationSuccess();
-      }
-      automationTimers.cycle = window.setTimeout(advanceAutomation, 4500);
-    }
-
-    renderAutomationPhase(0);
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(([entry]) => {
-        automationVisible = entry.isIntersecting;
-        syncAutomationLoop();
-      }).observe(document.querySelector('.workflow-preview'));
-    } else {
-      automationVisible = true;
-      syncAutomationLoop();
-    }
-
-    const careerMilestones = [
-      {
-        period: '2017–2019',
-        position: '0%',
-        vehicle: 'walk',
-        mode: 'On Foot',
-        theme: "McDonald's",
-        themeIcon: '🍟',
-        themeKey: 'mcdonalds',
-        title: "McDonald's Crew Trainer",
-        subtitle: 'Early foundation · Grit & Discipline',
-        description: `I used to wonder how people survived being a working student. There were days I’d fall asleep in the crew room right after a shift—closing my eyes in the morning and waking up when it was already night. It tested every ounce of my physical and mental strength. But looking back, McDonald’s didn't just employ me; it molded me. It built the grit, courage, and resilience that define who I am today.`
-      },
-      {
-        period: '2019–2020',
-        position: '33.333%',
-        vehicle: 'bicycle',
-        mode: 'Bicycle',
-        theme: 'Healthcare CSR',
-        themeIcon: '✚',
-        themeKey: 'healthcare',
-        title: 'Healthcare CSR',
-        subtitle: 'Empathy under pressure · Member care',
-        description: `With only one year left before graduation, I made the painful choice to step back from school. My mind and body were completely exhausted. That season taught me a profound lesson: I couldn't help solve someone else's problems if I didn't care for my own foundation first. Stepping into healthcare support taught me deep empathy and patience—learning to truly stand in the caller's shoes to bring them peace of mind.`
-      },
-      {
-        period: '2020–2025',
-        position: '66.667%',
-        vehicle: 'motorcycle',
-        mode: 'Motorcycle',
-        theme: 'Accenture WFM Operations',
-        themeIcon: '📊',
-        themeKey: 'accenture',
-        title: 'Accenture Real-Time Analyst',
-        subtitle: 'Workforce management · Systems innovation',
-        description: `Before my agent training even started, I pointed at the Workforce team and told my friends, “I’m going to be there someday.” By God’s grace, I reached that dream. Working as an RTA awakened my true passion for continuous improvement. Seeing manual, frustrating tasks drove me to find better ways—turning complex operational headaches into fast, efficient, and innovative solutions.`
-      },
-      {
-        period: '2026',
-        position: '100%',
-        vehicle: 'car',
-        mode: 'Car',
-        theme: 'CRM Automation Hub',
-        themeIcon: '⚙️',
-        themeKey: 'automation',
-        title: 'Virtual Assistant & CRM Specialist',
-        subtitle: 'GoHighLevel · Vibe Coding · Enterprise automation',
-        description: `Stepping into the VA world was terrifying without prior agency experience, but I remembered a lesson that shaped my life: say yes to opportunity, trust the process, and learn relentlessly. Today, I combine my passion for system design with AI-powered vibe coding to unlock capabilities I once only dreamed of. I give all glory to God, and my promise to every client is simple: trust me with your operations, and together, we will build systems that run with clarity, speed, and precision.`
-      }
-    ];
-
-    const journeyModal = document.getElementById('journeyModal');
-    const journeyModalPanel = journeyModal.querySelector('[role="dialog"]');
-    const journeySlide = document.getElementById('journeySlide');
-    const journeyDots = Array.from(journeyModal.querySelectorAll('.journey-dot'));
-    let lastFocusedJourneyTrigger = null;
-    let journeyModalCloseTimer = null;
-    let journeySlideTimer = null;
-    let journeyActionTimer = null;
-    let activeJourneyIndex = 0;
-    let displayedJourneyIndex = 0;
-    const journeyNarrationButton = document.getElementById('toggleNarrationBtn');
-    const journeyNarrationLabel = document.getElementById('narrationLabel');
-    const journeyNarrationIcon = document.getElementById('narrationIcon');
-    const chapterNarrations = careerMilestones.map((milestone, index) => {
-      const audio = document.getElementById(`chapterNarration${index + 1}`);
-      audio.preload = 'metadata';
-      audio.dataset.chapter = milestone.period;
-      return audio;
-    });
-    let isNarrating = false;
-    let narrationDucking = false;
-    let activeNarrationAudio = null;
-
-    function updateNarrationControl() {
-      journeyNarrationButton.setAttribute('aria-checked', String(isNarrating));
-      journeyNarrationButton.setAttribute('aria-label', `Narration ${isNarrating ? 'on' : 'off'}`);
-      journeyNarrationLabel.textContent = `Narration ${isNarrating ? 'On' : 'Off'}`;
-      journeyNarrationIcon.textContent = isNarrating ? '⏹️' : '🔊';
-    }
-
-    function applyBackgroundMusicVolume() {
-      if (youtubePlayer?.setVolume) {
-        youtubePlayer.setVolume(getAudioVolume(youtubePlayer));
-      }
-    }
-
-    function stopNarration(disableNarration = false) {
-      chapterNarrations.forEach((audio) => {
-        audio.pause();
-        audio.currentTime = 0;
-      });
-      activeNarrationAudio = null;
-      narrationDucking = false;
-      if (disableNarration) {
-        isNarrating = false;
-        updateNarrationControl();
-      }
-      applyBackgroundMusicVolume();
-    }
-
-    function handleNarrationEnded(audio) {
-      if (activeNarrationAudio !== audio) return;
-      activeNarrationAudio = null;
-      narrationDucking = false;
-      updateNarrationControl();
-      applyBackgroundMusicVolume();
-    }
-
-    function handleNarrationError(audio) {
-      if (activeNarrationAudio !== audio) return;
-      console.error(`Journey narration could not be played: ${audio.currentSrc || audio.src}`, audio.error);
-      activeNarrationAudio = null;
-      narrationDucking = false;
-      isNarrating = false;
-      updateNarrationControl();
-      journeyNarrationLabel.textContent = 'Narration unavailable';
-      applyBackgroundMusicVolume();
-    }
-
-    function handleNarrationInterruption(audio, error) {
-      if (activeNarrationAudio !== audio) return;
-      console.warn(`Journey narration playback was interrupted: ${audio.currentSrc || audio.src}`, error);
-      audio.pause();
-      audio.currentTime = 0;
-      activeNarrationAudio = null;
-      narrationDucking = false;
-      isNarrating = false;
-      updateNarrationControl();
-      journeyNarrationLabel.textContent = 'Tap to retry narration';
-      applyBackgroundMusicVolume();
-    }
-
-    function playChapterNarration(index) {
-      const audio = chapterNarrations[index];
-      if (!audio || !isNarrating) return;
-
-      stopNarration();
-      activeNarrationAudio = audio;
-      narrationDucking = true;
-      applyBackgroundMusicVolume();
-      audio.play().catch((error) => {
-        if (activeNarrationAudio !== audio) return;
-        if (error.name === 'AbortError' || error.name === 'NotAllowedError') {
-          handleNarrationInterruption(audio, error);
-          return;
-        }
-        console.error(`Unable to start journey narration: ${audio.currentSrc || audio.src}`, error);
-        handleNarrationError(audio);
-      });
-    }
-
-    chapterNarrations.forEach((audio) => {
-      audio.addEventListener('ended', () => handleNarrationEnded(audio));
-      audio.addEventListener('error', () => handleNarrationError(audio));
-    });
-
-    function updateJourneyStep(index, direction = 1) {
-      const milestone = careerMilestones[index];
-      if (!milestone || !journeyDots[index]) return;
-
-      stopNarration();
-      window.clearTimeout(journeySlideTimer);
-      window.clearTimeout(journeyActionTimer);
-      const previousJourneyIndex = displayedJourneyIndex;
-      const journeyAnimationTrack = document.getElementById('journeyAnimationTrack');
-      const journeyActionLabel = document.getElementById('journeyActionLabel');
-      journeyAnimationTrack.classList.add('is-transitioning');
-      journeyAnimationTrack.classList.remove('is-showing-action');
-      activeJourneyIndex = index;
-      journeySlide.dataset.direction = String(direction);
-      journeySlide.classList.add('is-changing');
-      journeySlideTimer = window.setTimeout(() => {
-        document.getElementById('journeyPeriod').textContent = milestone.period;
-        document.getElementById('journeyTheme').textContent = milestone.theme;
-        document.getElementById('journeyHeaderIcon').textContent = milestone.themeIcon;
-        document.getElementById('journeyVisualHeader').dataset.theme = milestone.themeKey;
-        document.getElementById('journeyTitle').textContent = milestone.title;
-        document.getElementById('journeySubtitle').textContent = milestone.subtitle;
-        document.getElementById('journeyDescription').textContent = milestone.description;
-        document.getElementById('journeyVehicleIcon').dataset.vehicle = milestone.vehicle;
-        document.getElementById('journeyVehicleLabel').textContent = milestone.mode;
-        document.getElementById('journeyFigureMotion').style.left = milestone.position;
-        journeyAnimationTrack.dataset.vehicle = milestone.vehicle;
-        journeyAnimationTrack.setAttribute('aria-label', `Animated ${milestone.mode.toLowerCase()} figure traveling along a road`);
-        const forwardActions = [
-          'He starts out walking.',
-          'A bicycle arrives; he gets on and pedals forward.',
-          'He gets off the bicycle, puts on a helmet, and rides away on a motorcycle.',
-          'He parks the motorcycle, removes his helmet, and gets into a car.'
-        ];
-        const reverseActions = [
-          'He leaves the bicycle behind and continues on foot.',
-          'He leaves the bicycle behind and continues on foot.',
-          'He gets off the motorcycle and returns to his bicycle.',
-          'He leaves the car and returns to the motorcycle.'
-        ];
-        journeyActionLabel.textContent = index === previousJourneyIndex + 1
-          ? forwardActions[index]
-          : index === previousJourneyIndex - 1
-            ? reverseActions[index]
-            : `The journey moves to the ${milestone.mode.toLowerCase()} chapter.`;
-        journeyAnimationTrack.classList.add('is-showing-action');
-        journeyDots.forEach((dot, dotIndex) => {
-          dot.setAttribute('aria-current', dotIndex === index ? 'step' : 'false');
-        });
-        displayedJourneyIndex = index;
-        journeySlide.classList.remove('is-changing');
-        journeySlideTimer = null;
-        requestAnimationFrame(() => journeyAnimationTrack.classList.remove('is-transitioning'));
-        journeyActionTimer = window.setTimeout(() => {
-          journeyAnimationTrack.classList.remove('is-showing-action');
-          journeyActionTimer = null;
-        }, 2400);
-        if (isNarrating) playChapterNarration(index);
-      }, 220);
-    }
-
-    function moveJourney(direction) {
-      const nextIndex = (activeJourneyIndex + direction + careerMilestones.length) % careerMilestones.length;
-      updateJourneyStep(nextIndex, direction);
-    }
-
-    function openJourneyModal() {
-      lastFocusedJourneyTrigger = document.activeElement;
-      window.clearTimeout(journeyModalCloseTimer);
-      if (activeJourneyIndex !== 0 || displayedJourneyIndex !== 0) updateJourneyStep(0, -1);
-      journeyModal.classList.remove('hidden');
-      journeyModal.setAttribute('aria-hidden', 'false');
-      journeyModalPanel.inert = false;
-      document.body.classList.add('overflow-hidden');
-      requestAnimationFrame(() => journeyModal.classList.remove('opacity-0'));
-      document.getElementById('closeJourneyModal').focus();
-    }
-
-    function closeJourneyModal() {
-      stopNarration(true);
-      if (journeyModal.classList.contains('hidden') || journeyModal.classList.contains('opacity-0')) return;
-      window.clearTimeout(journeySlideTimer);
-      window.clearTimeout(journeyActionTimer);
-      journeySlideTimer = null;
-      journeyActionTimer = null;
-      document.getElementById('journeyAnimationTrack').classList.remove('is-transitioning', 'is-showing-action');
-      journeyModal.classList.add('opacity-0');
-      journeyModal.setAttribute('aria-hidden', 'true');
-      journeyModalPanel.inert = true;
-      if (lastFocusedJourneyTrigger instanceof HTMLElement) lastFocusedJourneyTrigger.focus();
-      journeyModalCloseTimer = window.setTimeout(() => {
-        journeyModal.classList.add('hidden');
-        journeyModalCloseTimer = null;
-        if (document.getElementById('drawer').inert) {
-          document.body.classList.remove('overflow-hidden');
-        }
-      }, 300);
-    }
-
-    document.getElementById('openJourneyBtn').addEventListener('click', openJourneyModal);
-    document.getElementById('heroJourneyBtn').addEventListener('click', openJourneyModal);
-    document.getElementById('closeJourneyModal').addEventListener('click', closeJourneyModal);
-    journeyNarrationButton.addEventListener('click', () => {
-      if (isNarrating) {
-        stopNarration(true);
-        return;
-      }
-      isNarrating = true;
-      updateNarrationControl();
-      if (journeySlideTimer === null) playChapterNarration(activeJourneyIndex);
-    });
-    document.getElementById('journeyPrevious').addEventListener('click', () => moveJourney(-1));
-    document.getElementById('journeyNext').addEventListener('click', () => moveJourney(1));
-    journeyModal.addEventListener('click', (event) => {
-      if (event.target === journeyModal) closeJourneyModal();
-    });
-    journeyDots.forEach((dot) => {
-      dot.addEventListener('click', () => {
-        const index = Number(dot.dataset.index);
-        updateJourneyStep(index, index >= activeJourneyIndex ? 1 : -1);
-      });
-    });
-    document.addEventListener('keydown', (event) => {
-      if (journeyModal.classList.contains('hidden')) return;
-      if (event.key === 'Escape') {
-        closeJourneyModal();
-        return;
-      }
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-      if (event.target instanceof HTMLElement && event.target.isContentEditable) return;
-      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) return;
-      event.preventDefault();
-      moveJourney(event.key === 'ArrowRight' ? 1 : -1);
-    });
-
-    function projFallback(img) {
-      img.onerror = null;
-      const label = (img.alt || 'Project').replace(/&/g, '&amp;').replace(/</g, '&lt;');
-      const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='560'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#1e1b4b'/><stop offset='1' stop-color='#065f46'/></linearGradient></defs><rect width='1000' height='560' fill='url(#g)'/><text x='60' y='500' font-family='sans-serif' font-size='44' font-weight='700' fill='#a7f3d0'>" + label + "</text></svg>";
-      img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-    }
-
-    const projects = [
-      {
-        title: "Multi-Tenant Order Receipt OCR Pipeline",
-        category: "Enterprise Architecture",
-        summary: "Automated Gmail PDF receipt extraction using Google Drive OCR, cross-referencing scraper data, and syncing GoHighLevel contacts & opportunities.",
-        details: "Built a robust central Apps Script engine that monitors incoming order receipt PDFs in Gmail, applies Google Drive v3 OCR to convert text, matches order numbers against vector-scraped Google Sheets, and updates GoHighLevel contacts and won opportunities via REST APIs. Includes exponential backoff retries (429/5xx errors), race condition deferral logic, and deduplicated Slack notifications.",
-        image: "images/projects/order-receipt-pipeline.svg",
-        imageAlt: "Phone calculator and paperwork representing order receipt processing",
-        problem: "Order receipts arrived as PDFs in Gmail and were keyed into each client's CRM by hand.",
-        built: "An Apps Script engine reads each receipt with Drive OCR, matches it to the right client account, and creates the contact and a won opportunity in GoHighLevel.",
-        result: "Orders sync automatically every 15 minutes, and duplicate opportunities are blocked by order number.",
-        stack: ["GoHighLevel API", "Google Apps Script", "Drive v3 OCR", "Tampermonkey", "Slack Webhooks", "Exponential Backoff"]
-      },
-      {
-        title: "GoHighLevel to Slack Webhook Alert Engine",
-        category: "Integration & Webhooks",
-        summary: "Configured custom webhook routing across 60+ individual Slack channels, instantly alerting assigned reps with message previews.",
-        details: "Designed an automated alerting system where inbound GoHighLevel text or email messages trigger custom webhooks. Built logic that routes messages directly to individual agent Slack channels (across 60+ unique webhooks) using a custom Slack App identity, with fallback routing to a main channel if an individual channel is unassigned.",
-        image: "images/projects/slack-webhook-alerts.svg",
-        imageAlt: "Team collaborating around a laptop",
-        problem: "Reps had to keep checking the CRM to see new inbound messages.",
-        built: "Webhooks and a custom Slack app send each inbound message to the assigned rep's own channel, with a fallback to a main channel.",
-        result: "Every inbound text or email reaches the right rep in Slack, routed across 60+ channels.",
-        stack: ["GoHighLevel", "Slack Webhooks", "Slack App API", "JSON Payload Routing"]
-      },
-      {
-        title: "Google Apps Script CRM Data Migration Tool",
-        category: "Data Operations",
-        summary: "Transformed 90+ column messy raw CSV datasets into 20-25 structured GoHighLevel custom fields using automated Apps Script sanitization.",
-        details: "Eliminated hours of manual data stripping by engineering a Google Apps Script migration utility. The script takes raw scattered client CSV exports (90+ columns), isolates the necessary 20-25 GoHighLevel custom fields, removes blank columns, and prepares clean CSV outputs ready for GHL import.",
-        image: "images/projects/csv-migration-tool.svg",
-        imageAlt: "Professional reviewing data on a laptop",
-        problem: "Raw client CSV exports had 90+ messy columns and needed hours of manual stripping before import.",
-        built: "A Google Apps Script utility isolates the needed fields, removes blank columns and outputs an import-ready file.",
-        result: "90+ columns become 20–25 structured GoHighLevel fields, ready to import without manual cleanup.",
-        stack: ["Google Apps Script", "JavaScript", "CSV Parsing", "GoHighLevel Custom Fields"]
-      },
-      {
-        title: "Salesforce-to-Spreadsheet Live Connector",
-        category: "Analytics & CRM",
-        summary: "Eliminated manual CRM report exports by establishing direct connector queries to auto-categorize urgent case categories across dynamic tabs.",
-        details: "Streamlined daily real-time operations by connecting Salesforce CRM exports directly into Google Sheets via API connectors. Replaced manual multi-tab copy-pasting with dynamic formulas that automatically route urgent, unanswered, or past-dated cases into dedicated tracking views.",
-        image: "images/projects/salesforce-connector.svg",
-        imageAlt: "Business analytics dashboard on a monitor",
-        problem: "Daily reporting meant exporting CRM data and copy-pasting it across several tabs.",
-        built: "A direct Salesforce-to-Sheets connector with dynamic formulas sorts urgent, unanswered and past-dated cases into dedicated views.",
-        result: "Manual report exports are gone, and urgent cases surface automatically.",
-        stack: ["Salesforce CRM", "Google Sheets", "API Connector", "Dynamic Formulas"]
-      },
-      {
-        title: "Marketing Request & Billing System",
-        category: "Process Automation",
-        summary: "GoHighLevel survey intake with validation, ClickUp task creation, status sync, stage emails, fixed and hourly billing rules, and a 3-business-day SLA.",
-        details: "Designed and built an end-to-end marketing request system for AvidVS. A GoHighLevel survey captures each request, validates it, and creates the matching ClickUp task. Status changes sync back to the CRM, which sends stage emails and tracks a 3-business-day SLA. Billing logic separates fixed-price services (email, print) from hourly work (SMS, VoiceDrop, graphics), with invoices titled by client and project plus the ClickUp task ID. Reviewed the design with the marketing and billing leads and refined the survey wording and options. Currently in active build.",
-        image: "images/projects/marketing-billing-system.svg",
-        imageAlt: "Process Automation",
-        problem: "Marketing requests came in through scattered channels with no standard intake, pricing rules or deadline tracking.",
-        built: "A GoHighLevel survey with validation creates ClickUp tasks, syncs status back, sends stage emails and applies fixed or hourly billing rules.",
-        result: "Every request follows one tracked flow with a 3-business-day SLA and consistent invoices. Currently in active build.",
-        stack: ["GoHighLevel", "ClickUp", "Surveys & Forms", "Workflow Automation", "Invoicing", "SLA Tracking"]
-      },
-      {
-        title: "OrderIQ Beta Rollout & Onboarding Content",
-        category: "Rollout & Enablement",
-        summary: "Beta invite and acceptance emails and SMS, a rep invite smart list, and a Gmail auto-forwarding setup video for non-technical reps.",
-        details: "Led the communication side of the OrderIQ (Order Updater) beta. Built the invite and accepted-rep email and SMS templates in GoHighLevel, maintained the smart list of invited reps, and produced a step-by-step video that shows reps how to set up Gmail auto-forwarding. Final announcements go through the brand standards manager for QC before sending.",
-        image: "images/projects/orderiq-beta-rollout.svg",
-        imageAlt: "Rollout & Enablement",
-        problem: "Reps needed a clear way to hear about the beta, accept it and set up Gmail forwarding.",
-        built: "Invite and acceptance email and SMS templates, a smart list of invited reps, and a step-by-step forwarding video.",
-        result: "A repeatable invite-to-onboarding path that non-technical reps can follow on their own.",
-        stack: ["GoHighLevel Templates", "Smart Lists", "Email & SMS", "Video Production", "Remotion"]
-      },
-      {
-        title: "GHL SMS Opt-Out & Error-Limit Investigation",
-        category: "Compliance & Troubleshooting",
-        summary: "Diagnosed why a high-volume sub-account hit SMS pause limits and defined the send filters that keep campaigns compliant.",
-        details: "Investigated a GoHighLevel sub-account whose bulk and workflow SMS were paused for a high opt-out or error rate. Traced the causes through audit logs and contact data, separated real opt-outs from carrier lookup errors (Twilio 30006), and set the send filter to Phone Status = Valid Mobile so future blasts skip bad numbers. Documented the daily-limit behavior and the validation-error workflow for the team.",
-        image: "images/projects/sms-compliance.svg",
-        imageAlt: "Compliance & Troubleshooting",
-        problem: "A high-volume sub-account had its bulk and workflow SMS paused for high opt-out and error rates.",
-        built: "Traced causes through audit logs and contact data, separated real opt-outs from carrier errors, and set a Valid Mobile send filter.",
-        result: "A documented root cause and a send filter that keeps future blasts away from bad numbers.",
-        stack: ["GoHighLevel", "A2P 10DLC", "Twilio Error Codes", "Smart List Filters", "Audit Logs"]
-      },
-      {
-        title: "Live Client Onboarding for New GoHighLevel Subscribers",
-        category: "Onboarding & setup",
-        summary: "I walk each new client live from subscribed to up and running.",
-        details: "Run live onboarding for clients who subscribe to the GoHighLevel CRM. In the session I walk them through sub-account setup with custom fields and a pipeline, A2P registration, and a routing address with an email forwarding filter, and I record their details in the master sheet. I also made a how-to video for turning on forwarding, so they can refer back to it afterwards.",
-        image: "images/projects/client-onboarding.svg",
-        imageAlt: "Onboarding & setup",
-        problem: "Every new subscriber needed their GoHighLevel account configured and connected before their orders and messages could flow.",
-        built: "A live onboarding session with each new client that walks through sub-account setup, A2P registration, pipeline and fields, and email forwarding, backed by a master-sheet entry and a how-to video to refer back to.",
-        result: "Each new client is guided live from subscribed to up and running, with a repeatable path and a how-to video they can use afterwards.",
-        stack: ["GoHighLevel", "A2P 10DLC", "Pipelines & fields", "Live onboarding", "Gmail forwarding", "Google Sheets"]
-      }
-    ];
-
-    function openDrawer(index) {
-      const p = projects[index];
-      lastFocusedProject = document.activeElement;
-      document.getElementById('drawer-tag').innerText = p.category;
-      document.getElementById('drawer-content').innerHTML = `
-        <img src="${p.image}" alt="${p.imageAlt}" class="w-full h-56 object-cover rounded-xl mb-4 shadow-sm border border-slate-100" loading="lazy" decoding="async" onerror="projFallback(this)">
-        <h3 class="title-label text-lg font-bold">${p.title}</h3>
-        ${p.problem ? `
-        <div class="space-y-3 text-base leading-relaxed text-slate-600">
-          <p><strong class="title-label">Problem:</strong> ${p.problem}</p>
-          <p><strong class="title-label">What I built:</strong> ${p.built}</p>
-          <p><strong class="title-label">Result:</strong> ${p.result}</p>
-        </div>` : ''}
-        ${p.details ? `<p class="text-slate-600 text-base leading-relaxed pt-2">${p.details}</p>` : ''}
-
-        <div class="pt-4">
-          <h4 class="title-label text-sm font-bold mb-2">Technologies & Architecture</h4>
-          <div class="flex flex-wrap gap-2">
-            ${p.stack.map(s => `<span class="px-3 py-1 rounded-md bg-emerald-50 border border-emerald-100 text-brand-800 text-xs font-semibold">${s}</span>`).join('')}
-          </div>
-        </div>
-      `;
-
-      document.getElementById('drawer-overlay').classList.remove('opacity-0', 'pointer-events-none');
-      document.getElementById('drawer-overlay').setAttribute('aria-hidden', 'false');
-      const drawer = document.getElementById('drawer');
-      drawer.inert = false;
-      drawer.setAttribute('aria-hidden', 'false');
-      drawer.classList.remove('translate-x-full');
-      document.body.classList.add('overflow-hidden');
-      document.getElementById('drawer-close').focus();
-    }
-
-    function closeDrawer() {
-      document.getElementById('drawer-overlay').classList.add('opacity-0', 'pointer-events-none');
-      document.getElementById('drawer-overlay').setAttribute('aria-hidden', 'true');
-      const drawer = document.getElementById('drawer');
-      drawer.classList.add('translate-x-full');
-      drawer.inert = true;
-      drawer.setAttribute('aria-hidden', 'true');
-      if (journeyModal.classList.contains('hidden')) {
-        document.body.classList.remove('overflow-hidden');
-      }
-      if (lastFocusedProject instanceof HTMLElement) lastFocusedProject.focus();
-    }
-
-    document.querySelectorAll('.project-card').forEach((card) => {
-      const openProject = () => {
-        card.focus();
-        openDrawer(Number(card.dataset.projectIndex));
-      };
-      card.addEventListener('click', openProject);
-      card.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          openProject();
-        }
-      });
-    });
-
-    document.querySelectorAll('.faq-item').forEach((item) => {
-      const question = item.querySelector('.faq-question');
-      question.addEventListener('click', () => {
-        const isOpen = item.classList.contains('active');
-
-        document.querySelectorAll('.faq-item').forEach((faq) => {
-          faq.classList.remove('active');
-          faq.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-        });
-
-        if (!isOpen) {
-          item.classList.add('active');
-          question.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
-
-    const audioWidget = document.getElementById('audioWidget');
-    const audioToggle = document.getElementById('audioToggle');
-    const audioStateLabel = document.getElementById('audioStateLabel');
-    const audioPlayerHost = document.getElementById('audioPlayerHost');
-    const audioVolume = document.getElementById('audioVolume');
-    const musicOnboardingToast = document.getElementById('musicOnboardingToast');
-    const musicOnboardingClose = document.getElementById('musicOnboardingClose');
-    const musicTipStorageKey = 'portfolio-music-tip-dismissed';
-    let youtubeApiPromise = null;
-    let youtubePlayer = null;
-    let audioRequestId = 0;
-    let audioLoopTimer = null;
-    let audioFadeInStartedAt = null;
-    let musicTipShowTimer = null;
-    let musicTipHideTimer = null;
-    const audioLoopStart = 8;
-    const audioLoopEnd = 201;
-    const audioFadeSeconds = 2;
-
-    function getAudioVolume(player, now = performance.now()) {
-      const baseVolume = Number(audioVolume.value);
-      let volume = baseVolume;
-      if (audioFadeInStartedAt !== null) {
-        const fadeProgress = Math.min(1, (now - audioFadeInStartedAt) / (audioFadeSeconds * 1000));
-        if (fadeProgress >= 1) audioFadeInStartedAt = null;
-        else volume = baseVolume * fadeProgress;
-      }
-
-      if (audioFadeInStartedAt === null) {
-        try {
-          const currentTime = player.getCurrentTime();
-          if (currentTime >= audioLoopEnd - audioFadeSeconds) {
-            const fadeProgress = Math.max(0, (audioLoopEnd - currentTime) / audioFadeSeconds);
-            volume *= fadeProgress;
-          }
-        } catch (error) {
-          console.warn('Unable to read background music playback time:', error);
-        }
-      }
-      return Math.round(narrationDucking ? volume * 0.98 : volume);
-    }
-
-    function setAudioState(state, message) {
-      audioWidget.dataset.state = state;
-      audioToggle.setAttribute('aria-pressed', String(state === 'playing' || state === 'loading'));
-      const tooltip = state === 'playing' || state === 'loading' ? 'Turn background music off' : 'Play Background Music';
-      audioToggle.setAttribute('aria-label', tooltip);
-      audioToggle.setAttribute('title', tooltip);
-      audioToggle.dataset.tooltip = tooltip;
-      audioStateLabel.textContent = message;
-    }
-
-    function hideMusicOnboardingTip(persistDismissal = false) {
-      window.clearTimeout(musicTipShowTimer);
-      window.clearTimeout(musicTipHideTimer);
-      musicOnboardingToast.classList.remove('is-visible');
-      musicOnboardingToast.setAttribute('aria-hidden', 'true');
-      audioWidget.dataset.discovered = 'true';
-      if (!persistDismissal) return;
-      try {
-        window.localStorage.setItem(musicTipStorageKey, 'true');
-      } catch (error) {
-        console.warn('Unable to save the music tip dismissal:', error);
-      }
-    }
-
-    let musicTipWasDismissed = false;
-    try {
-      musicTipWasDismissed = window.localStorage.getItem(musicTipStorageKey) === 'true';
-    } catch (error) {
-      console.warn('Unable to read the music tip preference:', error);
-    }
-
-    if (!musicTipWasDismissed) {
-      musicTipShowTimer = window.setTimeout(() => {
-        musicTipShowTimer = null;
-        musicOnboardingToast.classList.add('is-visible');
-        musicOnboardingToast.setAttribute('aria-hidden', 'false');
-        musicTipHideTimer = window.setTimeout(() => hideMusicOnboardingTip(), 6500);
-      }, 2000);
-    } else {
-      audioWidget.dataset.discovered = 'true';
-    }
-
-    audioWidget.addEventListener('pointerdown', () => hideMusicOnboardingTip(true), { passive: true });
-    audioWidget.addEventListener('focusin', () => hideMusicOnboardingTip(true));
-    musicOnboardingClose.addEventListener('click', () => hideMusicOnboardingTip(true));
-
-    function loadYouTubeIframeApi() {
-      if (window.YT?.Player) return Promise.resolve(window.YT);
-      if (youtubeApiPromise) return youtubeApiPromise;
-
-      youtubeApiPromise = new Promise((resolve, reject) => {
-        const existingCallback = window.onYouTubeIframeAPIReady;
-        window.onYouTubeIframeAPIReady = () => {
-          try {
-            if (typeof existingCallback === 'function') existingCallback();
-          } catch (error) {
-            console.error('Existing YouTube player callback failed:', error);
-          } finally {
-            resolve(window.YT);
-          }
-        };
-        let script = document.querySelector('script[data-youtube-iframe-api]');
-        if (!script) {
-          script = document.createElement('script');
-          script.src = 'https://www.youtube.com/iframe_api';
-          script.dataset.youtubeIframeApi = 'true';
-          script.onerror = () => {
-            youtubeApiPromise = null;
-            reject(new Error('YouTube API failed to load.'));
-          };
-          document.head.append(script);
-        }
-      });
-
-      return youtubeApiPromise;
-    }
-
-    async function startBackgroundMusic() {
-      const requestId = ++audioRequestId;
-      setAudioState('loading', 'Loading player…');
-
-      try {
-        await loadYouTubeIframeApi();
-        if (requestId !== audioRequestId) return;
-
-        audioPlayerHost.id = 'audioPlayerHost';
-        audioPlayerHost.replaceChildren();
-        const playerMount = document.createElement('div');
-        playerMount.id = 'youtubeAudioPlayer';
-        audioPlayerHost.append(playerMount);
-
-        youtubePlayer = new window.YT.Player(playerMount, {
-          width: '200',
-          height: '200',
-          videoId: 'ox7Wt6fsm_A',
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            start: audioLoopStart,
-            end: audioLoopEnd,
-            playsinline: 1,
-            rel: 0
-          },
-          events: {
-            onReady(event) {
-              if (requestId !== audioRequestId) {
-                event.target.destroy();
-                return;
-              }
-              event.target.setVolume(getAudioVolume(event.target));
-              try {
-                event.target.playVideo();
-              } catch (playErr) {
-                console.warn('Autoplay prevented by browser:', playErr);
-                setAudioState('off', 'Music off (Click again)');
-                return;
-              }
-              window.clearInterval(audioLoopTimer);
-              audioLoopTimer = window.setInterval(() => {
-                if (event.target.getPlayerState() === window.YT.PlayerState.PLAYING) {
-                  event.target.setVolume(getAudioVolume(event.target));
-                }
-              }, 250);
-              setAudioState('playing', 'Music on');
-            },
-            onStateChange(event) {
-              if (event.data !== window.YT.PlayerState.ENDED || requestId !== audioRequestId) return;
-              audioFadeInStartedAt = performance.now();
-              event.target.setVolume(0);
-              event.target.seekTo(audioLoopStart, true);
-              event.target.playVideo();
-            },
-            onError(event) {
-              console.error('YouTube music playback failed:', event.data);
-              window.clearInterval(audioLoopTimer);
-              audioLoopTimer = null;
-              setAudioState('error', 'Playback unavailable');
-            }
-          }
-        });
-      } catch (error) {
-        console.error('Unable to start music:', error);
-        setAudioState('error', 'Player unavailable');
-      }
-    }
-
-    function stopBackgroundMusic() {
-      audioRequestId += 1;
-      window.clearInterval(audioLoopTimer);
-      audioLoopTimer = null;
-      audioFadeInStartedAt = null;
-      if (youtubePlayer) {
-        try {
-          youtubePlayer.destroy();
-        } catch (e) {}
-        youtubePlayer = null;
-      }
-      audioPlayerHost.replaceChildren();
-      setAudioState('off', 'Music off');
-    }
-
-    audioToggle.addEventListener('click', () => {
-      if (audioWidget.dataset.state === 'playing' || audioWidget.dataset.state === 'loading') {
-        stopBackgroundMusic();
-      } else {
-        startBackgroundMusic();
-      }
-    });
-
-    audioVolume.addEventListener('input', () => {
-      if (youtubePlayer?.setVolume) {
-        youtubePlayer.setVolume(getAudioVolume(youtubePlayer));
-      }
-    });
-
-    /* SCROLL REVEAL OBSERVER */
-    const revealTargets = document.querySelectorAll('.section-surface > div:first-child, .card-hover-effect, .hero-tech-badge');
-    revealTargets.forEach((element) => element.classList.add('scroll-reveal'));
-
-    if ('IntersectionObserver' in window) {
-      const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        });
-      }, { rootMargin: '0px 0px -48px 0px', threshold: 0.08 });
-      revealTargets.forEach((element) => revealObserver.observe(element));
-    } else {
-      revealTargets.forEach((element) => element.classList.add('is-revealed'));
-    }
-  </script>
+    requestAnimationFrame(draw);
+  }
+  size(); addEventListener('resize', size);
+  cv.parentElement.addEventListener('mousemove', e => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
+  cv.parentElement.addEventListener('mouseleave', () => { mouse.x = mouse.y = -999; });
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(cv.parentElement);
+  if (!reduce) draw();
+})();
+</script>
 </body>
 </html>
